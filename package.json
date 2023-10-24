@@ -13,9 +13,11 @@
     "check-format": "prettier --check ."
   },
   "dependencies": {
-    "next": "latest",
+    "axios": "^1.5.1",
+    "next": "^13.5.6",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-query": "^3.39.3"
   },
   "devDependencies": {
     "@types/node": "latest",
