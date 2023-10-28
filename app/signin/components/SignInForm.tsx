@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import PasswordField from '@/app/components/PasswordField';
 import CircularProgress from '@mui/material/CircularProgress';
-import clientApi from '@/app/utils/client-api';
+import apiClient from '@/app/utils/client-api';
 
 export default function SignInForm() {
   const [username, setUsername] = React.useState('');
@@ -17,9 +17,9 @@ export default function SignInForm() {
 
   const onSignIn = async () => {
     setIsLoading(true);
-    clientApi
+    apiClient
       .post(
-        '/auth/signin',
+        '/auth/login',
         {
           username: username,
           password: password,
@@ -35,7 +35,6 @@ export default function SignInForm() {
         console.log(error);
       });
     setIsLoading(false);
-    router.replace('/');
   };
 
   return (

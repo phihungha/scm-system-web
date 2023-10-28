@@ -2,6 +2,8 @@
 
 import axios from 'axios';
 
-export default apiClient = axios.create({
-  baseURL: 'http://localhost:5432',
+const apiClient = axios.create({
+  baseURL: 'https://dummyjson.com',
 });
+
+export default apiClient;
