@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import axios from "axios";
+import axios from 'axios';
 
 export default apiClient = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: 'http://localhost:5432',
 });

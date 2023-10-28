@@ -2,7 +2,7 @@
 
 import axios from '../../node_modules/axios/index';
 import { useQuery } from 'react-query';
-import  apiClient  from './client-api';
+import apiClient from './client-api';
 
 const Sample = () => {
   const { isLoading, error, data, isFetching } = useQuery({
