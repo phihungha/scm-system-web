@@ -9,7 +9,7 @@ const Sample = () => {
     queryKey: ['repoData'],
     queryFn: () =>
       apiClient
-        .get('/products/1')
+        .get('/api/Users/6b0143f8-cb66-487a-9671-7bb909bf3e97')
         .then((res) => res.data),
   });
 
@@ -18,10 +18,9 @@ const Sample = () => {
   if (error) return 'An error has occurred: ' + error.message;
   return (
     <div>
-            <h1>{data.title}</h1>
-      <p>{data.description}</p>
-      <strong>👀 {data.price}</strong>{" "}
-      <strong>✨ {data.rating}</strong>{" "}
+      <h1>{data.id}</h1>
+      <p>{data.userName}</p>
+      <strong>👀 {data.email}</strong> <strong>✨ {data.name}</strong>{' '}
     </div>
   );
 };

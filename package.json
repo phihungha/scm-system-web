@@ -13,11 +13,11 @@
     "check-format": "prettier --check ."
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.15",
-    "@mui/material": "^5.14.15",
     "axios": "^1.5.1",
+    "framer-motion": "^10.16.4",
     "next": "^13.5.6",
     "react": "latest",
     "react-dom": "latest",
