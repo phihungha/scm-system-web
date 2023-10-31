@@ -58,7 +58,15 @@ export default function SignInForm() {
           </Button>
         </InputRightElement>
       </InputGroup>
-      <Button className="w-full" onClick={() => console.log(password)}>
+      <Button
+        className="w-full"
+        onClick={() =>
+          mutation.mutate({
+            username,
+            password,
+          })
+        }
+      >
         Sign in
       </Button>
     </div>
