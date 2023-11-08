@@ -39,12 +39,13 @@ export default function SignInForm() {
     <div className="flex flex-col items-center justify-center gap-6">
       <Input
         className="w-full"
+        size="lg"
         placeholder="Enter username"
         value={username}
         onChange={(i) => setUsername(i.target.value)}
       />
 
-      <InputGroup size="md">
+      <InputGroup size="lg">
         <Input
           pr="4.5rem"
           type={show ? 'text' : 'password'}
@@ -59,7 +60,6 @@ export default function SignInForm() {
         </InputRightElement>
       </InputGroup>
       <Button
-        className="w-full"
         onClick={() =>
           mutation.mutate({
             username,
