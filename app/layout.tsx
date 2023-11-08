@@ -4,6 +4,9 @@ import { Inter } from 'next/font/google';
 import QueryProvider from './utils/QueryProvider';
 import Sidebar from './components/SideBar';
 import { ChakraProvider } from '@chakra-ui/react'
+import {
+  Box,
+} from '@chakra-ui/react'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,7 +33,6 @@ export default function RootLayout({
           {children}
           </Body>
         </ChakraProvider>
-
           </QueryProvider>
       </body>
     </html>
@@ -40,8 +42,9 @@ export default function RootLayout({
 function Body({ children }: RootLayoutProps) {
   return (
     <div className={`${inter.className} flex min-h-screen flex-col p-0`}>
-      <Sidebar/>
-      <div className="flex flex-1 flex-col">{children}</div>
+      <Sidebar>
+        {children}
+      </Sidebar>
     </div>
   );
 }

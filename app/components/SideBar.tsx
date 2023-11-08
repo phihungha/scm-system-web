@@ -8,10 +8,13 @@ import {
     useDisclosure,
   } from '@chakra-ui/react'
 import SidebarContent from './SidebarContent'
-import NavItem from './NavItem'
 import MobileNav from './MobileNav'
 
-const Sidebar = () => {
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+const Sidebar = ({ children }: RootLayoutProps) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
   
     return (
@@ -31,7 +34,7 @@ const Sidebar = () => {
         {/* mobilenav */}
         <MobileNav onOpen={onOpen} />
         <Box ml={{ base: 0, md: 60 }} p="4">
-          {/* Content */}
+          {children}
         </Box>
       </Box>
     )
