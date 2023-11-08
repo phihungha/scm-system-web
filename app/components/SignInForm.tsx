@@ -1,6 +1,18 @@
 'use client';
 
-import { Input, Button, InputGroup, InputRightElement } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Checkbox,
+  Stack,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
@@ -26,49 +38,72 @@ export default function SignInForm() {
   const handleClick = () => setShow(!show);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
   const mutation = useMutation(login, {
     onSuccess: () => {
       console.log('Success');
     },
   });
 
-  const onSignIn = async () => {};
+  const onSignIn = async () => {
+    console.log(username);
+    console.log(password);
+    router.replace("/");
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6">
-      <Input
-        className="w-full"
-        size="lg"
-        placeholder="Enter username"
-        value={username}
-        onChange={(i) => setUsername(i.target.value)}
-      />
-
-      <InputGroup size="lg">
-        <Input
-          pr="4.5rem"
-          type={show ? 'text' : 'password'}
-          placeholder="Enter password"
-          value={password}
-          onChange={(i) => setPassword(i.target.value)}
-        />
-        <InputRightElement width="4.5rem">
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
-            {show ? 'Hide' : 'Show'}
-          </Button>
-        </InputRightElement>
-      </InputGroup>
-      <Button
-        onClick={() =>
-          mutation.mutate({
-            username,
-            password,
-          })
-        }
-      >
-        Sign in
-      </Button>
+    <div>
+    <Flex
+      minH={'100vh'}
+      align={'center'}
+      justify={'center'}
+      bg={useColorModeValue('gray.50', 'gray.800')}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+          <Text fontSize={'lg'} color={'gray.600'}>
+            to enjoy all of our cool features
+          </Text>
+        </Stack>
+        <Box
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'lg'}
+          p={8}>
+          <Stack spacing={4}>
+            <FormControl id="username">
+              <FormLabel>Username</FormLabel>
+              <Input
+               value={username}
+               onChange={(i) => setUsername(i.target.value)} />
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input type="password" 
+              value={password}
+              onChange={(i) => setPassword(i.target.value)}/>
+            </FormControl>
+            <Stack spacing={10}>
+              <Stack
+                direction={{ base: 'column', sm: 'row' }}
+                align={'start'}
+                justify={'space-between'}>
+                <Checkbox>Remember me</Checkbox>
+                <Text color={'blue.400'}>Forgot password?</Text>
+              </Stack>
+              <Button
+                onClick={onSignIn}
+                bg={'blue.400'}
+                color={'white'}
+                _hover={{
+                  bg: 'blue.500',
+                }}>
+                Sign in
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </Stack>
+    </Flex>
     </div>
   );
 }
