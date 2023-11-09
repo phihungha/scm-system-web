@@ -21,7 +21,7 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const LoggedNav = ({ onOpen, ...rest }: MobileProps) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -103,4 +103,4 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
     </Flex>
   );
 };
-export default MobileNav;
+export default LoggedNav;

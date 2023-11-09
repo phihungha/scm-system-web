@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google';
 import QueryProvider from './utils/QueryProvider';
 import Sidebar from './components/SideBar';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
