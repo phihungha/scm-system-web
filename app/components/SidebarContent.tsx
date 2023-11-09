@@ -15,6 +15,7 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import NavItem from './NavItem';
+import { useRouter } from 'next/navigation';
 
 interface LinkItemProps {
   name: string;
@@ -37,6 +38,10 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const router = useRouter();
+  const onSales = async () => {
+    router.replace('/sales');
+  };
   return (
     <Box
       transition="3s ease"
@@ -55,7 +60,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} onClick={onSales}>
           {link.name}
         </NavItem>
       ))}

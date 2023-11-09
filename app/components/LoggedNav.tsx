@@ -16,12 +16,17 @@ import {
 } from '@chakra-ui/react';
 import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
 import { IconType } from 'react-icons';
+import { useRouter } from 'next/navigation';
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 
 const LoggedNav = ({ onOpen, ...rest }: MobileProps) => {
+  const router = useRouter();
+  const onSignOut = async () => {
+    router.replace('/login');
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -95,7 +100,7 @@ const LoggedNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={onSignOut}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
