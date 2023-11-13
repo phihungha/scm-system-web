@@ -49,12 +49,7 @@ export default function Sales() {
             Create on:
           </Text>
           <Box w="150px" borderWidth="1px" borderRadius="lg" overflow="hidden">
-            <DatePicker
-              showIcon
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              icon={FiCalendar}
-            />
+            <Input placeholder="Select Date" size="md" type="date" />
           </Box>
         </Stack>
 
