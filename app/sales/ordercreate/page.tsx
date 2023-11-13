@@ -4,13 +4,14 @@ import {
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteList,
+  AutoCompleteTag
 } from '@choc-ui/chakra-autocomplete';
 import React from 'react';
 import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import SalesOrderItem from '../components/SelectedSalesItem';
-import OrderItem from '../components/OrderItem';
-import SalesOrderInfo from '../components/SalesOrderInfo';
+import SalesOrderItem from '../../components/SelectedSalesItem';
+import OrderItem from '../../components/OrderItem';
+import SalesOrderInfo from '../../components/SalesOrderInfo';
 import {
   Stack,
   Box,
@@ -33,11 +34,13 @@ const products = [
 
 export default function SalesOrder() {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<string[]>([]);
   const onAdd = async () => {
-    if (!selectedProducts.includes(selectedProduct)) {
+    selectedProducts.splice(0);
+    //if (!selectedProducts.includes(selectedProduct)) {
       setSelectedProducts(selectedProducts.concat(selectedProduct));
-    }
+    //}
+    
     console.log(selectedProducts);
   };
 
@@ -64,9 +67,20 @@ export default function SalesOrder() {
             <FormControl>
               <AutoComplete
                 openOnFocus
+                multiple
                 onChange={(product) => setSelectedProduct(product)}
               >
-                <AutoCompleteInput variant="filled" />
+            <AutoCompleteInput variant="filled">
+            {({ tags }) =>
+              tags.map((tag, tid) => (
+                <AutoCompleteTag
+                  key={tid}
+                  label={tag.label}
+                  onRemove={tag.onRemove}
+                />
+              ))
+            }
+          </AutoCompleteInput>
                 <AutoCompleteList>
                   {products.map((product, cid) => (
                     <AutoCompleteItem

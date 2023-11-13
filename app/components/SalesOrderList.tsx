@@ -17,13 +17,18 @@ import {
 } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 import ItemCard from './ItemCard';
+import { useRouter } from 'next/navigation';
 
 export default function SalesOrderList() {
+  const router = useRouter();
+  const onCreate = async () => {
+    router.replace('/sales/ordercreate');
+  };
   return (
     <Stack spacing={10}>
       <Flex justifyContent="right">
-        <ButtonGroup size="sm" isAttached variant="outline">
-          <Button>Create</Button>
+        <ButtonGroup size="md" isAttached variant="outline">
+          <Button onClick={onCreate}>Create</Button>
           <IconButton icon={<FiPlus />} />
         </ButtonGroup>
       </Flex>
