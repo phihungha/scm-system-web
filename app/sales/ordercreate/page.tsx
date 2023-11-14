@@ -4,7 +4,7 @@ import {
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteList,
-  AutoCompleteTag
+  AutoCompleteTag,
 } from '@choc-ui/chakra-autocomplete';
 import React from 'react';
 import { useState } from 'react';
@@ -38,9 +38,9 @@ export default function SalesOrder() {
   const onAdd = async () => {
     selectedProducts.splice(0);
     //if (!selectedProducts.includes(selectedProduct)) {
-      setSelectedProducts(selectedProducts.concat(selectedProduct));
+    setSelectedProducts(selectedProducts.concat(selectedProduct));
     //}
-    
+
     console.log(selectedProducts);
   };
 
@@ -70,17 +70,17 @@ export default function SalesOrder() {
                 multiple
                 onChange={(product) => setSelectedProduct(product)}
               >
-            <AutoCompleteInput variant="filled">
-            {({ tags }) =>
-              tags.map((tag, tid) => (
-                <AutoCompleteTag
-                  key={tid}
-                  label={tag.label}
-                  onRemove={tag.onRemove}
-                />
-              ))
-            }
-          </AutoCompleteInput>
+                <AutoCompleteInput variant="filled">
+                  {({ tags }) =>
+                    tags.map((tag, tid) => (
+                      <AutoCompleteTag
+                        key={tid}
+                        label={tag.label}
+                        onRemove={tag.onRemove}
+                      />
+                    ))
+                  }
+                </AutoCompleteInput>
                 <AutoCompleteList>
                   {products.map((product, cid) => (
                     <AutoCompleteItem

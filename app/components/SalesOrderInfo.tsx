@@ -5,8 +5,8 @@ import {
   Text,
   List,
   ListItem,
-  NumberInputStepper,
-  Card,
+  Select,
+  Input,
   Stack,
   Image,
   CardBody,
@@ -79,10 +79,26 @@ export default function SalesOrderInfo() {
           </ListItem>
 
           <ListItem>
-            <Text as={'span'} fontWeight={'bold'}>
-              Location:
-            </Text>{' '}
-            123 Ly Tu Trong
+            <Stack spacing={10} direction="row">
+              <Text mt="7px" as={'span'} fontWeight={'bold'}>
+                Location:
+              </Text>
+
+              <Input />
+            </Stack>
+          </ListItem>
+
+          <ListItem>
+            <Stack spacing={5} direction="row">
+              <Text mt="7px" as={'span'} fontWeight={'bold'}>
+                Warehouse:
+              </Text>
+              <Select placeholder="Select option" w="auto">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </Select>
+            </Stack>
           </ListItem>
         </List>
       </Box>
