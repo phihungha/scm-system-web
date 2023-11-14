@@ -72,10 +72,16 @@ export default function SalesOrderInfo() {
           </ListItem>
 
           <ListItem>
-            <Text as={'span'} fontWeight={'bold'}>
-              Retailer:
-            </Text>{' '}
-            ABC
+            <Stack spacing={12} direction="row">
+              <Text mt="7px" as={'span'} fontWeight={'bold'}>
+                Retailer:
+              </Text>
+              <Select placeholder="Select option" w="auto">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </Select>
+            </Stack>
           </ListItem>
 
           <ListItem>
@@ -83,7 +89,6 @@ export default function SalesOrderInfo() {
               <Text mt="7px" as={'span'} fontWeight={'bold'}>
                 Location:
               </Text>
-
               <Input />
             </Stack>
           </ListItem>
