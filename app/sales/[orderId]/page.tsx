@@ -22,7 +22,7 @@ export default function SalesOrder() {
           Cancel
         </Button>
         <Button variant="solid" colorScheme="blue">
-          Create
+          Update
         </Button>
       </div>
     </div>

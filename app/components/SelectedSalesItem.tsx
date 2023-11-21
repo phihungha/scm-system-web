@@ -19,7 +19,7 @@ interface OrderProps {
   name: string;
 }
 
-export default function SalesOrderItem({ name }: OrderProps) {
+export default function SelectedSalesItem({ name }: OrderProps) {
   return (
     <Card
       direction={{ base: 'column', sm: 'row' }}

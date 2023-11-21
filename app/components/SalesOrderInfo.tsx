@@ -8,11 +8,9 @@ import {
   Select,
   Input,
   Stack,
-  Image,
-  CardBody,
   Heading,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import AutoCompleteBox from '../components/AutoCompleteBox';
 
 export default function SalesOrderInfo() {
   return (
@@ -46,10 +44,16 @@ export default function SalesOrderInfo() {
           </ListItem>
 
           <ListItem>
-            <Text as={'span'} fontWeight={'bold'}>
-              Status:
-            </Text>{' '}
-            Pending
+            <Stack spacing={5} direction="row">
+              <Text mt="7px" as={'span'} fontWeight={'bold'}>
+                Status:
+              </Text>
+              <Select placeholder="Select option" w="auto">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </Select>
+            </Stack>
           </ListItem>
 
           <ListItem>
@@ -76,11 +80,7 @@ export default function SalesOrderInfo() {
               <Text mt="7px" as={'span'} fontWeight={'bold'}>
                 Retailer:
               </Text>
-              <Select placeholder="Select option" w="auto">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-              </Select>
+              <AutoCompleteBox />
             </Stack>
           </ListItem>
 
@@ -98,11 +98,7 @@ export default function SalesOrderInfo() {
               <Text mt="7px" as={'span'} fontWeight={'bold'}>
                 Warehouse:
               </Text>
-              <Select placeholder="Select option" w="auto">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-              </Select>
+              <AutoCompleteBox />
             </Stack>
           </ListItem>
         </List>
