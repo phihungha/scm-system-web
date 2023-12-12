@@ -16,7 +16,6 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
-import ItemCard from './ItemCard';
 import { useRouter } from 'next/navigation';
 
 export default function SalesOrderList() {

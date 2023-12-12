@@ -1,7 +1,6 @@
 'use client';
 
 import { Box, chakra, SimpleGrid } from '@chakra-ui/react';
-import { ReactNode } from 'react';
 import { BsPerson } from 'react-icons/bs';
 import { FiServer } from 'react-icons/fi';
 import { GoLocation } from 'react-icons/go';

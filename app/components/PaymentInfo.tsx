@@ -9,7 +9,6 @@ import {
   Stack,
   StackDivider,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 export default function PaymentInfo() {
   return (

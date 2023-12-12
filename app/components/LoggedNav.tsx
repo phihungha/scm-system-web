@@ -15,7 +15,6 @@ import {
   MenuList,
 } from '@chakra-ui/react';
 import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
-import { IconType } from 'react-icons';
 import { useRouter } from 'next/navigation';
 
 interface MobileProps extends FlexProps {

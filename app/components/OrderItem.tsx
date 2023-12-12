@@ -1,16 +1,6 @@
 'use client';
 
-import {
-  Image,
-  Card,
-  Text,
-  CardBody,
-  Heading,
-  Stack,
-  useColorModeValue,
-  useBreakpointValue,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Image, Card, Text, CardBody, Heading, Stack } from '@chakra-ui/react';
 
 interface OrderProps {
   name: string;

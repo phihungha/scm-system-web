@@ -14,7 +14,6 @@ import {
   Button,
   Flex,
   FormControl,
-  StackDivider,
 } from '@chakra-ui/react';
 import OrderItem from '../components/OrderItem';
 import SelectedSalesItem from '../components/SelectedSalesItem';

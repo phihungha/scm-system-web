@@ -11,9 +11,7 @@ import {
   Image,
   CardBody,
   Heading,
-  Button,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 interface OrderProps {
   name: string;

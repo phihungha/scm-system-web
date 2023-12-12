@@ -1,19 +1,5 @@
 'use client';
-import { Field, Form, Formik } from 'formik';
-import {
-  Box,
-  Text,
-  List,
-  ListItem,
-  Select,
-  Input,
-  Stack,
-  Heading,
-  FormControl,
-  Button,
-  FormErrorMessage,
-  FormLabel,
-} from '@chakra-ui/react';
+import { Box, Text, Select, Stack, Heading } from '@chakra-ui/react';
 import AutoCompleteBox from '../components/AutoCompleteBox';
 
 export default function SalesOrderInfo() {
