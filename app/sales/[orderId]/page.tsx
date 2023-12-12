@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { useQuery } from 'react-query';
 import SalesOrderInfo from '../../components/SalesOrderInfo';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import ItemsInfo from '@/app/components/ItemsInfo';
@@ -13,7 +14,14 @@ import {
   Input
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
+import { getAllSalesOrders, getSalesOrder } from '@/app/api/salesApi';
 export default function SalesOrder() {
+  const { data: sales, isLoading, isError, error } = useQuery({
+    queryKey: ['sales'],
+    queryFn: () => getAllSalesOrders(),
+    select: (res) => res.data
+  })
+  
   function validateLocation(value) {
     let error;
     if ((value = '')) {
@@ -21,6 +29,8 @@ export default function SalesOrder() {
     }
     return error;
   }
+
+
   return (
     <div className="p-5">
       <Formik
@@ -60,7 +70,7 @@ export default function SalesOrder() {
                     variant="filled"
                     validate={validateLocation}
                   />
-                  <FormErrorMessage>{errors.password}</FormErrorMessage>
+                  <FormErrorMessage>{errors.location}</FormErrorMessage>
                 </FormControl>
               </Stack>
               
