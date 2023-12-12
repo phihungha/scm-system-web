@@ -1,27 +1,19 @@
 'use client';
 import React from 'react';
-import { useQuery } from 'react-query';
 import SalesOrderInfo from '../../components/SalesOrderInfo';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import ItemsInfo from '@/app/components/ItemsInfo';
 import {
   Stack,
-  StackDivider,
   Button,
   Text,
   FormControl,
   FormErrorMessage,
-  Input
+  Input,
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import { getAllSalesOrders, getSalesOrder } from '@/app/api/salesApi';
 export default function SalesOrder() {
-  const { data: sales, isLoading, isError, error } = useQuery({
-    queryKey: ['sales'],
-    queryFn: () => getAllSalesOrders(),
-    select: (res) => res.data
-  })
-  
   function validateLocation(value) {
     let error;
     if ((value = '')) {
@@ -29,7 +21,6 @@ export default function SalesOrder() {
     }
     return error;
   }
-
 
   return (
     <div className="p-5">
@@ -46,17 +37,17 @@ export default function SalesOrder() {
             <Stack spacing={{ base: 4, sm: 6 }} direction={'column'}>
               <SalesOrderInfo />
               <Stack spacing={6} direction="row">
-          <Text mr={'1px'} as={'span'} fontWeight={'bold'}>
-            Finish Time:
-          </Text>
-          <Text>12/11/2023</Text>
-        </Stack>
-        <Stack spacing={2} direction="row">
-          <Text as={'span'} fontWeight={'bold'}>
-            Delivery Time:
-          </Text>
-          <Text>12/11/2023</Text>
-        </Stack>
+                <Text mr={'1px'} as={'span'} fontWeight={'bold'}>
+                  Finish Time:
+                </Text>
+                <Text>12/11/2023</Text>
+              </Stack>
+              <Stack spacing={2} direction="row">
+                <Text as={'span'} fontWeight={'bold'}>
+                  Delivery Time:
+                </Text>
+                <Text>12/11/2023</Text>
+              </Stack>
               <Stack alignItems="center" spacing={12} direction="row">
                 <Text as={'span'} fontWeight={'bold'}>
                   Location:
@@ -73,9 +64,9 @@ export default function SalesOrder() {
                   <FormErrorMessage>{errors.location}</FormErrorMessage>
                 </FormControl>
               </Stack>
-              
+
               <ItemsInfo />
-              
+
               <PaymentInfo />
               <div className="flex flex-row justify-end gap-10 pt-10">
                 <Button variant="solid" colorScheme="red">

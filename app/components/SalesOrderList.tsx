@@ -52,9 +52,11 @@ export default function SalesOrderList() {
               <Td>Pending</Td>
               <Td>9/11/2023</Td>
               <Td>Ha Phi Hung</Td>
-              <Td><Button type="submit" variant="solid" colorScheme="blue">
+              <Td>
+                <Button type="submit" variant="solid" colorScheme="blue">
                   View
-                </Button></Td>
+                </Button>
+              </Td>
             </Tr>
             <Tr>
               <Td>2</Td>
@@ -62,9 +64,11 @@ export default function SalesOrderList() {
               <Td>Complete</Td>
               <Td>10/11/2023</Td>
               <Td>Le Quang Trung</Td>
-              <Td><Button type="submit" variant="solid" colorScheme="blue">
+              <Td>
+                <Button type="submit" variant="solid" colorScheme="blue">
                   View
-                </Button></Td>
+                </Button>
+              </Td>
             </Tr>
             <Tr>
               <Td>3</Td>
@@ -72,9 +76,11 @@ export default function SalesOrderList() {
               <Td>Pending</Td>
               <Td>11/11/2023</Td>
               <Td>Ha Phi Hung</Td>
-              <Td><Button type="submit" variant="solid" colorScheme="blue">
+              <Td>
+                <Button type="submit" variant="solid" colorScheme="blue">
                   View
-                </Button></Td>
+                </Button>
+              </Td>
             </Tr>
             <Tr>
               <Td>4</Td>
@@ -82,9 +88,11 @@ export default function SalesOrderList() {
               <Td>Pending</Td>
               <Td>11/11/2023</Td>
               <Td>Ha Phi Hung</Td>
-              <Td><Button type="submit" variant="solid" colorScheme="blue">
+              <Td>
+                <Button type="submit" variant="solid" colorScheme="blue">
                   View
-                </Button></Td>
+                </Button>
+              </Td>
             </Tr>
             <Tr>
               <Td>5</Td>
@@ -92,9 +100,11 @@ export default function SalesOrderList() {
               <Td>Pending</Td>
               <Td>11/11/2023</Td>
               <Td>Ha Phi Hung</Td>
-              <Td><Button type="submit" variant="solid" colorScheme="blue">
+              <Td>
+                <Button type="submit" variant="solid" colorScheme="blue">
                   View
-                </Button></Td>
+                </Button>
+              </Td>
             </Tr>
             <Tr>
               <Td>6</Td>
@@ -102,9 +112,11 @@ export default function SalesOrderList() {
               <Td>Pending</Td>
               <Td>11/11/2023</Td>
               <Td>Ha Phi Hung</Td>
-              <Td><Button type="submit" variant="solid" colorScheme="blue">
+              <Td>
+                <Button type="submit" variant="solid" colorScheme="blue">
                   View
-                </Button></Td>
+                </Button>
+              </Td>
             </Tr>
             <Tr>
               <Td>7</Td>
@@ -112,9 +124,11 @@ export default function SalesOrderList() {
               <Td>Pending</Td>
               <Td>11/11/2023</Td>
               <Td>Ha Phi Hung</Td>
-              <Td><Button type="submit" variant="solid" colorScheme="blue">
+              <Td>
+                <Button type="submit" variant="solid" colorScheme="blue">
                   View
-                </Button></Td>
+                </Button>
+              </Td>
             </Tr>
           </Tbody>
           <Tfoot>

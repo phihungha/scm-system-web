@@ -14,8 +14,8 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 export default function PaymentInfo() {
   return (
     <Stack
-    pt={10}  
-    spacing={{ base: 4, sm: 6 }}
+      pt={10}
+      spacing={{ base: 4, sm: 6 }}
       direction={'column'}
       divider={<StackDivider borderColor="black.600" />}
     >
@@ -40,44 +40,43 @@ export default function PaymentInfo() {
           </div>
           <List pt={5} spacing={2}>
             <ListItem>
-            <Stack spacing={5} direction="row">
-      <Text as={'span'} fontWeight={'bold'} fontSize="lg">
-        Total Price:
-      </Text>
-      <div className='flex justify-end items-end grow'>
-      <Text as={'span'} fontSize="lg">
-       110
-      </Text>
-      </div>
-</Stack>
+              <Stack spacing={5} direction="row">
+                <Text as={'span'} fontWeight={'bold'} fontSize="lg">
+                  Total Price:
+                </Text>
+                <div className="flex grow items-end justify-end">
+                  <Text as={'span'} fontSize="lg">
+                    110
+                  </Text>
+                </div>
+              </Stack>
             </ListItem>
 
             <ListItem>
-            <Stack spacing={5} direction="row">
-      <Text as={'span'} fontWeight={'bold'} fontSize="lg">
-        VAT:
-      </Text>
-      <div className='flex justify-end items-end grow'>
-      <Text as={'span'} fontSize="lg">
-       110
-      </Text>
-      </div>
-</Stack>
+              <Stack spacing={5} direction="row">
+                <Text as={'span'} fontWeight={'bold'} fontSize="lg">
+                  VAT:
+                </Text>
+                <div className="flex grow items-end justify-end">
+                  <Text as={'span'} fontSize="lg">
+                    110
+                  </Text>
+                </div>
+              </Stack>
             </ListItem>
           </List>
         </Box>
       </Stack>
       <Stack spacing={5} direction="row">
-      <Text as={'span'} fontWeight={'bold'} fontSize="xl">
-        Total Amount:
-      </Text>
-      <div className='flex justify-end items-end grow'>
-      <Text as={'span'} fontWeight={'bold'} fontSize="xl">
-       110
-      </Text>
-      </div>
-</Stack>
-     
+        <Text as={'span'} fontWeight={'bold'} fontSize="xl">
+          Total Amount:
+        </Text>
+        <div className="flex grow items-end justify-end">
+          <Text as={'span'} fontWeight={'bold'} fontSize="xl">
+            110
+          </Text>
+        </div>
+      </Stack>
     </Stack>
   );
 }

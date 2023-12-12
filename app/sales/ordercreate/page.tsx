@@ -10,7 +10,7 @@ import {
   Text,
   FormControl,
   FormErrorMessage,
-  Input
+  Input,
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 export default function SalesOrder() {
@@ -51,9 +51,9 @@ export default function SalesOrder() {
                   <FormErrorMessage>{errors.password}</FormErrorMessage>
                 </FormControl>
               </Stack>
-              
+
               <ItemsInfo />
-              
+
               <PaymentInfo />
               <div className="flex flex-row justify-end gap-10 pt-10">
                 <Button variant="solid" colorScheme="red">

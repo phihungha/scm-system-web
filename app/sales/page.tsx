@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FiSearch, FiCalendar } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import SalesOrderList from '../components/SalesOrderList';
 import {
   Stack,
@@ -19,9 +18,21 @@ import {
   TabPanels,
   TabPanel,
 } from '@chakra-ui/react';
+import { getAllSalesOrders } from '../api/salesApi';
+import { useQuery } from 'react-query';
 
 export default function Sales() {
   const [startDate, setStartDate] = useState(new Date());
+  const {
+    data: sales,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['sales'],
+    queryFn: () => getAllSalesOrders(),
+    select: (res) => res.data,
+  });
   return (
     <div>
       <Stack spacing={5}>
