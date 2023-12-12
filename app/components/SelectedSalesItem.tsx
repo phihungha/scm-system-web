@@ -47,12 +47,6 @@ export default function SelectedSalesItem({ name }: OrderProps) {
           </div>
         </CardBody>
       </Stack>
-
-      <div className="self-center p-5">
-        <Button variant="solid" colorScheme="red">
-          Delete
-        </Button>
-      </div>
     </Card>
   );
 }

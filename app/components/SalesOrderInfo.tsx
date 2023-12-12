@@ -1,5 +1,5 @@
 'use client';
-
+import { Field, Form, Formik } from 'formik';
 import {
   Box,
   Text,
@@ -9,6 +9,10 @@ import {
   Input,
   Stack,
   Heading,
+  FormControl,
+  Button,
+  FormErrorMessage,
+  FormLabel,
 } from '@chakra-ui/react';
 import AutoCompleteBox from '../components/AutoCompleteBox';
 
@@ -26,82 +30,52 @@ export default function SalesOrderInfo() {
       </Box>
       <Box>
         <Text
-          fontSize={{ base: '16px', lg: '18px' }}
+          fontSize={{ base: '16px', lg: '20px' }}
           color={'black.500'}
-          fontWeight={'500'}
+          fontWeight={'bold'}
           textTransform={'uppercase'}
           mb={'4'}
         >
           Order Details
         </Text>
+        <Stack pt={5} spacing={10} direction="row">
+          <Text as={'span'} fontWeight={'bold'}>
+            Employee:
+          </Text>
+          <Text>Ha Phi Hung</Text>
+        </Stack>
 
-        <List spacing={2}>
-          <ListItem>
-            <Text as={'span'} fontWeight={'bold'}>
-              Employee:
-            </Text>{' '}
-            Ha Phi Hung
-          </ListItem>
+        <Stack pt={5} spacing={16} direction="row">
+          <Text mt="7px" as={'span'} fontWeight={'bold'}>
+            Status:
+          </Text>
+          <Select placeholder="Select option" w="auto">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </Select>
+        </Stack>
 
-          <ListItem>
-            <Stack spacing={5} direction="row">
-              <Text mt="7px" as={'span'} fontWeight={'bold'}>
-                Status:
-              </Text>
-              <Select placeholder="Select option" w="auto">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-              </Select>
-            </Stack>
-          </ListItem>
+        <Stack alignItems="center" pt={5} spacing={14} direction="row">
+          <Text as={'span'} fontWeight={'bold'}>
+            Retailer:
+          </Text>
+          <AutoCompleteBox />
+        </Stack>
 
-          <ListItem>
-            <Text as={'span'} fontWeight={'bold'}>
-              Create Time:
-            </Text>{' '}
-            12/11/2023
-          </ListItem>
+        <Stack alignItems="center" pt={5} spacing={7} direction="row">
+          <Text as={'span'} fontWeight={'bold'}>
+            Warehouse:
+          </Text>
+          <AutoCompleteBox />
+        </Stack>
 
-          <ListItem>
-            <Text as={'span'} fontWeight={'bold'}>
-              Deliver time:
-            </Text>{' '}
-          </ListItem>
-
-          <ListItem>
-            <Text as={'span'} fontWeight={'bold'}>
-              Finish time:
-            </Text>{' '}
-          </ListItem>
-
-          <ListItem>
-            <Stack spacing={12} direction="row">
-              <Text mt="7px" as={'span'} fontWeight={'bold'}>
-                Retailer:
-              </Text>
-              <AutoCompleteBox />
-            </Stack>
-          </ListItem>
-
-          <ListItem>
-            <Stack spacing={10} direction="row">
-              <Text mt="7px" as={'span'} fontWeight={'bold'}>
-                Location:
-              </Text>
-              <Input />
-            </Stack>
-          </ListItem>
-
-          <ListItem>
-            <Stack spacing={5} direction="row">
-              <Text mt="7px" as={'span'} fontWeight={'bold'}>
-                Warehouse:
-              </Text>
-              <AutoCompleteBox />
-            </Stack>
-          </ListItem>
-        </List>
+        <Stack pt={5} spacing={5} direction="row">
+          <Text as={'span'} fontWeight={'bold'}>
+            Create Time:
+          </Text>
+          <Text>12/11/2023</Text>
+        </Stack>
       </Box>
     </Stack>
   );

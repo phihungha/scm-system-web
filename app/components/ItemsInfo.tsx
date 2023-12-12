@@ -14,6 +14,7 @@ import {
   Button,
   Flex,
   FormControl,
+  StackDivider
 } from '@chakra-ui/react';
 import OrderItem from '../components/OrderItem';
 import SelectedSalesItem from '../components/SelectedSalesItem';
@@ -38,15 +39,15 @@ export default function ItemsInfo() {
     console.log(selectedProducts);
   };
   return (
-    <Box>
+    <Box pt={10}>
       <Text
-        fontSize={{ base: '16px', lg: '18px' }}
+        fontSize={{ base: '16px', lg: '20px' }}
         color={'black.500'}
-        fontWeight={'500'}
+        fontWeight={'bold'}
         textTransform={'uppercase'}
         mb={'4'}
       >
-        Items
+        Items Details
       </Text>
 
       <Flex justify="center" align="center" w="full">
@@ -85,16 +86,14 @@ export default function ItemsInfo() {
         </FormControl>
       </Flex>
 
-      <List pt={5}>
-        <ListItem>
+      <List pt={5} spacing={4}>
           {selectedProducts.map((product) => (
             <ListItem>
-              <div className="py-2">
+              <div>
                 <SelectedSalesItem name={product} />
               </div>
             </ListItem>
           ))}
-        </ListItem>
       </List>
     </Box>
   );
