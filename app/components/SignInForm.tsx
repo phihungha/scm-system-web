@@ -1,5 +1,5 @@
 'use client';
-
+import { useFormik } from "formik";
 import {
   Flex,
   Box,
@@ -7,29 +7,12 @@ import {
   FormLabel,
   Input,
   Checkbox,
-  Stack,
   Button,
-  Heading,
-  Text,
-  useColorModeValue,
+  VStack,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useMutation } from 'react-query';
-import apiClient from '@/app/utils/client-api';
 
-function login({ username, password }) {
-  return apiClient.post(
-    '/api/Auth/SignIn',
-    {
-      username: username,
-      password: password,
-    },
-    {
-      withCredentials: true,
-    },
-  );
-}
 
 export default function SignInForm() {
   const [username, setUsername] = React.useState('');
@@ -38,71 +21,61 @@ export default function SignInForm() {
   const handleClick = () => setShow(!show);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const mutation = useMutation(login, {
-    onSuccess: () => {
-      console.log('Success');
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      rememberMe: false
     },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    }
   });
-
-  const onSignIn = async () => {
-    console.log(username);
-    console.log(password);
-    router.replace('/');
-  };
 
   return (
     <div>
-      <Flex minH={'100vh'} align={'center'} justify={'center'}>
-        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-          <Stack align={'center'}>
-            <Heading fontSize={'4xl'}>Sign in to your account</Heading>
-          </Stack>
-          <Box
-            rounded={'lg'}
-            bg={useColorModeValue('white', 'gray.700')}
-            boxShadow={'lg'}
-            p={8}
-          >
-            <Stack spacing={4}>
-              <FormControl id="username">
-                <FormLabel>Username</FormLabel>
-                <Input
-                  value={username}
-                  onChange={(i) => setUsername(i.target.value)}
-                />
-              </FormControl>
-              <FormControl id="password">
-                <FormLabel>Password</FormLabel>
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(i) => setPassword(i.target.value)}
-                />
-              </FormControl>
-              <Stack spacing={10}>
-                <Stack
-                  direction={{ base: 'column', sm: 'row' }}
-                  align={'start'}
-                  justify={'space-between'}
-                >
-                  <Checkbox>Remember me</Checkbox>
-                  <Text color={'blue.400'}>Forgot password?</Text>
-                </Stack>
-                <Button
-                  onClick={onSignIn}
-                  bg={'blue.400'}
-                  color={'white'}
-                  _hover={{
-                    bg: 'blue.500',
-                  }}
-                >
-                  Sign in
-                </Button>
-              </Stack>
-            </Stack>
-          </Box>
-        </Stack>
-      </Flex>
+      <Flex bg="gray.100" align="center" justify="center" h="100vh">
+      <Box bg="white" p={6} rounded="md">
+        <form onSubmit={formik.handleSubmit}>
+          <VStack spacing={4} align="flex-start">
+            <FormControl>
+              <FormLabel htmlFor="email">Email Address</FormLabel>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                variant="filled"
+                onChange={formik.handleChange}
+                value={formik.values.email}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                variant="filled"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+              />
+            </FormControl>
+            <Checkbox
+              id="rememberMe"
+              name="rememberMe"
+              onChange={formik.handleChange}
+              isChecked={formik.values.rememberMe}
+              colorScheme="purple"
+            >
+              Remember me?
+            </Checkbox>
+            <Button type="submit" colorScheme="blue" width="full">
+              Login
+            </Button>
+          </VStack>
+        </form>
+      </Box>
+    </Flex>
     </div>
   );
 }
