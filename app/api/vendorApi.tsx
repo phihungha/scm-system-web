@@ -1,5 +1,6 @@
 import apiClient from '../utils/client-api';
-import { IVendorResponse, IVendorsResponse } from '../types/vendor';
+import { IVendorsResponse } from '../types/vendor';
+import { Vendor } from '../types/requisition';
 
 export const getAllVendors = async () => {
   const response = await apiClient.get<IVendorsResponse>(`Vendors`);
@@ -7,12 +8,12 @@ export const getAllVendors = async () => {
 };
 
 export const getVendor = async (id: string) => {
-  const response = await apiClient.get<IVendorResponse>(`Vendors/${id}`);
+  const response = await apiClient.get<Vendor>(`Vendors/${id}`);
   return response.data;
 };
 
-export const createVendor = async (vendor: IVendorResponse) => {
-  const response = await apiClient.post<IVendorResponse>(`Vendors`, vendor);
+export const createVendor = async (vendor: Vendor) => {
+  const response = await apiClient.post<Vendor>(`Vendors`, vendor);
   return response.data;
 };
 
@@ -21,11 +22,8 @@ export const updateVendor = async ({
   vendor,
 }: {
   id: string;
-  vendor: IVendorResponse;
+  vendor: Vendor;
 }) => {
-  const response = await apiClient.patch<IVendorResponse>(
-    `Vendors/${id}`,
-    vendor,
-  );
+  const response = await apiClient.patch<Vendor>(`Vendors/${id}`, vendor);
   return response.data;
 };
