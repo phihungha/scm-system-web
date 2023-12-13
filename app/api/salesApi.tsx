@@ -12,7 +12,10 @@ export const getSalesOrder = async (id: string) => {
 };
 
 export const createSalesOrder = async (salesOrder: ISaleResponse) => {
-  const response = await apiClient.post<ISaleResponse>(`SalesOrders`, salesOrder);
+  const response = await apiClient.post<ISaleResponse>(
+    `SalesOrders`,
+    salesOrder,
+  );
   return response.data;
 };
 
@@ -23,6 +26,9 @@ export const updateSalesOrder = async ({
   id: string;
   salesOrder: ISaleResponse;
 }) => {
-  const response = await apiClient.patch<ISaleResponse>(`SalesOrders/${id}`, salesOrder);
+  const response = await apiClient.patch<ISaleResponse>(
+    `SalesOrders/${id}`,
+    salesOrder,
+  );
   return response.data;
 };
