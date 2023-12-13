@@ -2,25 +2,17 @@ import apiClient from '../utils/client-api';
 import { IProductResponse, IProductsResponse } from '../types/product';
 
 export const getAllProducts = async () => {
-  const response =
-    await apiClient.get<IProductsResponse>(`Products`);
+  const response = await apiClient.get<IProductsResponse>(`Products`);
   return response.data;
 };
 
 export const getProductionOrder = async (id: string) => {
-  const response = await apiClient.get<IProductResponse>(
-    `Products/${id}`,
-  );
+  const response = await apiClient.get<IProductResponse>(`Products/${id}`);
   return response.data;
 };
 
-export const createProductionOrder = async (
-  product: IProductResponse,
-) => {
-  const response = await apiClient.post<IProductResponse>(
-    `Products`,
-    product,
-  );
+export const createProductionOrder = async (product: IProductResponse) => {
+  const response = await apiClient.post<IProductResponse>(`Products`, product);
   return response.data;
 };
 

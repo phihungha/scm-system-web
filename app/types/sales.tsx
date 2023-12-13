@@ -1,4 +1,3 @@
-
 export interface ICustomer {
   contactPerson: string;
   createTime: Date;
@@ -47,8 +46,6 @@ export interface Event {
   time: Date;
   isAutomatic: boolean;
 }
-
-
 
 export interface Item {
   product: Product;
