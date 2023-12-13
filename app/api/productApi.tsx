@@ -6,17 +6,17 @@ export const getAllProducts = async () => {
   return response.data;
 };
 
-export const getProductionOrder = async (id: string) => {
+export const getProduct = async (id: string) => {
   const response = await apiClient.get<IProductResponse>(`Products/${id}`);
   return response.data;
 };
 
-export const createProductionOrder = async (product: IProductResponse) => {
+export const createProduct = async (product: IProductResponse) => {
   const response = await apiClient.post<IProductResponse>(`Products`, product);
   return response.data;
 };
 
-export const updatePurchaseOrder = async ({
+export const updateProduct = async ({
   id,
   product,
 }: {

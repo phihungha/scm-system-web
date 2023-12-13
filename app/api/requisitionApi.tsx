@@ -10,14 +10,14 @@ export const getAllRequisitions = async () => {
   return response.data;
 };
 
-export const getSalesOrder = async (id: string) => {
+export const getRequisition = async (id: string) => {
   const response = await apiClient.get<IRequisitionResponse>(
     `PurchaseRequisitions/${id}`,
   );
   return response.data;
 };
 
-export const createSalesOrder = async (requisition: IRequisitionResponse) => {
+export const createRequisition = async (requisition: IRequisitionResponse) => {
   const response = await apiClient.post<IRequisitionResponse>(
     `PurchaseRequisitions`,
     requisition,
@@ -25,7 +25,7 @@ export const createSalesOrder = async (requisition: IRequisitionResponse) => {
   return response.data;
 };
 
-export const updateSalesOrder = async ({
+export const updateRequisition = async ({
   id,
   requisition,
 }: {
