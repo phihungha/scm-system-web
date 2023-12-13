@@ -1,3 +1,4 @@
+
 export interface ICustomer {
   contactPerson: string;
   createTime: Date;
@@ -26,16 +27,6 @@ export interface IUser {
   updateTime: Date;
 }
 
-export interface Event {
-  type: string;
-  id: string;
-  location: string;
-  message: string;
-  email: string;
-  time: Date;
-  isAutomatic: boolean;
-}
-
 export interface Product {
   id: string;
   name: string;
@@ -46,6 +37,18 @@ export interface Product {
   createTime: Date;
   updateTime: Date;
 }
+
+export interface Event {
+  type: string;
+  id: string;
+  location: string;
+  message: string;
+  email: string;
+  time: Date;
+  isAutomatic: boolean;
+}
+
+
 
 export interface Item {
   product: Product;
