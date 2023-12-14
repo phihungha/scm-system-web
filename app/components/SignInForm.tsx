@@ -5,6 +5,7 @@ import {
   GenericResponse,
   ItemInput,
   LoginInput,
+  negativeStatusInput,
   StatusInput,
   UpdateInput,
 } from '../types/sales';
@@ -25,8 +26,9 @@ import { signInUser } from '../api/authApi';
 import {
   createSalesOrder,
   getAllSalesOrders,
-  startDelivery,
+  updateNegativeStatus,
   updateSalesOrder,
+  updateStatus,
 } from '../api/salesApi';
 
 export default function SignInForm() {
@@ -36,7 +38,7 @@ export default function SignInForm() {
   const handleClick = () => setShow(!show);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const status = new StatusInput('Executing');
+  const status = new negativeStatusInput('Canceled', 'Testing');
   const item = new ItemInput(1, 50);
   const items: ItemInput[] = [];
   items.push(item);
@@ -46,7 +48,7 @@ export default function SignInForm() {
     1,
   );
   const { mutate: DeliveryInput } = useMutation(
-    (status: StatusInput) => startDelivery('1', status),
+    (status: negativeStatusInput) => updateNegativeStatus('9', status),
     {
       onSuccess: (response) => {
         console.log(response);

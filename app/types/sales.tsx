@@ -151,3 +151,39 @@ export class StatusInput {
     this.status = status;
   }
 }
+
+export class PaymentInput {
+  payAmount: number;
+  constructor(payAmount: number) {
+    this.payAmount = payAmount;
+  }
+}
+
+export class negativeStatusInput {
+  status: string;
+  problem: string;
+  constructor(status: string, problem: string) {
+    this.status = status;
+    this.problem = problem;
+  }
+}
+
+export class EventInput {
+  type: string;
+  location: string;
+  message: string;
+  constructor(type: string, location: string, message: string) {
+    this.type = type;
+    this.location = location;
+    this.message = message;
+  }
+}
+
+export interface IEventResponse {
+  type: string;
+  id: string;
+  location: string;
+  message: string;
+  time: Date;
+  isAutomatic: boolean;
+}
