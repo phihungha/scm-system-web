@@ -1,5 +1,6 @@
 import apiClient from '../utils/client-api';
 import { IProductionResponse, IProductionsResponse } from '../types/production';
+import { CreateInput } from '../types/sales';
 
 export const getAllProductionOrders = async () => {
   const response =
@@ -14,9 +15,7 @@ export const getProductionOrder = async (id: string) => {
   return response.data;
 };
 
-export const createProductionOrder = async (
-  production: IProductionResponse,
-) => {
+export const createProductionOrder = async (production: CreateInput) => {
   const response = await apiClient.post<IProductionResponse>(
     `PurchaseOrders`,
     production,

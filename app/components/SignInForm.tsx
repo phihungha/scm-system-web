@@ -33,6 +33,7 @@ import {
   updateSalesOrder,
   updateStatus,
 } from '../api/salesApi';
+import { createRequisition } from '../api/requisitionApi';
 
 export default function SignInForm() {
   const [username, setUsername] = React.useState('');
@@ -41,6 +42,21 @@ export default function SignInForm() {
   const handleClick = () => setShow(!show);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const item1 = new ItemInput(1, 50);
+  const item2 = new ItemInput(2, 100);
+  const items: ItemInput[] = [];
+  items.push(item1);
+  items.push(item2);
+  const production = new CreateInput(items, 1);
+
+  const { mutate: RequisitionInput } = useMutation(
+    (status: CreateInput) => createRequisition(status),
+    {
+      onSuccess: (response) => {
+        console.log(response);
+      },
+    },
+  );
 
   const { mutate: loginUser } = useMutation(
     (userData: LoginInput) => signInUser(userData),
@@ -58,6 +74,7 @@ export default function SignInForm() {
     },
     onSubmit: (values) => {
       loginUser({ userName: 'root-admin', password: 'Abcd1234+-*/' });
+      RequisitionInput(production);
     },
   });
 

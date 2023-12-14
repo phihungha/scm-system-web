@@ -1,4 +1,4 @@
-import { IUser, productionFacility } from './sales';
+import { ItemInput, IUser, productionFacility } from './sales';
 
 export interface Vendor {
   contactPerson: string;
@@ -67,4 +67,44 @@ export interface IRequisitionsResponse {
   data: {
     sales: IRequisitionResponse[];
   };
+}
+export class requisitionCreateInput {
+  items: ItemInput[];
+  vendorId: number;
+  constructor(items: ItemInput[], vendorId: number) {
+    this.items = items;
+    this.vendorId = vendorId;
+  }
+}
+
+export class requisitionUpdateInput {
+  items: ItemInput[];
+  constructor(items: ItemInput[]) {
+    this.items = items;
+  }
+}
+
+export class ApproveInput {
+  approvalStatus: string;
+  constructor(status: string) {
+    this.approvalStatus = status;
+  }
+}
+
+export class RejectInput {
+  approvalStatus: string;
+  problem: string;
+  constructor(problem: string) {
+    this.approvalStatus = 'Rejected';
+    this.problem = problem;
+  }
+}
+
+export class CancelInput {
+  isCanceled: boolean;
+  problem: string;
+  constructor(problem: string) {
+    this.isCanceled = true;
+    this.problem = problem;
+  }
 }

@@ -112,7 +112,7 @@ export interface LoginInput {
   password: string;
 }
 
-export class CreateInput {
+export class salesCreateInput {
   items: ItemInput[];
   customerId: number;
   constructor(items: ItemInput[], customerId: number) {
