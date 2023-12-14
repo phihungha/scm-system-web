@@ -13,6 +13,7 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
+import EventProgress from '@/app/components/EventProgress';
 export default function SalesOrder() {
   function validateLocation(value) {
     let error;
@@ -53,7 +54,7 @@ export default function SalesOrder() {
               </Stack>
 
               <ItemsInfo />
-
+              <EventProgress />
               <PaymentInfo />
               <div className="flex flex-row justify-end gap-10 pt-10">
                 <Button variant="solid" colorScheme="red">

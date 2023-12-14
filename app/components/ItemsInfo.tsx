@@ -45,6 +45,7 @@ export default function ItemsInfo() {
         fontWeight={'bold'}
         textTransform={'uppercase'}
         mb={'4'}
+        pb={4}
       >
         Items Details
       </Text>

@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import { getAllSalesOrders, getSalesOrder } from '@/app/api/salesApi';
+import EventProgress from '@/app/components/EventProgress';
 export default function SalesOrder() {
   function validateLocation(value) {
     let error;
@@ -66,13 +67,39 @@ export default function SalesOrder() {
               </Stack>
 
               <ItemsInfo />
-
+              <EventProgress />
               <PaymentInfo />
+              <Stack alignItems="center" spacing={1} direction="row">
+                <Text fontSize="xl" width={170} fontWeight={'bold'}>
+                  Pay Amount:
+                </Text>
+                <FormControl>
+                  <Field
+                    as={Input}
+                    id="amount"
+                    name="amount"
+                    variant="filled"
+                    textAlign={'right'}
+                  />
+                  <FormErrorMessage>{errors.location}</FormErrorMessage>
+                </FormControl>
+              </Stack>
               <div className="flex flex-row justify-end gap-10 pt-10">
-                <Button variant="solid" colorScheme="red">
+                <Button width={100} variant="solid" colorScheme="red">
                   Cancel
                 </Button>
-                <Button type="submit" variant="solid" colorScheme="blue">
+                <Button width={100} variant="solid" colorScheme="yellow">
+                  Return
+                </Button>
+                <Button width={100} variant="solid" colorScheme="green">
+                  Complete
+                </Button>
+                <Button
+                  width={100}
+                  type="submit"
+                  variant="solid"
+                  colorScheme="blue"
+                >
                   Update
                 </Button>
               </div>

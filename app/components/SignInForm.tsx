@@ -1,39 +1,19 @@
 'use client';
 import { useFormik } from 'formik';
-import {
-  CreateInput,
-  EventInput,
-  GenericResponse,
-  ItemInput,
-  LoginInput,
-  negativeStatusInput,
-  StatusInput,
-  UpdateInput,
-} from '../types/sales';
+import { LoginInput } from '../types/sales';
 import {
   Flex,
   Box,
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
   Button,
   VStack,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { signInUser } from '../api/authApi';
-import {
-  createEvent,
-  createSalesOrder,
-  getAllSalesOrders,
-  updateEvent,
-  updateNegativeStatus,
-  updateSalesOrder,
-  updateStatus,
-} from '../api/salesApi';
-import { createRequisition } from '../api/requisitionApi';
 
 export default function SignInForm() {
   const [username, setUsername] = React.useState('');
@@ -42,21 +22,6 @@ export default function SignInForm() {
   const handleClick = () => setShow(!show);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const item1 = new ItemInput(1, 50);
-  const item2 = new ItemInput(2, 100);
-  const items: ItemInput[] = [];
-  items.push(item1);
-  items.push(item2);
-  const production = new CreateInput(items, 1);
-
-  const { mutate: RequisitionInput } = useMutation(
-    (status: CreateInput) => createRequisition(status),
-    {
-      onSuccess: (response) => {
-        console.log(response);
-      },
-    },
-  );
 
   const { mutate: loginUser } = useMutation(
     (userData: LoginInput) => signInUser(userData),
@@ -73,8 +38,7 @@ export default function SignInForm() {
       password: '',
     },
     onSubmit: (values) => {
-      loginUser({ userName: 'root-admin', password: 'Abcd1234+-*/' });
-      RequisitionInput(production);
+      loginUser(values);
     },
   });
 
