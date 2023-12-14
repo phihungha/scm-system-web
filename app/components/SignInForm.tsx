@@ -2,6 +2,7 @@
 import { useFormik } from 'formik';
 import {
   CreateInput,
+  EventInput,
   GenericResponse,
   ItemInput,
   LoginInput,
@@ -24,8 +25,10 @@ import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from 'react-query';
 import { signInUser } from '../api/authApi';
 import {
+  createEvent,
   createSalesOrder,
   getAllSalesOrders,
+  updateEvent,
   updateNegativeStatus,
   updateSalesOrder,
   updateStatus,
@@ -38,23 +41,6 @@ export default function SignInForm() {
   const handleClick = () => setShow(!show);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const status = new negativeStatusInput('Canceled', 'Testing');
-  const item = new ItemInput(1, 50);
-  const items: ItemInput[] = [];
-  items.push(item);
-  const sale = new UpdateInput(
-    items,
-    'Back door, 156 Nguyen Van Luong, Bien Hoa, Dong nai',
-    1,
-  );
-  const { mutate: DeliveryInput } = useMutation(
-    (status: negativeStatusInput) => updateNegativeStatus('9', status),
-    {
-      onSuccess: (response) => {
-        console.log(response);
-      },
-    },
-  );
 
   const { mutate: loginUser } = useMutation(
     (userData: LoginInput) => signInUser(userData),
@@ -72,7 +58,6 @@ export default function SignInForm() {
     },
     onSubmit: (values) => {
       loginUser({ userName: 'root-admin', password: 'Abcd1234+-*/' });
-      DeliveryInput(status);
     },
   });
 
