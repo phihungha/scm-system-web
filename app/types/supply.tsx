@@ -19,3 +19,54 @@ export interface ISuppliesResponse {
     sales: ISupplyResponse[];
   };
 }
+
+export class createSupplyInput {
+  vendorId: number;
+  expirationMonth: number;
+  name: string;
+  price: number;
+  unit: string;
+  description: string;
+  constructor(
+    vendorId: number,
+    expirationMonth: number,
+    name: string,
+    price: number,
+    unit: string,
+    description: string,
+  ) {
+    this.expirationMonth = expirationMonth;
+    this.name = name;
+    this.price = price;
+    this.vendorId = vendorId;
+    this.unit = unit;
+    this.description = description;
+  }
+}
+
+export class updateSupplyInput {
+  vendorId: number;
+  expirationMonth: number;
+  name: string;
+  price: number;
+  unit: string;
+  isActive: boolean;
+  description: string;
+  constructor(
+    vendorId: number,
+    expirationMonth: number,
+    name: string,
+    price: number,
+    isActive: boolean,
+    unit: string,
+    description: string,
+  ) {
+    this.expirationMonth = expirationMonth;
+    this.name = name;
+    this.price = price;
+    this.vendorId = vendorId;
+    this.unit = unit;
+    this.isActive = isActive;
+    this.description = description;
+  }
+}
