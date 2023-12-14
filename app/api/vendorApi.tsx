@@ -1,5 +1,5 @@
 import apiClient from '../utils/client-api';
-import { IVendorsResponse } from '../types/vendor';
+import { IVendorsResponse, VendorInput } from '../types/vendor';
 import { Vendor } from '../types/requisition';
 
 export const getAllVendors = async () => {
@@ -12,18 +12,12 @@ export const getVendor = async (id: string) => {
   return response.data;
 };
 
-export const createVendor = async (vendor: Vendor) => {
+export const createVendor = async (vendor: VendorInput) => {
   const response = await apiClient.post<Vendor>(`Vendors`, vendor);
   return response.data;
 };
 
-export const updateVendor = async ({
-  id,
-  vendor,
-}: {
-  id: string;
-  vendor: Vendor;
-}) => {
+export const updateVendor = async (id: string, vendor: VendorInput) => {
   const response = await apiClient.patch<Vendor>(`Vendors/${id}`, vendor);
   return response.data;
 };
