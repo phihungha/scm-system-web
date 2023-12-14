@@ -1,5 +1,10 @@
 import apiClient from '../utils/client-api';
-import { IUserResponse, IUsersResponse } from '../types/user';
+import {
+  createUserInput,
+  IUserResponse,
+  IUsersResponse,
+  updateUserInput,
+} from '../types/user';
 
 export const getAllUsers = async () => {
   const response = await apiClient.get<IUsersResponse>(`Users`);
@@ -11,18 +16,12 @@ export const getUser = async (id: string) => {
   return response.data;
 };
 
-export const createUser = async (user: IUserResponse) => {
+export const createUser = async (user: createUserInput) => {
   const response = await apiClient.post<IUserResponse>(`Users`, user);
   return response.data;
 };
 
-export const updateUser = async ({
-  id,
-  user,
-}: {
-  id: string;
-  user: IUserResponse;
-}) => {
+export const updateUser = async (id: string, user: updateUserInput) => {
   const response = await apiClient.patch<IUserResponse>(`Users/${id}`, user);
   return response.data;
 };

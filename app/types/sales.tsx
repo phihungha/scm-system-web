@@ -13,7 +13,7 @@ export interface ICustomer {
 
 export interface IUser {
   id: string;
-  userName: Date;
+  userName: string;
   email: string;
   phoneNumber: string;
   name: string;

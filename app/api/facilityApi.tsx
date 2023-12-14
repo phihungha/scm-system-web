@@ -23,7 +23,7 @@ export const createFacility = async (facility: FacilityInput) => {
   return response.data;
 };
 
-export const updateFacility = async (id : string, facility : FacilityInput) => {
+export const updateFacility = async (id: string, facility: FacilityInput) => {
   const response = await apiClient.patch<IFacilityResponse>(
     `Customers/${id}`,
     facility,
