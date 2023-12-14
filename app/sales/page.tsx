@@ -18,11 +18,26 @@ import {
   TabPanels,
   TabPanel,
 } from '@chakra-ui/react';
-import { getAllSalesOrders } from '../api/salesApi';
-import { useQuery } from 'react-query';
+import {
+  createSalesOrder,
+  getAllSalesOrders,
+  getSalesOrder,
+} from '../api/salesApi';
+import { useQuery, useMutation } from 'react-query';
+import { CreateInput, ItemInput, LoginInput } from '../types/sales';
+import { signInUser } from '../api/authApi';
 
 export default function Sales() {
   const [startDate, setStartDate] = useState(new Date());
+  const { mutate: loginUser } = useMutation(
+    (userData: LoginInput) => signInUser(userData),
+    {
+      onSuccess: () => {
+        console.log('You successfully logged in');
+      },
+    },
+  );
+
   const {
     data: sales,
     isLoading,
@@ -33,6 +48,7 @@ export default function Sales() {
     queryFn: () => getAllSalesOrders(),
     select: (res) => res.data,
   });
+
   return (
     <div>
       <Stack spacing={5}>

@@ -1,5 +1,13 @@
 'use client';
-import { useFormik } from "formik";
+import { useFormik } from 'formik';
+import {
+  CreateInput,
+  GenericResponse,
+  ItemInput,
+  LoginInput,
+  StatusInput,
+  UpdateInput,
+} from '../types/sales';
 import {
   Flex,
   Box,
@@ -12,7 +20,14 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import { useMutation, useQuery } from 'react-query';
+import { signInUser } from '../api/authApi';
+import {
+  createSalesOrder,
+  getAllSalesOrders,
+  startDelivery,
+  updateSalesOrder,
+} from '../api/salesApi';
 
 export default function SignInForm() {
   const [username, setUsername] = React.useState('');
@@ -21,61 +36,79 @@ export default function SignInForm() {
   const handleClick = () => setShow(!show);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const status = new StatusInput('Executing');
+  const item = new ItemInput(1, 50);
+  const items: ItemInput[] = [];
+  items.push(item);
+  const sale = new UpdateInput(
+    items,
+    'Back door, 156 Nguyen Van Luong, Bien Hoa, Dong nai',
+    1,
+  );
+  const { mutate: DeliveryInput } = useMutation(
+    (status: StatusInput) => startDelivery('1', status),
+    {
+      onSuccess: (response) => {
+        console.log(response);
+      },
+    },
+  );
+
+  const { mutate: loginUser } = useMutation(
+    (userData: LoginInput) => signInUser(userData),
+    {
+      onSuccess: (response) => {
+        console.log(response);
+      },
+    },
+  );
+
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
-      rememberMe: false
+      userName: '',
+      password: '',
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    }
+      loginUser({ userName: 'root-admin', password: 'Abcd1234+-*/' });
+      DeliveryInput(status);
+    },
   });
 
   return (
     <div>
       <Flex bg="gray.100" align="center" justify="center" h="100vh">
-      <Box bg="white" p={6} rounded="md">
-        <form onSubmit={formik.handleSubmit}>
-          <VStack spacing={4} align="flex-start">
-            <FormControl>
-              <FormLabel htmlFor="email">Email Address</FormLabel>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                variant="filled"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                variant="filled"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-              />
-            </FormControl>
-            <Checkbox
-              id="rememberMe"
-              name="rememberMe"
-              onChange={formik.handleChange}
-              isChecked={formik.values.rememberMe}
-              colorScheme="purple"
-            >
-              Remember me?
-            </Checkbox>
-            <Button type="submit" colorScheme="blue" width="full">
-              Login
-            </Button>
-          </VStack>
-        </form>
-      </Box>
-    </Flex>
+        <Box bg="white" p={6} rounded="md">
+          <form onSubmit={formik.handleSubmit}>
+            <VStack spacing={4} align="flex-start">
+              <FormControl>
+                <FormLabel htmlFor="userName">Email Address</FormLabel>
+                <Input
+                  id="userName"
+                  name="userName"
+                  variant="filled"
+                  onChange={formik.handleChange}
+                  value={formik.values.userName}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  variant="filled"
+                  onChange={formik.handleChange}
+                  value={formik.values.password}
+                />
+              </FormControl>
+
+              <Button type="submit" colorScheme="blue" width="full">
+                Login
+              </Button>
+            </VStack>
+          </form>
+        </Box>
+      </Flex>
     </div>
   );
 }

@@ -104,11 +104,50 @@ export interface ISalesResponse {
 }
 
 export interface GenericResponse {
-  status: string;
-  message: string;
+  title: string;
 }
 
 export interface LoginInput {
   userName: string;
   password: string;
+}
+
+export class CreateInput {
+  items: ItemInput[];
+  customerId: number;
+  constructor(items: ItemInput[], customerId: number) {
+    this.items = items;
+    this.customerId = customerId;
+  }
+}
+
+export class UpdateInput {
+  items: ItemInput[];
+  toLocation: string;
+  productionFaciltyId: number;
+  constructor(
+    items: ItemInput[],
+    toLocation: string,
+    productionFaciltyId: number,
+  ) {
+    this.items = items;
+    this.productionFaciltyId = productionFaciltyId;
+    this.toLocation = toLocation;
+  }
+}
+
+export class ItemInput {
+  itemId: number;
+  quantity: number;
+  constructor(itemId: number, quantity: number) {
+    this.itemId = itemId;
+    this.quantity = quantity;
+  }
+}
+
+export class StatusInput {
+  status: string;
+  constructor(status: string) {
+    this.status = status;
+  }
 }
