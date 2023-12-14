@@ -67,7 +67,7 @@ export const rejectProductionOrder = async (id: string, problem: string) => {
   return response.data;
 };
 
-export const productionStart = async (id: string) => {
+export const startProductionOrder = async (id: string) => {
   const status = new StatusInput('Executing');
   const response = await apiClient.patch<IProductionResponse>(
     `ProductionOrders/${id}`,

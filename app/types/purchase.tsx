@@ -1,5 +1,5 @@
 import { Vendor, RequisitionItem } from './requisition';
-import { productionFacility, Event, IUser } from './sales';
+import { productionFacility, Event, IUser, ItemInput } from './sales';
 
 export interface IPurchaseResponse {
   additionalDiscount: number;
@@ -41,4 +41,46 @@ export interface IPurchasesResponse {
   data: {
     sales: IPurchaseResponse[];
   };
+}
+
+export class purchaseCreateInput {
+  items: ItemInput[];
+  purchaseRequisitionId: number;
+  constructor(items: ItemInput[], purchaseRequisitionId: number) {
+    this.items = items;
+    this.purchaseRequisitionId = purchaseRequisitionId;
+  }
+}
+
+export class purchaseUpdateInput {
+  items: ItemInput[];
+  fromLocation: string;
+  additionalDiscount: number;
+  constructor(
+    items: ItemInput[],
+    fromLocation: string,
+    additionalDiscount: number,
+  ) {
+    this.items = items;
+    this.additionalDiscount = additionalDiscount;
+    this.fromLocation = fromLocation;
+  }
+}
+
+export class completePurchaseInput {
+  invoiceUrl: string;
+  status: string;
+  constructor(invoiceUrl: string) {
+    this.invoiceUrl = invoiceUrl;
+    this.status = 'Completed';
+  }
+}
+
+export class purchasePaymentInput {
+  receiptUrl: string;
+  payAmount: number;
+  constructor(receiptUrl: string, payAmount: number) {
+    this.receiptUrl = receiptUrl;
+    this.payAmount = payAmount;
+  }
 }

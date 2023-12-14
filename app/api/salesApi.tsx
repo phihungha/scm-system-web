@@ -2,7 +2,6 @@ import apiClient from '../utils/client-api';
 import {
   ISalesResponse,
   ISaleResponse,
-  CreateInput,
   UpdateInput,
   StatusInput,
   negativeStatusInput,
@@ -10,6 +9,7 @@ import {
   IEventResponse,
   EventInput,
   UpdateEventInput,
+  salesCreateInput,
 } from '../types/sales';
 
 export const getAllSalesOrders = async () => {
@@ -22,7 +22,7 @@ export const getSalesOrder = async (id: string) => {
   return response.data;
 };
 
-export const createSalesOrder = async (createInput: CreateInput) => {
+export const createSalesOrder = async (createInput: salesCreateInput) => {
   const response = await apiClient.post<ISaleResponse>(
     `SalesOrders`,
     createInput,
@@ -38,7 +38,8 @@ export const updateSalesOrder = async (id: string, salesOrder: UpdateInput) => {
   return response.data;
 };
 
-export const updateStatus = async (id: string, status: StatusInput) => {
+export const startSalesOrder = async (id: string) => {
+  const status = new StatusInput('Executing');
   const response = await apiClient.patch<ISaleResponse>(
     `SalesOrders/${id}`,
     status,
@@ -46,13 +47,20 @@ export const updateStatus = async (id: string, status: StatusInput) => {
   return response.data;
 };
 
-export const updateNegativeStatus = async (
-  id: string,
-  status: negativeStatusInput,
-) => {
+export const finishSalesOrder = async (id: string) => {
+  const finish = new StatusInput('WaitingAcceptance');
   const response = await apiClient.patch<ISaleResponse>(
     `SalesOrders/${id}`,
-    status,
+    finish,
+  );
+  return response.data;
+};
+
+export const completeSalesOrder = async (id: string) => {
+  const complete = new StatusInput('Completed');
+  const response = await apiClient.patch<ISaleResponse>(
+    `SalesOrders/${id}`,
+    complete,
   );
   return response.data;
 };
@@ -84,6 +92,24 @@ export const updateSalesEvent = async (
   const response = await apiClient.patch<IEventResponse>(
     `SalesOrders/${id}/events/${eventId}`,
     event,
+  );
+  return response.data;
+};
+
+export const cancelSalesOrder = async (id: string, problem: string) => {
+  const cancel = new negativeStatusInput('Canceled', problem);
+  const response = await apiClient.patch<ISaleResponse>(
+    `SalesOrders/${id}`,
+    cancel,
+  );
+  return response.data;
+};
+
+export const returnSalesOrder = async (id: string, problem: string) => {
+  const returned = new negativeStatusInput('Returned', problem);
+  const response = await apiClient.patch<ISaleResponse>(
+    `SalesOrders/${id}`,
+    returned,
   );
   return response.data;
 };
