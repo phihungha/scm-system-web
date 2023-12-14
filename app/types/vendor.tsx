@@ -7,7 +7,7 @@ export interface IVendorsResponse {
   };
 }
 
-export class VendorInput {
+export class customerVendorInput {
   contactPerson: string;
   defaultLocation: string;
   description: string;
