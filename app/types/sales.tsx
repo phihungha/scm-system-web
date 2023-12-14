@@ -179,6 +179,15 @@ export class EventInput {
   }
 }
 
+export class UpdateEventInput {
+  location: string;
+  message: string;
+  constructor(location: string, message: string) {
+    this.location = location;
+    this.message = message;
+  }
+}
+
 export interface IEventResponse {
   type: string;
   id: string;

@@ -9,6 +9,7 @@ import {
   PaymentInput,
   IEventResponse,
   EventInput,
+  UpdateEventInput,
 } from '../types/sales';
 
 export const getAllSalesOrders = async () => {
@@ -56,7 +57,7 @@ export const updateNegativeStatus = async (
   return response.data;
 };
 
-export const completePayment = async (
+export const completeSalesPayment = async (
   id: string,
   paymentInput: PaymentInput,
 ) => {
@@ -67,7 +68,7 @@ export const completePayment = async (
   return response.data;
 };
 
-export const createEvent = async (id: string, event: EventInput) => {
+export const createSalesEvent = async (id: string, event: EventInput) => {
   const response = await apiClient.post<IEventResponse>(
     `SalesOrders/${id}/events`,
     event,
@@ -75,10 +76,10 @@ export const createEvent = async (id: string, event: EventInput) => {
   return response.data;
 };
 
-export const updateEvent = async (
+export const updateSalesEvent = async (
   id: string,
   eventId: string,
-  event: EventInput,
+  event: UpdateEventInput,
 ) => {
   const response = await apiClient.patch<IEventResponse>(
     `SalesOrders/${id}/events/${eventId}`,

@@ -1,5 +1,5 @@
 import { Supply } from './requisition';
-import { Event, IUser, Product, productionFacility } from './sales';
+import { Event, ItemInput, IUser, Product, productionFacility } from './sales';
 
 export interface supplyUsageItem {
   quantity: number;
@@ -49,4 +49,11 @@ export interface IProductionsResponse {
   data: {
     sales: IProductionResponse[];
   };
+}
+
+export class ProductionInput {
+  items: ItemInput[];
+  constructor(items: ItemInput[]) {
+    this.items = items;
+  }
 }
