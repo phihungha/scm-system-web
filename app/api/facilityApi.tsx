@@ -2,6 +2,7 @@ import apiClient from '../utils/client-api';
 import {
   IFacilityResponse,
   IFacilitiesResponse,
+  FacilityInput,
 } from '../types/productionFacility';
 
 export const getAllFacilities = async () => {
@@ -14,7 +15,7 @@ export const getFacility = async (id: string) => {
   return response.data;
 };
 
-export const createFacility = async (facility: IFacilityResponse) => {
+export const createFacility = async (facility: FacilityInput) => {
   const response = await apiClient.post<IFacilityResponse>(
     `Customers`,
     facility,
@@ -22,13 +23,7 @@ export const createFacility = async (facility: IFacilityResponse) => {
   return response.data;
 };
 
-export const updateFacility = async ({
-  id,
-  facility,
-}: {
-  id: string;
-  facility: IFacilityResponse;
-}) => {
+export const updateFacility = async (id : string, facility : FacilityInput) => {
   const response = await apiClient.patch<IFacilityResponse>(
     `Customers/${id}`,
     facility,
