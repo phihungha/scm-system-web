@@ -33,7 +33,7 @@ export default function SelectedSalesItem({ name }: OrderProps) {
 
       <Stack width="full">
         <CardBody>
-          <Heading size="md">{name}</Heading>
+          <Heading size="lg">{name}</Heading>
           <div className="py-5">
             <NumberInput defaultValue={1} min={1} max={20}>
               <NumberInputField />

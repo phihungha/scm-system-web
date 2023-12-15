@@ -4,63 +4,82 @@ import AutoCompleteBox from '../components/AutoCompleteBox';
 
 export default function SalesOrderInfo() {
   return (
-    <Stack spacing={{ base: 6, md: 10 }}>
+    <Stack>
       <Box as={'header'}>
         <Heading
           lineHeight={1.1}
           fontWeight={600}
-          fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
+          fontSize={'5xl'}
         >
           #1
         </Heading>
       </Box>
       <Box>
         <Text
-          fontSize={{ base: '16px', lg: '20px' }}
+          fontSize={'3xl'}
           color={'black.500'}
           fontWeight={'bold'}
           textTransform={'uppercase'}
           mb={'4'}
+          pt={10}
         >
           Order Details
         </Text>
-        <Stack pt={5} spacing={10} direction="row">
-          <Text as={'span'} fontWeight={'bold'}>
-            Employee:
+        <Stack alignItems="center" pt={2} spacing={16} direction="row">
+          <Text mr={-0.25} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+            Create User:
           </Text>
-          <Text>Ha Phi Hung</Text>
+          <Text fontSize={'xl'} >Ha Phi Hung</Text>
         </Stack>
 
-        <Stack pt={5} spacing={16} direction="row">
-          <Text mt="7px" as={'span'} fontWeight={'bold'}>
+        <Stack alignItems="center" pt={5} spacing={20} direction="row">
+          <Text fontSize={'xl'} mr={9} as={'span'} fontWeight={'bold'}>
             Status:
           </Text>
-          <Select placeholder="Select option" w="auto">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </Select>
+          <Text fontSize={'xl'} >Pending</Text>
         </Stack>
 
-        <Stack alignItems="center" pt={5} spacing={14} direction="row">
-          <Text as={'span'} fontWeight={'bold'}>
+        <Stack alignItems="center" pt={5} spacing={6} direction="row">
+          <Text mr={0.5} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+            Payment Status:
+          </Text>
+          <Text fontSize={'xl'} >Pending</Text>
+        </Stack>
+
+        <Stack alignItems="center" pt={5} spacing={20} direction="row">
+          <Text mr={6} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
             Retailer:
           </Text>
-          <AutoCompleteBox />
+          <Box w="full">
+            <AutoCompleteBox />
+          </Box>
         </Stack>
 
-        <Stack alignItems="center" pt={5} spacing={7} direction="row">
-          <Text as={'span'} fontWeight={'bold'}>
-            Warehouse:
-          </Text>
-          <AutoCompleteBox />
-        </Stack>
-
-        <Stack pt={5} spacing={5} direction="row">
-          <Text as={'span'} fontWeight={'bold'}>
+        <Stack pt={5} spacing={14} direction="row">
+          <Text fontSize={'xl'} mr={1} as={'span'} fontWeight={'bold'}>
             Create Time:
           </Text>
-          <Text>12/11/2023</Text>
+          <Text fontSize={'xl'}>12/11/2023</Text>
+        </Stack>
+
+        <Stack alignItems="center" pt={5} spacing={20} direction="row">
+                <Text mr={2} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+                  End Time:
+                </Text>
+                <Text fontSize={'xl'}>12/11/2023</Text>
+              </Stack>
+              <Stack pt={5} alignItems="center" spacing={10} direction="row">
+                <Text mr={1} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+                  Delivery Time:
+                </Text>
+                <Text fontSize={'xl'}>12/11/2023</Text>
+              </Stack>
+
+        <Stack alignItems="center" pt={5} spacing={20} direction="row">
+          <Text fontSize={'xl'} mr={3} as={'span'} fontWeight={'bold'}>
+            End User:
+          </Text>
+          <Text fontSize={'xl'}>Ha Phi Hung</Text>
         </Stack>
       </Box>
     </Stack>

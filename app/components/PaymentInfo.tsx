@@ -23,7 +23,7 @@ export default function PaymentInfo() {
           <div className="flex flex-row place-content-between items-center gap-10 whitespace-nowrap">
             <Text
               pt={1}
-              fontSize={{ base: '16px', lg: '20px' }}
+              fontSize={'3xl'}
               color={'black.500'}
               fontWeight={'bold'}
               textTransform={'uppercase'}
@@ -31,20 +31,15 @@ export default function PaymentInfo() {
             >
               Payment Details
             </Text>
-            <div>
-              <Button variant="solid" colorScheme="blue">
-                Generate Invoice
-              </Button>
-            </div>
           </div>
           <List pt={5} spacing={2}>
             <ListItem>
               <Stack spacing={5} direction="row">
-                <Text as={'span'} fontWeight={'bold'} fontSize="lg">
+                <Text fontSize={'xl'} as={'span'} fontWeight={'bold'} >
                   Total Price:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text as={'span'} fontSize="lg">
+                  <Text fontSize={'xl'} as={'span'} >
                     110
                   </Text>
                 </div>
@@ -53,11 +48,24 @@ export default function PaymentInfo() {
 
             <ListItem>
               <Stack spacing={5} direction="row">
-                <Text as={'span'} fontWeight={'bold'} fontSize="lg">
-                  VAT:
+                <Text fontSize={'xl'} as={'span'} fontWeight={'bold'} >
+                  VAT rate:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text as={'span'} fontSize="lg">
+                  <Text fontSize={'xl'} as={'span'}>
+                    0.5
+                  </Text>
+                </div>
+              </Stack>
+            </ListItem>
+
+            <ListItem>
+              <Stack spacing={5} direction="row">
+                <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+                  VAT Amount:
+                </Text>
+                <div className="flex grow items-end justify-end">
+                  <Text fontSize={'xl'} as={'span'} >
                     110
                   </Text>
                 </div>

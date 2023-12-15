@@ -16,13 +16,13 @@ events.push(event1, event2, event3);
 
 export default function EventProgress() {
   const { activeStep } = useSteps({
-    index: 1,
+    index: 7,
     count: events.length,
   });
   return (
     <Stack spacing={2}>
       <Text
-        fontSize={{ base: '16px', lg: '20px' }}
+        fontSize={'3xl'}
         color={'black.500'}
         fontWeight={'bold'}
         textTransform={'uppercase'}
@@ -30,13 +30,11 @@ export default function EventProgress() {
       >
         Progress Details
       </Text>
-      <Box>
-        <Stepper index={activeStep}>
-          {events.map((event, index) => (
-            <EventItem event={event} id={index}></EventItem>
-          ))}
-        </Stepper>
-      </Box>
+      <Stepper orientation="vertical" index={activeStep}>
+        {events.map((event, index) => (
+          <EventItem event={event} id={index} />
+        ))}
+      </Stepper>
     </Stack>
   );
 }

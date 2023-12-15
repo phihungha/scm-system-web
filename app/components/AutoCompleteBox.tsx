@@ -14,7 +14,7 @@ const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5'];
 export default function AutoCompleteBox() {
   return (
     <Flex w="full" direction="column">
-      <FormControl id="email" w="60">
+      <FormControl id="email" w="full">
         <AutoComplete
           openOnFocus
           multiple

@@ -12,9 +12,28 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
-import { getAllSalesOrders, getSalesOrder } from '@/app/api/salesApi';
 import EventProgress from '@/app/components/EventProgress';
+import AutoCompleteBox from '@/app/components/AutoCompleteBox';
+import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
+import CancelSalesDialog from '@/app/components/CancelSalesDialog';
 export default function SalesOrder() {
+  const [paymentDiaglog, SetPaymentDialog] = React.useState(false);
+  const [cancelDiaglog, SetCancelDialog] = React.useState(false);
+  const CompletePayment = async () => {
+    SetPaymentDialog(true);
+  };
+  function handleClose() {
+    SetPaymentDialog(false);
+  };
+
+  const CancelPayment = async () => {
+    SetCancelDialog(true);
+  };
+  function CancelClose() {
+    SetCancelDialog(false);
+  };
+  const paymentDiaglogProps = { paymentDiaglog, handleClose};
+  const cancelDiaglogProps = {cancelDiaglog, CancelClose};
   function validateLocation(value) {
     let error;
     if ((value = '')) {
@@ -35,22 +54,18 @@ export default function SalesOrder() {
       >
         {({ handleSubmit, errors, touched }) => (
           <form onSubmit={handleSubmit}>
-            <Stack spacing={{ base: 4, sm: 6 }} direction={'column'}>
+            <Stack spacing={5} direction={'column'}>
               <SalesOrderInfo />
-              <Stack spacing={6} direction="row">
-                <Text mr={'1px'} as={'span'} fontWeight={'bold'}>
-                  Finish Time:
+              <Stack alignItems="center" spacing={20} direction="row">
+                <Text mr={7} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+                  Facility:
                 </Text>
-                <Text>12/11/2023</Text>
+                <FormControl>
+                  <AutoCompleteBox/>
+                </FormControl>
               </Stack>
-              <Stack spacing={2} direction="row">
-                <Text as={'span'} fontWeight={'bold'}>
-                  Delivery Time:
-                </Text>
-                <Text>12/11/2023</Text>
-              </Stack>
-              <Stack alignItems="center" spacing={12} direction="row">
-                <Text as={'span'} fontWeight={'bold'}>
+              <Stack alignItems="center" spacing={20} direction="row">
+                <Text fontSize={'xl'} mr={3} as={'span'} fontWeight={'bold'}>
                   Location:
                 </Text>
                 <FormControl>
@@ -84,14 +99,19 @@ export default function SalesOrder() {
                   <FormErrorMessage>{errors.location}</FormErrorMessage>
                 </FormControl>
               </Stack>
-              <div className="flex flex-row justify-end gap-10 pt-10">
-                <Button width={100} variant="solid" colorScheme="red">
+              <div className="flex flex-row justify-end gap-5 pt-10">
+                <Button onClick={CancelPayment} width={100} variant="solid" colorScheme="red" size='lg'>
                   Cancel
                 </Button>
-                <Button width={100} variant="solid" colorScheme="yellow">
-                  Return
+                <CancelSalesDialog open={cancelDiaglogProps}/>
+                <Button onClick={CompletePayment} variant="solid" colorScheme="purple" size='lg'>
+                  Complete Payment
                 </Button>
-                <Button width={100} variant="solid" colorScheme="green">
+                <CompletePaymentDialog open={paymentDiaglogProps} />
+                <Button variant="solid" colorScheme="orange" size='lg'>
+                  Finish Delivery
+                </Button>
+                <Button width={100} variant="solid" colorScheme="green" size='lg'>
                   Complete
                 </Button>
                 <Button
@@ -99,6 +119,7 @@ export default function SalesOrder() {
                   type="submit"
                   variant="solid"
                   colorScheme="blue"
+                  size='lg'
                 >
                   Update
                 </Button>

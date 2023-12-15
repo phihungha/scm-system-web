@@ -38,17 +38,13 @@ export default function EventItem({
       </StepIndicator>
 
       <Box flexShrink="0">
-        <StepTitle>
-          <Text pt={4} fontSize="xl" fontWeight={'bold'}>
+        <Stack>
+          <Text fontSize="2xl" fontWeight={'bold'}>
             {event.type}
           </Text>
-        </StepTitle>
-        <StepDescription>
-          <Stack spacing={2}>
-            <Text fontSize="sm">{event.location}</Text>
-            <Text fontSize="sm">{event.message}</Text>
-          </Stack>
-        </StepDescription>
+          <Text fontSize="xl">{event.location}</Text>
+          <Text fontSize="xl">{event.message}</Text>
+        </Stack>
       </Box>
 
       <StepSeparator />

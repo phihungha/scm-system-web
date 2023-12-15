@@ -1,19 +1,20 @@
 'use client';
 import React from 'react';
-import SalesOrderInfo from '../../components/SalesOrderInfo';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import ItemsInfo from '@/app/components/ItemsInfo';
 import {
   Stack,
-  StackDivider,
+  Box,
   Button,
+  Heading,
   Text,
-  FormControl,
   FormErrorMessage,
   Input,
+  FormControl
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import EventProgress from '@/app/components/EventProgress';
+import AutoCompleteBox from '@/app/components/AutoCompleteBox';
 export default function SalesOrder() {
   function validateLocation(value) {
     let error;
@@ -35,26 +36,40 @@ export default function SalesOrder() {
         {({ handleSubmit, errors, touched }) => (
           <form onSubmit={handleSubmit}>
             <Stack spacing={{ base: 4, sm: 6 }} direction={'column'}>
-              <SalesOrderInfo />
-              <Stack alignItems="center" spacing={12} direction="row">
+              <Box as={'header'}>
+                <Heading lineHeight={1.1} fontWeight={600} fontSize={'3xl'}>
+                  #1
+                </Heading>
+              </Box>
+              <Box>
+                <Text
+                  fontSize={{ base: '16px', lg: '20px' }}
+                  color={'black.500'}
+                  fontWeight={'bold'}
+                  textTransform={'uppercase'}
+                  mb={'4'}
+                  pt={10}
+                >
+                  Order Details
+                </Text>
+              </Box>
+              <Stack alignItems="center" spacing={8} direction="row">
                 <Text as={'span'} fontWeight={'bold'}>
-                  Location:
+                  Facility:
                 </Text>
                 <FormControl>
-                  <Field
-                    as={Input}
-                    id="location"
-                    name="location"
-                    type="location"
-                    variant="filled"
-                    validate={validateLocation}
-                  />
-                  <FormErrorMessage>{errors.password}</FormErrorMessage>
+                  <AutoCompleteBox/>
                 </FormControl>
               </Stack>
-
+              <Stack alignItems="center" spacing={2} direction="row">
+                <Text mr={1} as={'span'} fontWeight={'bold'}>
+                  Customer:
+                </Text>
+                <FormControl>
+                  <AutoCompleteBox/>
+                </FormControl>
+              </Stack>
               <ItemsInfo />
-              <EventProgress />
               <PaymentInfo />
               <div className="flex flex-row justify-end gap-10 pt-10">
                 <Button variant="solid" colorScheme="red">

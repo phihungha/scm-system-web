@@ -40,7 +40,7 @@ export default function ItemsInfo() {
   return (
     <Box pt={10}>
       <Text
-        fontSize={{ base: '16px', lg: '20px' }}
+        fontSize={'3xl'}
         color={'black.500'}
         fontWeight={'bold'}
         textTransform={'uppercase'}
@@ -80,7 +80,7 @@ export default function ItemsInfo() {
               ))}
             </AutoCompleteList>
           </AutoComplete>
-          <Button mt={4} onClick={onAdd} colorScheme="blue">
+          <Button mt={4} onClick={onAdd} colorScheme="blue" size='lg'>
             Add
           </Button>
         </FormControl>
