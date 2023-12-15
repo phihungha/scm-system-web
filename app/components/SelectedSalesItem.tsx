@@ -13,9 +13,9 @@ import {
   Heading,
   Text,
   Box,
-  Button
+  Button,
 } from '@chakra-ui/react';
-import { BsXLg } from "react-icons/bs";
+import { BsXLg } from 'react-icons/bs';
 
 interface OrderProps {
   name: string;
@@ -64,7 +64,7 @@ export default function SelectedSalesItem({ name }: OrderProps) {
       </Stack>
       <div className="self-center p-5">
         <Button variant="solid" colorScheme="white">
-          <BsXLg color="black"/>
+          <BsXLg color="black" />
         </Button>
       </div>
     </Card>

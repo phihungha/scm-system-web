@@ -1,5 +1,13 @@
 'use client';
-import { Box, Text, Select, Stack, Heading } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  Grid,
+  Stack,
+  Heading,
+  Input,
+  GridItem,
+} from '@chakra-ui/react';
 import AutoCompleteBox from '../components/AutoCompleteBox';
 
 export default function SalesOrderInfo() {
@@ -21,62 +29,107 @@ export default function SalesOrderInfo() {
         >
           Order Details
         </Text>
-        <Stack alignItems="center" pt={2} spacing={16} direction="row">
-          <Text mr={-0.25} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
-            Create User:
-          </Text>
-          <Text fontSize={'xl'}>Ha Phi Hung</Text>
-        </Stack>
+        <Grid
+          templateRows="repeat(10, 1fr)"
+          templateColumns="repeat(3, 1fr)"
+          gap={5}
+        >
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              Facility:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Box w="full">
+              <AutoCompleteBox />
+            </Box>
+          </GridItem>
 
-        <Stack alignItems="center" pt={5} spacing={20} direction="row">
-          <Text fontSize={'xl'} mr={9} as={'span'} fontWeight={'bold'}>
-            Status:
-          </Text>
-          <Text fontSize={'xl'}>Pending</Text>
-        </Stack>
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              Location:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Box w="full">
+              <Input />
+            </Box>
+          </GridItem>
 
-        <Stack alignItems="center" pt={5} spacing={6} direction="row">
-          <Text mr={0.5} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
-            Payment Status:
-          </Text>
-          <Text fontSize={'xl'}>Pending</Text>
-        </Stack>
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              Create User:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Text fontSize={'xl'}>Ha Phi Hung</Text>
+          </GridItem>
 
-        <Stack alignItems="center" pt={5} spacing={20} direction="row">
-          <Text mr={6} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
-            Retailer:
-          </Text>
-          <Box w="full">
-            <AutoCompleteBox />
-          </Box>
-        </Stack>
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              Status:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Text fontSize={'xl'}>Pending</Text>
+          </GridItem>
 
-        <Stack pt={5} spacing={14} direction="row">
-          <Text fontSize={'xl'} mr={1} as={'span'} fontWeight={'bold'}>
-            Create Time:
-          </Text>
-          <Text fontSize={'xl'}>12/11/2023</Text>
-        </Stack>
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              Payment Status:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Text fontSize={'xl'}>Pending</Text>
+          </GridItem>
 
-        <Stack alignItems="center" pt={5} spacing={20} direction="row">
-          <Text mr={2} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
-            End Time:
-          </Text>
-          <Text fontSize={'xl'}>12/11/2023</Text>
-        </Stack>
-        <Stack pt={5} alignItems="center" spacing={10} direction="row">
-          <Text mr={1} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
-            Delivery Time:
-          </Text>
-          <Text fontSize={'xl'}>12/11/2023</Text>
-        </Stack>
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              Retailer:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Box w="full">
+              <AutoCompleteBox />
+            </Box>
+          </GridItem>
 
-        <Stack alignItems="center" pt={5} spacing={20} direction="row">
-          <Text fontSize={'xl'} mr={3} as={'span'} fontWeight={'bold'}>
-            End User:
-          </Text>
-          <Text fontSize={'xl'}>Ha Phi Hung</Text>
-        </Stack>
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              Create time:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Text fontSize={'xl'}>12/11/2023</Text>
+          </GridItem>
+
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              End time:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Text fontSize={'xl'}>12/11/2023</Text>
+          </GridItem>
+
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              Delivery time:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Text fontSize={'xl'}>12/11/2023</Text>
+          </GridItem>
+
+          <GridItem colSpan={1}>
+            <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+              End user:
+            </Text>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Text fontSize={'xl'}>Ha Phi Hung</Text>
+          </GridItem>
+        </Grid>
       </Box>
     </Stack>
   );

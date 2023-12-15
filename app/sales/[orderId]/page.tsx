@@ -56,31 +56,6 @@ export default function SalesOrder() {
           <form onSubmit={handleSubmit}>
             <Stack spacing={5} direction={'column'}>
               <SalesOrderInfo />
-              <Stack alignItems="center" spacing={20} direction="row">
-                <Text mr={7} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
-                  Facility:
-                </Text>
-                <FormControl>
-                  <AutoCompleteBox />
-                </FormControl>
-              </Stack>
-              <Stack alignItems="center" spacing={20} direction="row">
-                <Text fontSize={'xl'} mr={3} as={'span'} fontWeight={'bold'}>
-                  Location:
-                </Text>
-                <FormControl>
-                  <Field
-                    as={Input}
-                    id="location"
-                    name="location"
-                    type="location"
-                    variant="filled"
-                    validate={validateLocation}
-                  />
-                  <FormErrorMessage>{errors.location}</FormErrorMessage>
-                </FormControl>
-              </Stack>
-
               <ItemsInfo />
               <EventProgress />
               <PaymentInfo />
