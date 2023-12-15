@@ -10,7 +10,7 @@ import {
   Text,
   FormErrorMessage,
   Input,
-  FormControl
+  FormControl,
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import EventProgress from '@/app/components/EventProgress';
@@ -37,13 +37,13 @@ export default function SalesOrder() {
           <form onSubmit={handleSubmit}>
             <Stack spacing={{ base: 4, sm: 6 }} direction={'column'}>
               <Box as={'header'}>
-                <Heading lineHeight={1.1} fontWeight={600} fontSize={'3xl'}>
+                <Heading lineHeight={1.1} fontWeight={600} fontSize={'5xl'}>
                   #1
                 </Heading>
               </Box>
               <Box>
                 <Text
-                  fontSize={{ base: '16px', lg: '20px' }}
+                  fontSize={'3xl'}
                   color={'black.500'}
                   fontWeight={'bold'}
                   textTransform={'uppercase'}
@@ -53,29 +53,44 @@ export default function SalesOrder() {
                   Order Details
                 </Text>
               </Box>
-              <Stack alignItems="center" spacing={8} direction="row">
+              <Stack
+                fontSize={'xl'}
+                alignItems="center"
+                spacing={8}
+                direction="row"
+              >
                 <Text as={'span'} fontWeight={'bold'}>
                   Facility:
                 </Text>
                 <FormControl>
-                  <AutoCompleteBox/>
+                  <AutoCompleteBox />
                 </FormControl>
               </Stack>
-              <Stack alignItems="center" spacing={2} direction="row">
+              <Stack
+                fontSize={'xl'}
+                alignItems="center"
+                spacing={2}
+                direction="row"
+              >
                 <Text mr={1} as={'span'} fontWeight={'bold'}>
                   Customer:
                 </Text>
                 <FormControl>
-                  <AutoCompleteBox/>
+                  <AutoCompleteBox />
                 </FormControl>
               </Stack>
               <ItemsInfo />
               <PaymentInfo />
               <div className="flex flex-row justify-end gap-10 pt-10">
-                <Button variant="solid" colorScheme="red">
+                <Button variant="solid" colorScheme="red" size={'lg'}>
                   Cancel
                 </Button>
-                <Button type="submit" variant="solid" colorScheme="blue">
+                <Button
+                  type="submit"
+                  variant="solid"
+                  colorScheme="blue"
+                  size={'lg'}
+                >
                   Create
                 </Button>
               </div>

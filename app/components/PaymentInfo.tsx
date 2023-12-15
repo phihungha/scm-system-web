@@ -14,7 +14,7 @@ export default function PaymentInfo() {
   return (
     <Stack
       pt={10}
-      spacing={{ base: 4, sm: 6 }}
+      spacing={5}
       direction={'column'}
       divider={<StackDivider borderColor="black.600" />}
     >
@@ -35,11 +35,11 @@ export default function PaymentInfo() {
           <List pt={5} spacing={2}>
             <ListItem>
               <Stack spacing={5} direction="row">
-                <Text fontSize={'xl'} as={'span'} fontWeight={'bold'} >
+                <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
                   Total Price:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text fontSize={'xl'} as={'span'} >
+                  <Text fontSize={'xl'} as={'span'}>
                     110
                   </Text>
                 </div>
@@ -48,7 +48,7 @@ export default function PaymentInfo() {
 
             <ListItem>
               <Stack spacing={5} direction="row">
-                <Text fontSize={'xl'} as={'span'} fontWeight={'bold'} >
+                <Text fontSize={'xl'} as={'span'} fontWeight={'bold'}>
                   VAT rate:
                 </Text>
                 <div className="flex grow items-end justify-end">
@@ -65,7 +65,7 @@ export default function PaymentInfo() {
                   VAT Amount:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text fontSize={'xl'} as={'span'} >
+                  <Text fontSize={'xl'} as={'span'}>
                     110
                   </Text>
                 </div>

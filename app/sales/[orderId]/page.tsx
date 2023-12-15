@@ -24,16 +24,16 @@ export default function SalesOrder() {
   };
   function handleClose() {
     SetPaymentDialog(false);
-  };
+  }
 
   const CancelPayment = async () => {
     SetCancelDialog(true);
   };
   function CancelClose() {
     SetCancelDialog(false);
-  };
-  const paymentDiaglogProps = { paymentDiaglog, handleClose};
-  const cancelDiaglogProps = {cancelDiaglog, CancelClose};
+  }
+  const paymentDiaglogProps = { paymentDiaglog, handleClose };
+  const cancelDiaglogProps = { cancelDiaglog, CancelClose };
   function validateLocation(value) {
     let error;
     if ((value = '')) {
@@ -61,7 +61,7 @@ export default function SalesOrder() {
                   Facility:
                 </Text>
                 <FormControl>
-                  <AutoCompleteBox/>
+                  <AutoCompleteBox />
                 </FormControl>
               </Stack>
               <Stack alignItems="center" spacing={20} direction="row">
@@ -84,34 +84,45 @@ export default function SalesOrder() {
               <ItemsInfo />
               <EventProgress />
               <PaymentInfo />
-              <Stack alignItems="center" spacing={1} direction="row">
-                <Text fontSize="xl" width={170} fontWeight={'bold'}>
-                  Pay Amount:
+              <Stack spacing={5} direction="row">
+                <Text as={'span'} fontWeight={'bold'} fontSize="xl">
+                  Remaining Amount:
                 </Text>
-                <FormControl>
-                  <Field
-                    as={Input}
-                    id="amount"
-                    name="amount"
-                    variant="filled"
-                    textAlign={'right'}
-                  />
-                  <FormErrorMessage>{errors.location}</FormErrorMessage>
-                </FormControl>
+                <div className="flex grow items-end justify-end">
+                  <Text as={'span'} fontWeight={'bold'} fontSize="xl">
+                    110
+                  </Text>
+                </div>
               </Stack>
               <div className="flex flex-row justify-end gap-5 pt-10">
-                <Button onClick={CancelPayment} width={100} variant="solid" colorScheme="red" size='lg'>
+                <Button
+                  onClick={CancelPayment}
+                  width={100}
+                  variant="solid"
+                  colorScheme="red"
+                  size="lg"
+                >
                   Cancel
                 </Button>
-                <CancelSalesDialog open={cancelDiaglogProps}/>
-                <Button onClick={CompletePayment} variant="solid" colorScheme="purple" size='lg'>
+                <CancelSalesDialog open={cancelDiaglogProps} />
+                <Button
+                  onClick={CompletePayment}
+                  variant="solid"
+                  colorScheme="purple"
+                  size="lg"
+                >
                   Complete Payment
                 </Button>
                 <CompletePaymentDialog open={paymentDiaglogProps} />
-                <Button variant="solid" colorScheme="orange" size='lg'>
+                <Button variant="solid" colorScheme="orange" size="lg">
                   Finish Delivery
                 </Button>
-                <Button width={100} variant="solid" colorScheme="green" size='lg'>
+                <Button
+                  width={100}
+                  variant="solid"
+                  colorScheme="green"
+                  size="lg"
+                >
                   Complete
                 </Button>
                 <Button
@@ -119,7 +130,7 @@ export default function SalesOrder() {
                   type="submit"
                   variant="solid"
                   colorScheme="blue"
-                  size='lg'
+                  size="lg"
                 >
                   Update
                 </Button>

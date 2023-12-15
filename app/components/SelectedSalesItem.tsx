@@ -11,6 +11,8 @@ import {
   Image,
   CardBody,
   Heading,
+  Text,
+  Box,
 } from '@chakra-ui/react';
 
 interface OrderProps {
@@ -34,15 +36,28 @@ export default function SelectedSalesItem({ name }: OrderProps) {
       <Stack width="full">
         <CardBody>
           <Heading size="lg">{name}</Heading>
-          <div className="py-5">
-            <NumberInput defaultValue={1} min={1} max={20}>
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </div>
+          <Stack>
+            <Stack pt={5} alignItems="center" direction={'row'}>
+              <Text fontSize={'xl'}>Quantity:</Text>
+              <Box>
+                <NumberInput defaultValue={1} min={1} max={20}>
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </Box>
+            </Stack>
+            <Stack alignItems="center" direction={'row'}>
+              <Text fontSize={'xl'}>Unit:</Text>
+              <Text fontSize={'xl'}>kg</Text>
+            </Stack>
+            <Stack alignItems="center" direction={'row'}>
+              <Text fontSize={'xl'}>Price:</Text>
+              <Text fontSize={'xl'}>100</Text>
+            </Stack>
+          </Stack>
         </CardBody>
       </Stack>
     </Card>

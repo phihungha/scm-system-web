@@ -80,7 +80,7 @@ export default function ItemsInfo() {
               ))}
             </AutoCompleteList>
           </AutoComplete>
-          <Button mt={4} onClick={onAdd} colorScheme="blue" size='lg'>
+          <Button mt={4} onClick={onAdd} colorScheme="blue" size="lg">
             Add
           </Button>
         </FormControl>

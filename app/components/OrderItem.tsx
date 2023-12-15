@@ -24,7 +24,9 @@ export default function OrderItem({ name }: OrderProps) {
       <Stack>
         <CardBody>
           <Heading size="md">{name}</Heading>
-          <Text py="2">Stock: 100</Text>
+          <Text pt={5}>Stock: 100</Text>
+          <Text>Unit: kg</Text>
+          <Text>Price: 100</Text>
         </CardBody>
       </Stack>
     </Card>

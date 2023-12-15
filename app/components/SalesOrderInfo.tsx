@@ -6,11 +6,7 @@ export default function SalesOrderInfo() {
   return (
     <Stack>
       <Box as={'header'}>
-        <Heading
-          lineHeight={1.1}
-          fontWeight={600}
-          fontSize={'5xl'}
-        >
+        <Heading lineHeight={1.1} fontWeight={600} fontSize={'5xl'}>
           #1
         </Heading>
       </Box>
@@ -29,21 +25,21 @@ export default function SalesOrderInfo() {
           <Text mr={-0.25} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
             Create User:
           </Text>
-          <Text fontSize={'xl'} >Ha Phi Hung</Text>
+          <Text fontSize={'xl'}>Ha Phi Hung</Text>
         </Stack>
 
         <Stack alignItems="center" pt={5} spacing={20} direction="row">
           <Text fontSize={'xl'} mr={9} as={'span'} fontWeight={'bold'}>
             Status:
           </Text>
-          <Text fontSize={'xl'} >Pending</Text>
+          <Text fontSize={'xl'}>Pending</Text>
         </Stack>
 
         <Stack alignItems="center" pt={5} spacing={6} direction="row">
           <Text mr={0.5} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
             Payment Status:
           </Text>
-          <Text fontSize={'xl'} >Pending</Text>
+          <Text fontSize={'xl'}>Pending</Text>
         </Stack>
 
         <Stack alignItems="center" pt={5} spacing={20} direction="row">
@@ -63,17 +59,17 @@ export default function SalesOrderInfo() {
         </Stack>
 
         <Stack alignItems="center" pt={5} spacing={20} direction="row">
-                <Text mr={2} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
-                  End Time:
-                </Text>
-                <Text fontSize={'xl'}>12/11/2023</Text>
-              </Stack>
-              <Stack pt={5} alignItems="center" spacing={10} direction="row">
-                <Text mr={1} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
-                  Delivery Time:
-                </Text>
-                <Text fontSize={'xl'}>12/11/2023</Text>
-              </Stack>
+          <Text mr={2} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+            End Time:
+          </Text>
+          <Text fontSize={'xl'}>12/11/2023</Text>
+        </Stack>
+        <Stack pt={5} alignItems="center" spacing={10} direction="row">
+          <Text mr={1} fontSize={'xl'} as={'span'} fontWeight={'bold'}>
+            Delivery Time:
+          </Text>
+          <Text fontSize={'xl'}>12/11/2023</Text>
+        </Stack>
 
         <Stack alignItems="center" pt={5} spacing={20} direction="row">
           <Text fontSize={'xl'} mr={3} as={'span'} fontWeight={'bold'}>
