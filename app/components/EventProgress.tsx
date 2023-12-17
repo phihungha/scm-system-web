@@ -30,7 +30,7 @@ export default function EventProgress() {
       >
         Progress Details
       </Text>
-      <Stepper orientation="vertical" index={activeStep}>
+      <Stepper orientation="vertical" index={activeStep} gap={0}>
         {events.map((event, index) => (
           <EventItem event={event} id={index} />
         ))}

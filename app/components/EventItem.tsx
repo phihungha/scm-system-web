@@ -46,7 +46,6 @@ export default function EventItem({
           <Text fontSize="xl">{event.message}</Text>
         </Stack>
       </Box>
-
       <StepSeparator />
     </Step>
   );

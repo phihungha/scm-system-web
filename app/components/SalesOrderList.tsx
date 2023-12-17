@@ -37,10 +37,11 @@ export default function SalesOrderList() {
           <Thead>
             <Tr>
               <Th>Id</Th>
-              <Th isNumeric>Total</Th>
+              <Th>Create User</Th>
+              <Th>Payment Status</Th>
               <Th>Status</Th>
+              <Th isNumeric>Total</Th>
               <Th>Create Time</Th>
-              <Th>Employee</Th>
               <Th>Action</Th>
             </Tr>
           </Thead>

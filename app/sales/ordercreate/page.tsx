@@ -83,7 +83,7 @@ export default function SalesOrder() {
               <PaymentInfo />
               <div className="flex flex-row justify-end gap-10 pt-10">
                 <Button variant="solid" colorScheme="red" size={'lg'}>
-                  Cancel
+                  Close
                 </Button>
                 <Button
                   type="submit"

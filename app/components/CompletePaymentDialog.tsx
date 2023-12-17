@@ -23,7 +23,7 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 
 interface DialogProps {
-  paymentDiaglog: boolean;
+  paymentDialog: boolean;
   handleClose: () => void;
 }
 
@@ -35,7 +35,7 @@ export default function CompletePaymentDialog({ open }: { open: DialogProps }) {
     <Modal
       initialFocusRef={initialRef}
       finalFocusRef={finalRef}
-      isOpen={open.paymentDiaglog}
+      isOpen={open.paymentDialog}
       onClose={open.handleClose}
     >
       <ModalOverlay />
@@ -51,7 +51,7 @@ export default function CompletePaymentDialog({ open }: { open: DialogProps }) {
 
         <ModalFooter>
           <Button colorScheme="blue" mr={3}>
-            Save
+            Confirm
           </Button>
           <Button onClick={open.handleClose}>Cancel</Button>
         </ModalFooter>

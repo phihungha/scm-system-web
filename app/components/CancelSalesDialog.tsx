@@ -8,7 +8,7 @@ import {
   ModalCloseButton,
   ModalBody,
   FormLabel,
-  Input,
+  Textarea,
   ModalFooter,
   Button,
   useDisclosure,
@@ -23,7 +23,7 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 
 interface DialogProps {
-  cancelDiaglog: boolean;
+  cancelDialog: boolean;
   CancelClose: () => void;
 }
 
@@ -35,7 +35,7 @@ export default function CancelSalesDialog({ open }: { open: DialogProps }) {
     <Modal
       initialFocusRef={initialRef}
       finalFocusRef={finalRef}
-      isOpen={open.cancelDiaglog}
+      isOpen={open.cancelDialog}
       onClose={open.CancelClose}
       size={'xl'}
     >
@@ -43,18 +43,18 @@ export default function CancelSalesDialog({ open }: { open: DialogProps }) {
       <ModalContent>
         <ModalHeader>You want to cancel this sales order?</ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6}>
+        <ModalBody h={200} pb={6}>
           <FormControl>
             <FormLabel>
               Before canceling the sales order, you can your problem here:
             </FormLabel>
-            <Input h="full" ref={initialRef} />
+            <Textarea placeholder="Here is a sample placeholder" />
           </FormControl>
         </ModalBody>
 
         <ModalFooter>
           <Button colorScheme="blue" mr={3}>
-            Save
+            Confirm
           </Button>
           <Button onClick={open.CancelClose}>Cancel</Button>
         </ModalFooter>

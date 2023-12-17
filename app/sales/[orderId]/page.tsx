@@ -17,8 +17,8 @@ import AutoCompleteBox from '@/app/components/AutoCompleteBox';
 import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
 import CancelSalesDialog from '@/app/components/CancelSalesDialog';
 export default function SalesOrder() {
-  const [paymentDiaglog, SetPaymentDialog] = React.useState(false);
-  const [cancelDiaglog, SetCancelDialog] = React.useState(false);
+  const [paymentDialog, SetPaymentDialog] = React.useState(false);
+  const [cancelDialog, SetCancelDialog] = React.useState(false);
   const CompletePayment = async () => {
     SetPaymentDialog(true);
   };
@@ -32,8 +32,8 @@ export default function SalesOrder() {
   function CancelClose() {
     SetCancelDialog(false);
   }
-  const paymentDiaglogProps = { paymentDiaglog, handleClose };
-  const cancelDiaglogProps = { cancelDiaglog, CancelClose };
+  const paymentDialogProps = { paymentDialog, handleClose };
+  const cancelDialogProps = { cancelDialog, CancelClose };
   function validateLocation(value) {
     let error;
     if ((value = '')) {
@@ -79,7 +79,7 @@ export default function SalesOrder() {
                 >
                   Cancel
                 </Button>
-                <CancelSalesDialog open={cancelDiaglogProps} />
+                <CancelSalesDialog open={cancelDialogProps} />
                 <Button
                   onClick={CompletePayment}
                   variant="solid"
@@ -88,7 +88,7 @@ export default function SalesOrder() {
                 >
                   Complete Payment
                 </Button>
-                <CompletePaymentDialog open={paymentDiaglogProps} />
+                <CompletePaymentDialog open={paymentDialogProps} />
                 <Button variant="solid" colorScheme="orange" size="lg">
                   Finish Delivery
                 </Button>
