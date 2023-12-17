@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FiSearch } from 'react-icons/fi';
+
 import SalesOrderList from '../components/SalesOrderList';
 import {
   Stack,
@@ -52,45 +52,6 @@ export default function Sales() {
   return (
     <div>
       <Stack spacing={5}>
-        <div>
-          <InputGroup>
-            <InputRightElement pointerEvents="none">
-              <FiSearch color="gray.300" />
-            </InputRightElement>
-            <Input />
-          </InputGroup>
-        </div>
-
-        <Stack spacing={4} direction="row">
-          <Text mt="7px" fontSize="md">
-            Search by:
-          </Text>
-          <Select placeholder="Select option" w="auto">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </Select>
-        </Stack>
-        <Stack spacing={4} direction="row">
-          <Text mt="5px" fontSize="md">
-            Create on:
-          </Text>
-          <Box w="150px" borderWidth="1px" borderRadius="lg" overflow="hidden">
-            <Input placeholder="Select Date" size="md" type="date" />
-          </Box>
-        </Stack>
-
-        <Stack spacing={10} direction="row">
-          <Text mt="7px" fontSize="md">
-            Status:
-          </Text>
-          <Select placeholder="Select option" w="auto">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </Select>
-        </Stack>
-
         <Tabs>
           <TabList>
             <Tab>Sales Orders</Tab>
