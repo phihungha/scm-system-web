@@ -34,7 +34,7 @@ export default function SalesOrder() {
   }
   const paymentDialogProps = { paymentDialog, handleClose };
   const cancelDialogProps = { cancelDialog, CancelClose };
-  function validateLocation(value : string) {
+  function validateLocation(value: string) {
     let error;
     if ((value = '')) {
       error = 'Location is required';

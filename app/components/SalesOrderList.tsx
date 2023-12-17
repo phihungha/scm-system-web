@@ -17,12 +17,28 @@ import {
 } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import { getAllSalesOrders } from '../api/salesApi';
+import { ISaleResponse, ISalesResponse } from '../types/sales';
+import { useQuery } from 'react-query';
+import SalesListItem from '../sales/components/SalesListItem';
 
 export default function SalesOrderList() {
+  const {
+    data: sales,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['sales'],
+    queryFn: () => getAllSalesOrders(),
+  });
+
+console.log(sales);
   const router = useRouter();
   const onCreate = async () => {
     router.replace('/sales/ordercreate');
   };
+
   return (
     <Stack spacing={10}>
       <Flex justifyContent="right">
@@ -40,104 +56,24 @@ export default function SalesOrderList() {
               <Th>Create User</Th>
               <Th>Payment Status</Th>
               <Th>Status</Th>
-              <Th isNumeric>Total</Th>
+              <Th>Total</Th>
               <Th>Create Time</Th>
               <Th>Action</Th>
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>1</Td>
-              <Td isNumeric>1000000</Td>
-              <Td>Pending</Td>
-              <Td>9/11/2023</Td>
-              <Td>Ha Phi Hung</Td>
-              <Td>
-                <Button type="submit" variant="solid" colorScheme="blue">
-                  View
-                </Button>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>2</Td>
-              <Td isNumeric>2000000</Td>
-              <Td>Complete</Td>
-              <Td>10/11/2023</Td>
-              <Td>Le Quang Trung</Td>
-              <Td>
-                <Button type="submit" variant="solid" colorScheme="blue">
-                  View
-                </Button>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>3</Td>
-              <Td isNumeric>3000000</Td>
-              <Td>Pending</Td>
-              <Td>11/11/2023</Td>
-              <Td>Ha Phi Hung</Td>
-              <Td>
-                <Button type="submit" variant="solid" colorScheme="blue">
-                  View
-                </Button>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>4</Td>
-              <Td isNumeric>3000000</Td>
-              <Td>Pending</Td>
-              <Td>11/11/2023</Td>
-              <Td>Ha Phi Hung</Td>
-              <Td>
-                <Button type="submit" variant="solid" colorScheme="blue">
-                  View
-                </Button>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>5</Td>
-              <Td isNumeric>3000000</Td>
-              <Td>Pending</Td>
-              <Td>11/11/2023</Td>
-              <Td>Ha Phi Hung</Td>
-              <Td>
-                <Button type="submit" variant="solid" colorScheme="blue">
-                  View
-                </Button>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>6</Td>
-              <Td isNumeric>3000000</Td>
-              <Td>Pending</Td>
-              <Td>11/11/2023</Td>
-              <Td>Ha Phi Hung</Td>
-              <Td>
-                <Button type="submit" variant="solid" colorScheme="blue">
-                  View
-                </Button>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>7</Td>
-              <Td isNumeric>3000000</Td>
-              <Td>Pending</Td>
-              <Td>11/11/2023</Td>
-              <Td>Ha Phi Hung</Td>
-              <Td>
-                <Button type="submit" variant="solid" colorScheme="blue">
-                  View
-                </Button>
-              </Td>
-            </Tr>
+            {sales?.map((sale: ISaleResponse) => (
+              <SalesListItem sales={sale} />
+            ))}
           </Tbody>
           <Tfoot>
-            <Tr>
+          <Tr>
               <Th>Id</Th>
-              <Th isNumeric>Total</Th>
+              <Th>Create User</Th>
+              <Th>Payment Status</Th>
               <Th>Status</Th>
+              <Th>Total</Th>
               <Th>Create Time</Th>
-              <Th>Employee</Th>
               <Th>Action</Th>
             </Tr>
           </Tfoot>

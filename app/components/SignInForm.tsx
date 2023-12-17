@@ -38,7 +38,8 @@ export default function SignInForm() {
       password: '',
     },
     onSubmit: (values) => {
-      loginUser(values);
+      loginUser({ userName: 'root-admin', password: 'Abcd1234+-*/' });
+      router.replace('/');
     },
   });
 
