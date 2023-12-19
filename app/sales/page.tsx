@@ -24,7 +24,7 @@ import {
   getSalesOrder,
 } from '../api/salesApi';
 import { useQuery, useMutation } from 'react-query';
-import { CreateInput, ItemInput, LoginInput } from '../types/sales';
+import { ItemInput, LoginInput } from '../types/sales';
 import { signInUser } from '../api/authApi';
 
 export default function Sales() {
@@ -37,17 +37,6 @@ export default function Sales() {
       },
     },
   );
-
-  const {
-    data: sales,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ['sales'],
-    queryFn: () => getAllSalesOrders(),
-    select: (res) => res.data,
-  });
 
   return (
     <div>

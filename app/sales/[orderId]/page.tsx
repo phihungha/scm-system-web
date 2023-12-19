@@ -3,14 +3,7 @@ import React from 'react';
 import SalesOrderInfo from '../../components/SalesOrderInfo';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import ItemsInfo from '@/app/components/ItemsInfo';
-import {
-  Stack,
-  Button,
-  Text,
-  FormControl,
-  FormErrorMessage,
-  Input,
-} from '@chakra-ui/react';
+import { Stack, Button, Text } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import EventProgress from '@/app/components/EventProgress';
 import AutoCompleteBox from '@/app/components/AutoCompleteBox';

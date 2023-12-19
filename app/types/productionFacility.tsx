@@ -1,9 +1,39 @@
 import { productionFacility } from './sales';
 
-export interface IFacilityResponse extends productionFacility {
+export class IFacilityResponse {
+  id: string;
+  name: string;
+  description: string;
+  location: string;
+  isActive: boolean;
+  createTime: Date;
+  updateTime: Date;
   email: string;
   phoneNumber: string;
   contactPerson: string;
+  constructor(
+    id: string,
+    name: string,
+    description: string,
+    location: string,
+    isActive: boolean,
+    createTime: Date,
+    updateTime: Date,
+    email: string,
+    phoneNumber: string,
+    contactPerson: string,
+  ) {
+    this.contactPerson = contactPerson;
+    this.createTime = createTime;
+    this.location = location;
+    this.phoneNumber = phoneNumber;
+    this.updateTime = updateTime;
+    this.name = name;
+    this.email = email;
+    this.isActive = isActive;
+    this.id = id;
+    this.description = description;
+  }
 }
 
 export interface IFacilitiesResponse {

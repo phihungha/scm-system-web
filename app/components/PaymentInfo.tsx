@@ -9,8 +9,29 @@ import {
   Stack,
   StackDivider,
 } from '@chakra-ui/react';
+import { ItemInput, PriceInput } from '../types/sales';
+import { useQuery } from 'react-query';
+import { getConfig2 } from '../api/configApi';
+import { getProduct2 } from '../api/productApi';
 
-export default function PaymentInfo() {
+interface ItemsProps {
+  selectedPrice: PriceInput[];
+}
+
+export default function PaymentInfo({
+  selectedPrice,
+}: {
+  selectedPrice: PriceInput[];
+}) {
+  var totalPrice: number;
+  const { data: config } = useQuery({
+    queryKey: ['config'],
+    queryFn: () => getConfig2(),
+  });
+  if (config === undefined) {
+    return <>Still loading...</>;
+  }
+  const vatRate = config.vatRate * 100;
   return (
     <Stack
       pt={10}
@@ -39,9 +60,7 @@ export default function PaymentInfo() {
                   Total Price:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text fontSize={'xl'} as={'span'}>
-                    110
-                  </Text>
+                  <Text fontSize={'xl'} as={'span'}></Text>
                 </div>
               </Stack>
             </ListItem>
@@ -53,7 +72,7 @@ export default function PaymentInfo() {
                 </Text>
                 <div className="flex grow items-end justify-end">
                   <Text fontSize={'xl'} as={'span'}>
-                    0.5
+                    {vatRate}%
                   </Text>
                 </div>
               </Stack>
@@ -65,9 +84,7 @@ export default function PaymentInfo() {
                   VAT Amount:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text fontSize={'xl'} as={'span'}>
-                    110
-                  </Text>
+                  <Text fontSize={'xl'} as={'span'}></Text>
                 </div>
               </Stack>
             </ListItem>

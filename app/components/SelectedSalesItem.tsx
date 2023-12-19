@@ -1,5 +1,5 @@
 'use client';
-
+import React, { useState } from 'react';
 import {
   NumberInput,
   NumberInputField,
@@ -16,12 +16,30 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { BsXLg } from 'react-icons/bs';
+import { getProduct2 } from '../api/productApi';
+import { useQuery } from 'react-query';
+import { ItemInput, PriceInput } from '../types/sales';
 
 interface OrderProps {
-  name: string;
+  price : PriceInput;
+  handleDelete: (id: number) => void;
 }
 
-export default function SelectedSalesItem({ name }: OrderProps) {
+export default function SelectedSalesItem(item: OrderProps) {
+  const [quantity, setQuantity] = useState<number>(item.price.quantity);
+  const { data: product } = useQuery({
+    queryKey: ['product'],
+    queryFn: () => getProduct2(`${item.price.itemId}`),
+  });
+  if (product === undefined) {
+    return <>Still loading...</>;
+  }
+  item.price.price = product.price;
+  function handleChange(quantity: number) {
+    item.price.quantity = quantity;
+    setQuantity(quantity);
+  }
+
   return (
     <Card
       direction={{ base: 'column', sm: 'row' }}
@@ -31,18 +49,23 @@ export default function SelectedSalesItem({ name }: OrderProps) {
       <Image
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
-        src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-        alt={name}
+        src={product.imageUrl}
+        alt={product.name}
       />
 
       <Stack width="full">
         <CardBody>
-          <Heading size="lg">{name}</Heading>
+          <Heading size="lg">{product.name}</Heading>
           <Stack>
             <Stack pt={5} alignItems="center" direction={'row'}>
               <Text fontSize={'xl'}>Quantity:</Text>
               <Box>
-                <NumberInput defaultValue={1} min={1} max={20}>
+                <NumberInput
+                  value={quantity}
+                  onChange={(quantity: number) => handleChange(quantity)}
+                  min={1}
+                  max={1000}
+                >
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -53,17 +76,21 @@ export default function SelectedSalesItem({ name }: OrderProps) {
             </Stack>
             <Stack alignItems="center" direction={'row'}>
               <Text fontSize={'xl'}>Unit:</Text>
-              <Text fontSize={'xl'}>kg</Text>
+              <Text fontSize={'xl'}>{product.unit}</Text>
             </Stack>
             <Stack alignItems="center" direction={'row'}>
               <Text fontSize={'xl'}>Price:</Text>
-              <Text fontSize={'xl'}>100</Text>
+              <Text fontSize={'xl'}>{product.price}</Text>
             </Stack>
           </Stack>
         </CardBody>
       </Stack>
       <div className="self-center p-5">
-        <Button variant="solid" colorScheme="white">
+        <Button
+          onClick={() => item.handleDelete(item.price.itemId)}
+          variant="solid"
+          colorScheme="white"
+        >
           <BsXLg color="black" />
         </Button>
       </div>

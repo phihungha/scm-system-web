@@ -1,4 +1,4 @@
-export interface ICustomer {
+export class ICustomer {
   contactPerson: string;
   createTime: Date;
   defaultLocation: string;
@@ -9,6 +9,29 @@ export interface ICustomer {
   name: string;
   phoneNumber: string;
   updateTime: Date;
+  constructor(
+    contactPerson: string,
+    createTime: Date,
+    defaultLocation: string,
+    description: string,
+    email: string,
+    id: string,
+    isActive: boolean,
+    name: string,
+    phoneNumber: string,
+    updateTime: Date,
+  ) {
+    this.contactPerson = contactPerson;
+    this.createTime = createTime;
+    this.defaultLocation = defaultLocation;
+    this.phoneNumber = phoneNumber;
+    this.updateTime = updateTime;
+    this.name = name;
+    this.email = email;
+    this.isActive = isActive;
+    this.id = id;
+    this.description = description;
+  }
 }
 
 export interface IUser {
@@ -115,23 +138,25 @@ export interface LoginInput {
 export class salesCreateInput {
   items: ItemInput[];
   customerId: number;
-  constructor(items: ItemInput[], customerId: number) {
+  toLocation: string;
+  constructor(items: ItemInput[], customerId: number, toLocation: string) {
     this.items = items;
     this.customerId = customerId;
+    this.toLocation = toLocation;
   }
 }
 
 export class UpdateInput {
   items: ItemInput[];
   toLocation: string;
-  productionFaciltyId: number;
+  productionFacilityId: number;
   constructor(
     items: ItemInput[],
     toLocation: string,
-    productionFaciltyId: number,
+    productionFacilityId: number,
   ) {
     this.items = items;
-    this.productionFaciltyId = productionFaciltyId;
+    this.productionFacilityId = productionFacilityId;
     this.toLocation = toLocation;
   }
 }
@@ -195,4 +220,15 @@ export interface IEventResponse {
   message: string;
   time: Date;
   isAutomatic: boolean;
+}
+
+export class PriceInput {
+  itemId: number;
+  quantity: number;
+  price : number;
+  constructor(itemId: number, quantity: number, price: number) {
+    this.itemId = itemId;
+    this.quantity = quantity;
+    this.price = price;
+  }
 }

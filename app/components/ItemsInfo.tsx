@@ -1,4 +1,5 @@
 'use client';
+import { useQuery } from 'react-query';
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -18,25 +19,39 @@ import {
 import OrderItem from '../components/OrderItem';
 import SelectedSalesItem from '../components/SelectedSalesItem';
 import React, { useState } from 'react';
-const products = [
-  'Aroduct11',
-  'Broduct12',
-  'Croduct13',
-  'Droduct14',
-  'Eroduct15',
-];
+import { getAllProducts, getAllProducts2 } from '../api/productApi';
+import { IProductResponse } from '../types/product';
+import { ItemInput, PriceInput } from '../types/sales';
 
-export default function ItemsInfo() {
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<string[]>([]);
-  const onAdd = async () => {
-    selectedProducts.splice(0);
-    //if (!selectedProducts.includes(selectedProduct)) {
-    setSelectedProducts(selectedProducts.concat(selectedProduct));
-    //}
+interface ItemsProps {
+  selectedPrice: PriceInput[]
+  setSelectedPrice: (prices : PriceInput[]) => void
+}
 
-    console.log(selectedProducts);
+export default function ItemsInfo(items: ItemsProps) {
+  const { data: products } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => getAllProducts2(),
+  });
+  const [selectedProduct, setSelectedProduct] = useState<number[]>([]);
+  const onAdd = () => {
+    const currentItems: number[] = [];
+    items.selectedPrice.forEach((item : PriceInput) =>{
+      currentItems.push(item.itemId);
+    })
+    const priceItems : PriceInput[] = [];
+    selectedProduct.forEach((id: number) => {
+      if(!currentItems.includes(id)){
+      priceItems.push(new PriceInput(id,1,1));
+      }
+    });
+    items.setSelectedPrice(items.selectedPrice.concat(priceItems));
   };
+  function handleDelete(id: number) {
+    const newList = items.selectedPrice.filter((item) => item.itemId !== id);
+    items.setSelectedPrice(newList);
+  }
+
   return (
     <Box pt={10}>
       <Text
@@ -55,7 +70,7 @@ export default function ItemsInfo() {
           <AutoComplete
             openOnFocus
             multiple
-            onChange={(product) => setSelectedProduct(product)}
+            onChange={(product: number[]) => setSelectedProduct(product)}
           >
             <AutoCompleteInput variant="filled">
               {({ tags }) =>
@@ -69,13 +84,14 @@ export default function ItemsInfo() {
               }
             </AutoCompleteInput>
             <AutoCompleteList>
-              {products.map((product, cid) => (
+              {products?.map((product: IProductResponse) => (
                 <AutoCompleteItem
-                  key={`option-${cid}`}
-                  value={product}
+                  key={product.id}
+                  label={product.name}
+                  value={product.id}
                   textTransform="capitalize"
                 >
-                  <OrderItem name={product} />
+                  <OrderItem product={product} />
                 </AutoCompleteItem>
               ))}
             </AutoCompleteList>
@@ -87,10 +103,10 @@ export default function ItemsInfo() {
       </Flex>
 
       <List pt={5} spacing={4}>
-        {selectedProducts.map((product) => (
+        {items.selectedPrice?.map((item: PriceInput) => (
           <ListItem>
-            <div>
-              <SelectedSalesItem name={product} />
+            <div key={item.itemId}>
+              <SelectedSalesItem price={item} handleDelete={handleDelete} />
             </div>
           </ListItem>
         ))}

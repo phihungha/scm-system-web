@@ -1,12 +1,13 @@
 'use client';
 
 import { Image, Card, Text, CardBody, Heading, Stack } from '@chakra-ui/react';
+import { IProductResponse } from '../types/product';
 
-interface OrderProps {
-  name: string;
+interface ProductProps {
+  product: IProductResponse;
 }
 
-export default function OrderItem({ name }: OrderProps) {
+export default function OrderItem({ product }: ProductProps) {
   return (
     <Card
       width="full"
@@ -18,15 +19,14 @@ export default function OrderItem({ name }: OrderProps) {
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
         src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-        alt={name}
+        alt={product.name}
       />
 
       <Stack>
         <CardBody>
-          <Heading size="md">{name}</Heading>
-          <Text pt={5}>Stock: 100</Text>
-          <Text>Unit: kg</Text>
-          <Text>Price: 100</Text>
+          <Heading size="md">{product.name}</Heading>
+          <Text pt={5}>Unit: {product.unit}</Text>
+          <Text>Price: {product.price}</Text>
         </CardBody>
       </Stack>
     </Card>

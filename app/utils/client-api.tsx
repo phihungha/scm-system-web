@@ -7,4 +7,8 @@ const apiClient = axios.create({
   withCredentials: true,
 });
 
+const fakeApiClient = axios.create({
+  baseURL: 'https://mocki.io/v1/',
+});
+
 export default apiClient;

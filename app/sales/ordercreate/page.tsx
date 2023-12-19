@@ -1,5 +1,6 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import ItemsInfo from '@/app/components/ItemsInfo';
 import {
@@ -8,33 +9,45 @@ import {
   Button,
   Heading,
   Text,
-  FormErrorMessage,
-  Input,
   FormControl,
+  Flex,
 } from '@chakra-ui/react';
+import {
+  AutoComplete,
+  AutoCompleteInput,
+  AutoCompleteItem,
+  AutoCompleteList,
+} from '@choc-ui/chakra-autocomplete';
 import { Formik, Field } from 'formik';
-import EventProgress from '@/app/components/EventProgress';
-import AutoCompleteBox from '@/app/components/AutoCompleteBox';
+import { getAllCustomers, getAllCustomers2 } from '@/app/api/customerApi';
+import { ICustomer, ItemInput, PriceInput } from '@/app/types/sales';
+import { IFacilityResponse } from '@/app/types/productionFacility';
+import { getAllFacilities, getAllFacilities2 } from '@/app/api/facilityApi';
+import { getConfig2 } from '@/app/api/configApi';
 export default function SalesOrder() {
-  function validateLocation(value) {
-    let error;
-    if ((value = '')) {
-      error = 'Location is required';
-    }
-    return error;
-  }
+  const [selectedPrice, setSelectedPrice] = useState<PriceInput[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState('');
+  const [selectedFacility, setSelectedFacility] = useState('');
+
+  const { data: customers } = useQuery({
+    queryKey: ['customers'],
+    queryFn: () => getAllCustomers2(),
+  });
+
+  const { data: facilities } = useQuery({
+    queryKey: ['facilities'],
+    queryFn: () => getAllFacilities2(),
+  });
+
   return (
     <div className="p-5">
       <Formik
-        initialValues={{
-          location: '',
-        }}
-        onSubmit={(values) => {
-          alert(JSON.stringify(values, null, 2));
+        onSubmit={() => {
+          alert(selectedCustomer);
         }}
       >
-        {({ handleSubmit, errors, touched }) => (
-          <form onSubmit={handleSubmit}>
+        {({}) => (
+          <form>
             <Stack spacing={{ base: 4, sm: 6 }} direction={'column'}>
               <Box as={'header'}>
                 <Heading lineHeight={1.1} fontWeight={600} fontSize={'5xl'}>
@@ -63,7 +76,27 @@ export default function SalesOrder() {
                   Facility:
                 </Text>
                 <FormControl>
-                  <AutoCompleteBox />
+                  <AutoComplete
+                    openOnFocus
+                    value={selectedFacility}
+                    onChange={(facilityId: string) =>
+                      setSelectedFacility(facilityId)
+                    }
+                  >
+                    <AutoCompleteInput variant="filled" />
+                    <AutoCompleteList gap={5}>
+                      {facilities?.map((facility: IFacilityResponse) => (
+                        <AutoCompleteItem
+                          key={facility.id}
+                          label={facility.name}
+                          value={facility.id}
+                          textTransform="capitalize"
+                        >
+                          {facility.name}
+                        </AutoCompleteItem>
+                      ))}
+                    </AutoCompleteList>
+                  </AutoComplete>
                 </FormControl>
               </Stack>
               <Stack
@@ -75,12 +108,34 @@ export default function SalesOrder() {
                 <Text mr={1} as={'span'} fontWeight={'bold'}>
                   Customer:
                 </Text>
-                <FormControl>
-                  <AutoCompleteBox />
+                <FormControl w="auto">
+                  <AutoComplete
+                    openOnFocus
+                    value={selectedCustomer}
+                    onChange={(customerId: string) =>
+                      setSelectedCustomer(customerId)
+                    }
+                  >
+                    <AutoCompleteInput variant="filled" />
+                    <AutoCompleteList>
+                      {customers?.map((customer: ICustomer) => (
+                        <AutoCompleteItem
+                          key={customer.id}
+                          label={customer.contactPerson}
+                          value={customer.id}
+                          textTransform="capitalize"
+                        >
+                          {customer.contactPerson}
+                        </AutoCompleteItem>
+                      ))}
+                    </AutoCompleteList>
+                  </AutoComplete>
                 </FormControl>
               </Stack>
-              <ItemsInfo />
-              <PaymentInfo />
+              <ItemsInfo
+              selectedPrice={selectedPrice}
+              setSelectedPrice={setSelectedPrice}
+              />
               <div className="flex flex-row justify-end gap-10 pt-10">
                 <Button variant="solid" colorScheme="red" size={'lg'}>
                   Close
