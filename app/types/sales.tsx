@@ -4,7 +4,7 @@ export class ICustomer {
   defaultLocation: string;
   description: string;
   email: string;
-  id: string;
+  id: number;
   isActive: boolean;
   name: string;
   phoneNumber: string;
@@ -138,11 +138,15 @@ export interface LoginInput {
 export class salesCreateInput {
   items: ItemInput[];
   customerId: number;
-  toLocation: string;
-  constructor(items: ItemInput[], customerId: number, toLocation: string) {
+  productionFacilityId: number;
+  constructor(
+    items: ItemInput[],
+    customerId: number,
+    productionFacilityId: number,
+  ) {
     this.items = items;
     this.customerId = customerId;
-    this.toLocation = toLocation;
+    this.productionFacilityId = productionFacilityId;
   }
 }
 

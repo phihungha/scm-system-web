@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import ItemsInfo from '@/app/components/ItemsInfo';
 import {
@@ -20,15 +20,39 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 import { Formik, Field } from 'formik';
 import { getAllCustomers, getAllCustomers2 } from '@/app/api/customerApi';
-import { ICustomer, ItemInput, PriceInput } from '@/app/types/sales';
+import {
+  ICustomer,
+  ISaleResponse,
+  ItemInput,
+  PriceInput,
+  salesCreateInput,
+} from '@/app/types/sales';
 import { IFacilityResponse } from '@/app/types/productionFacility';
+import { useRouter } from 'next/navigation';
 import { getAllFacilities, getAllFacilities2 } from '@/app/api/facilityApi';
 import { getConfig2 } from '@/app/api/configApi';
+import { createSalesOrder } from '@/app/api/salesApi';
 export default function SalesOrder() {
   const [selectedPrice, setSelectedPrice] = useState<PriceInput[]>([]);
-  const [selectedCustomer, setSelectedCustomer] = useState('');
-  const [selectedFacility, setSelectedFacility] = useState('');
+  const router = useRouter();
+  const [selectedCustomer, setSelectedCustomer] = useState(0);
+  const [selectedFacility, setSelectedFacility] = useState(0);
+  const sumTotal = (arr: PriceInput[]) =>
+    arr.reduce((sum, { itemId, quantity, price }) => sum + price * quantity, 0);
 
+  const { mutate: createSales } = useMutation(
+    async (salesData: salesCreateInput) => await createSalesOrder(salesData),
+    {
+      onSuccess: (response: ISaleResponse) => {
+        router.replace(`/sales/${response.id}`);
+      },
+    },
+  );
+
+  const { data: config } = useQuery({
+    queryKey: ['config'],
+    queryFn: () => getConfig2(),
+  });
   const { data: customers } = useQuery({
     queryKey: ['customers'],
     queryFn: () => getAllCustomers2(),
@@ -39,6 +63,39 @@ export default function SalesOrder() {
     queryFn: () => getAllFacilities2(),
   });
 
+  if (config === undefined) {
+    return <>Still loading...</>;
+  }
+  if (customers === undefined) {
+    return <>Still loading...</>;
+  }
+  if (facilities === undefined) {
+    return <>Still loading...</>;
+  }
+
+  const totalPrice = sumTotal(selectedPrice);
+  const vatAmount = totalPrice * config.vatRate;
+  const totalAmount = totalPrice + vatAmount;
+
+  function onCreate(
+    productionFacilityId: number,
+    customerId: number,
+    items: PriceInput[],
+  ) {
+    const newItems: ItemInput[] = [];
+    const item1 = new ItemInput(1, 1);
+    const item2 = new ItemInput(1, 1);
+    items.forEach((item: PriceInput) => {
+      newItems.push(new ItemInput(item.itemId, item.quantity));
+    });
+    console.log(newItems);
+    const sale = new salesCreateInput(
+      newItems,
+      customerId,
+      productionFacilityId,
+    );
+    createSales(sale);
+  }
   return (
     <div className="p-5">
       <Formik
@@ -79,7 +136,7 @@ export default function SalesOrder() {
                   <AutoComplete
                     openOnFocus
                     value={selectedFacility}
-                    onChange={(facilityId: string) =>
+                    onChange={(facilityId: number) =>
                       setSelectedFacility(facilityId)
                     }
                   >
@@ -112,7 +169,7 @@ export default function SalesOrder() {
                   <AutoComplete
                     openOnFocus
                     value={selectedCustomer}
-                    onChange={(customerId: string) =>
+                    onChange={(customerId: number) =>
                       setSelectedCustomer(customerId)
                     }
                   >
@@ -136,12 +193,20 @@ export default function SalesOrder() {
                 selectedPrice={selectedPrice}
                 setSelectedPrice={setSelectedPrice}
               />
+              <PaymentInfo
+                totalPrice={totalPrice}
+                totalAmount={totalAmount}
+                vatAmount={vatAmount}
+                vatRate={config.vatRate}
+              />
               <div className="flex flex-row justify-end gap-10 pt-10">
                 <Button variant="solid" colorScheme="red" size={'lg'}>
                   Close
                 </Button>
                 <Button
-                  type="submit"
+                  onClick={() =>
+                    onCreate(selectedFacility, selectedCustomer, selectedPrice)
+                  }
                   variant="solid"
                   colorScheme="blue"
                   size={'lg'}

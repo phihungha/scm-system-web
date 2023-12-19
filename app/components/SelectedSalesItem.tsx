@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   NumberInput,
   NumberInputField,
@@ -23,10 +23,12 @@ import { ItemInput, PriceInput } from '../types/sales';
 interface OrderProps {
   price: PriceInput;
   handleDelete: (id: number) => void;
+  handleRefresh: () => void;
 }
 
 export default function SelectedSalesItem(item: OrderProps) {
   const [quantity, setQuantity] = useState<number>(item.price.quantity);
+  const [price, setPrice] = useState<number>(item.price.price);
   const { data: product } = useQuery({
     queryKey: ['product'],
     queryFn: () => getProduct2(`${item.price.itemId}`),
@@ -35,11 +37,15 @@ export default function SelectedSalesItem(item: OrderProps) {
     return <>Still loading...</>;
   }
   item.price.price = product.price;
+  if (price == 0) {
+    setPrice(item.price.price);
+    item.handleRefresh();
+  }
   function handleChange(quantity: number) {
     item.price.quantity = quantity;
     setQuantity(quantity);
+    item.handleRefresh();
   }
-
   return (
     <Card
       direction={{ base: 'column', sm: 'row' }}

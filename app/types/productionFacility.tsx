@@ -1,7 +1,7 @@
 import { productionFacility } from './sales';
 
 export class IFacilityResponse {
-  id: string;
+  id: number;
   name: string;
   description: string;
   location: string;

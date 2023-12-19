@@ -42,7 +42,7 @@ export default function ItemsInfo(items: ItemsProps) {
     const priceItems: PriceInput[] = [];
     selectedProduct.forEach((id: number) => {
       if (!currentItems.includes(id)) {
-        priceItems.push(new PriceInput(id, 1, 1));
+        priceItems.push(new PriceInput(id, 1, 0));
       }
     });
     items.setSelectedPrice(items.selectedPrice.concat(priceItems));
@@ -51,6 +51,13 @@ export default function ItemsInfo(items: ItemsProps) {
     const newList = items.selectedPrice.filter((item) => item.itemId !== id);
     items.setSelectedPrice(newList);
   }
+
+  function handleRefresh() {
+    const newList: PriceInput[] = [];
+    items.setSelectedPrice([]);
+    items.setSelectedPrice(items.selectedPrice.concat(newList));
+  }
+
   return (
     <Box pt={10}>
       <Text
@@ -105,7 +112,11 @@ export default function ItemsInfo(items: ItemsProps) {
         {items.selectedPrice?.map((item: PriceInput) => (
           <ListItem>
             <div key={item.itemId}>
-              <SelectedSalesItem price={item} handleDelete={handleDelete} />
+              <SelectedSalesItem
+                handleRefresh={handleRefresh}
+                price={item}
+                handleDelete={handleDelete}
+              />
             </div>
           </ListItem>
         ))}

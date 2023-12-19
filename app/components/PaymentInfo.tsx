@@ -15,23 +15,15 @@ import { getConfig2 } from '../api/configApi';
 import { getProduct2 } from '../api/productApi';
 
 interface ItemsProps {
-  selectedPrice: PriceInput[];
+  totalPrice: number;
+  totalAmount: number;
+  vatAmount: number;
+  vatRate: number;
 }
 
-export default function PaymentInfo({
-  selectedPrice,
-}: {
-  selectedPrice: PriceInput[];
-}) {
-  var totalPrice: number;
-  const { data: config } = useQuery({
-    queryKey: ['config'],
-    queryFn: () => getConfig2(),
-  });
-  if (config === undefined) {
-    return <>Still loading...</>;
-  }
-  const vatRate = config.vatRate * 100;
+export default function PaymentInfo(prices: ItemsProps) {
+  const vatRate = prices.vatRate * 100;
+
   return (
     <Stack
       pt={10}
@@ -60,7 +52,9 @@ export default function PaymentInfo({
                   Total Price:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text fontSize={'xl'} as={'span'}></Text>
+                  <Text fontSize={'xl'} as={'span'}>
+                    {prices.totalPrice}
+                  </Text>
                 </div>
               </Stack>
             </ListItem>
@@ -84,7 +78,9 @@ export default function PaymentInfo({
                   VAT Amount:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text fontSize={'xl'} as={'span'}></Text>
+                  <Text fontSize={'xl'} as={'span'}>
+                    {prices.vatAmount}
+                  </Text>
                 </div>
               </Stack>
             </ListItem>
@@ -97,7 +93,7 @@ export default function PaymentInfo({
         </Text>
         <div className="flex grow items-end justify-end">
           <Text as={'span'} fontWeight={'bold'} fontSize="xl">
-            110
+            {prices.totalAmount}
           </Text>
         </div>
       </Stack>
