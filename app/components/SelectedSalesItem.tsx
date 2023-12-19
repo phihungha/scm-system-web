@@ -21,7 +21,7 @@ import { useQuery } from 'react-query';
 import { ItemInput, PriceInput } from '../types/sales';
 
 interface OrderProps {
-  price : PriceInput;
+  price: PriceInput;
   handleDelete: (id: number) => void;
 }
 

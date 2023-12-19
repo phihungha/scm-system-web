@@ -24,8 +24,8 @@ import { IProductResponse } from '../types/product';
 import { ItemInput, PriceInput } from '../types/sales';
 
 interface ItemsProps {
-  selectedPrice: PriceInput[]
-  setSelectedPrice: (prices : PriceInput[]) => void
+  selectedPrice: PriceInput[];
+  setSelectedPrice: (prices: PriceInput[]) => void;
 }
 
 export default function ItemsInfo(items: ItemsProps) {
@@ -36,13 +36,13 @@ export default function ItemsInfo(items: ItemsProps) {
   const [selectedProduct, setSelectedProduct] = useState<number[]>([]);
   const onAdd = () => {
     const currentItems: number[] = [];
-    items.selectedPrice.forEach((item : PriceInput) =>{
+    items.selectedPrice.forEach((item: PriceInput) => {
       currentItems.push(item.itemId);
-    })
-    const priceItems : PriceInput[] = [];
+    });
+    const priceItems: PriceInput[] = [];
     selectedProduct.forEach((id: number) => {
-      if(!currentItems.includes(id)){
-      priceItems.push(new PriceInput(id,1,1));
+      if (!currentItems.includes(id)) {
+        priceItems.push(new PriceInput(id, 1, 1));
       }
     });
     items.setSelectedPrice(items.selectedPrice.concat(priceItems));
@@ -51,7 +51,6 @@ export default function ItemsInfo(items: ItemsProps) {
     const newList = items.selectedPrice.filter((item) => item.itemId !== id);
     items.setSelectedPrice(newList);
   }
-
   return (
     <Box pt={10}>
       <Text

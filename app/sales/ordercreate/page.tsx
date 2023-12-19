@@ -133,8 +133,8 @@ export default function SalesOrder() {
                 </FormControl>
               </Stack>
               <ItemsInfo
-              selectedPrice={selectedPrice}
-              setSelectedPrice={setSelectedPrice}
+                selectedPrice={selectedPrice}
+                setSelectedPrice={setSelectedPrice}
               />
               <div className="flex flex-row justify-end gap-10 pt-10">
                 <Button variant="solid" colorScheme="red" size={'lg'}>

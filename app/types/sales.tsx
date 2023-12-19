@@ -225,7 +225,7 @@ export interface IEventResponse {
 export class PriceInput {
   itemId: number;
   quantity: number;
-  price : number;
+  price: number;
   constructor(itemId: number, quantity: number, price: number) {
     this.itemId = itemId;
     this.quantity = quantity;
