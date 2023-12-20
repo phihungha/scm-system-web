@@ -31,10 +31,3 @@ export const updateFacility = async (id: string, facility: FacilityInput) => {
   );
   return response.data;
 };
-
-export const getAllFacilities2 = async () => {
-  const response = await fakeApiClient.get<IFacilitiesResponse>(
-    `27b7cca5-655f-40b1-9d75-ee8c4c9ea421`,
-  );
-  return response.data;
-};

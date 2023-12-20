@@ -1,23 +1,31 @@
 'use client';
-
-import { Stepper, useSteps, Text, Stack, Box } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Stepper, useSteps, Text, Stack, Button } from '@chakra-ui/react';
 import { EventInput } from '../types/sales';
 import EventItem from './EventItem';
+import { Event } from '@/app/types/sales';
+import AddEventDialog from './AddEventDialog';
+interface EventProps {
+  events: Event[];
+  orderId: string;
+}
 
-const event1 = new EventInput('Start', '123 Ha Phi Hung', 'SE1231231313');
-const event2 = new EventInput(
-  'Executing',
-  '123 Le Quang Trung',
-  'SE1231231313',
-);
-const event3 = new EventInput('Finish', '123 Ha Phi Hung', 'SE1231231313');
-const events: EventInput[] = [];
-events.push(event1, event2, event3);
-
-export default function EventProgress() {
+export default function EventProgress(params: EventProps) {
+  const [displayEvents, setDisplayEvents] = useState<Event[]>(params.events);
+  const [addDialog, SetAddDialog] = React.useState(false);
+  const handleRefresh = () => {
+    const fakeEvents: Event[] = [];
+    setDisplayEvents(displayEvents.concat(fakeEvents));
+  };
+  const openAddDialog = () => {
+    SetAddDialog(true);
+  };
+  const closeAddDialog = () => {
+    SetAddDialog(false);
+  };
   const { activeStep } = useSteps({
-    index: 7,
-    count: events.length,
+    index: 0,
+    count: params.events.length,
   });
   return (
     <Stack spacing={2}>
@@ -31,10 +39,25 @@ export default function EventProgress() {
         Progress Details
       </Text>
       <Stepper orientation="vertical" index={activeStep} gap={0}>
-        {events.map((event, index) => (
-          <EventItem event={event} id={index} />
+        {displayEvents?.map((event, index) => (
+          <EventItem key={index} event={event} orderId={params.orderId} />
         ))}
       </Stepper>
+      <Button
+        mt={4}
+        onClick={() => openAddDialog()}
+        colorScheme="blue"
+        size="lg"
+      >
+        Add
+      </Button>
+      <AddEventDialog
+        orderId={params.orderId}
+        display={addDialog}
+        setClose={closeAddDialog}
+        displayEvents={displayEvents}
+        setDisplayEvents={setDisplayEvents}
+      />
     </Stack>
   );
 }

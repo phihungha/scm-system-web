@@ -1,17 +1,65 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import SalesOrderInfo from '../../components/SalesOrderInfo';
+import { getSalesOrder } from '@/app/api/salesApi';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import ItemsInfo from '@/app/components/ItemsInfo';
 import { Stack, Button, Text } from '@chakra-ui/react';
-import { Formik, Field } from 'formik';
+import { useQuery, useMutation } from 'react-query';
+import { Formik } from 'formik';
 import EventProgress from '@/app/components/EventProgress';
-import AutoCompleteBox from '@/app/components/AutoCompleteBox';
 import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
 import CancelSalesDialog from '@/app/components/CancelSalesDialog';
-export default function SalesOrder() {
+import {
+  ISaleResponse,
+  PriceInput,
+  SaleDetailsProps,
+  Event,
+  Item,
+} from '@/app/types/sales';
+import { useRouter } from 'next/navigation';
+
+export default function SalesOrder({ params }: SaleDetailsProps) {
+  const router = useRouter();
   const [paymentDialog, SetPaymentDialog] = React.useState(false);
   const [cancelDialog, SetCancelDialog] = React.useState(false);
+  const [selectedPrice, setSelectedPrice] = useState<PriceInput[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [selectedCustomerId, setSelectedCustomerId] = useState(0);
+  const [selectedFacilityId, setSelectedFacilityId] = useState(0);
+  const [toLocation, setToLocation] = useState('');
+  const [vatRate, setVatRate] = useState(0);
+
+  const sumTotal = (arr: PriceInput[]) =>
+    arr.reduce((sum, { itemId, quantity, price }) => sum + price * quantity, 0);
+
+  const { data: salesOrder } = useQuery({
+    queryKey: ['salesOrder'],
+    queryFn: () => getSalesOrder(params.orderId),
+    onSuccess: (response: ISaleResponse) => {
+      setSelectedCustomerId(response.customerId);
+      setSelectedFacilityId(response.productionFacilityId);
+      setToLocation(response.customer.defaultLocation);
+      setEvents(events.concat(response.events));
+      response.items.forEach((item: Item) => {
+        const newItem = new PriceInput(
+          item.product.id,
+          item.quantity,
+          item.product.price,
+        );
+        selectedPrice.push(newItem);
+      });
+      setSelectedPrice(selectedPrice);
+      setVatRate(response.vatRate);
+    },
+  });
+
+  if (salesOrder === undefined) {
+    return <>Still loading...</>;
+  }
+
+  const currentOrder: ISaleResponse = salesOrder;
+
   const CompletePayment = async () => {
     SetPaymentDialog(true);
   };
@@ -27,31 +75,34 @@ export default function SalesOrder() {
   }
   const paymentDialogProps = { paymentDialog, handleClose };
   const cancelDialogProps = { cancelDialog, CancelClose };
-  function validateLocation(value: string) {
-    let error;
-    if ((value = '')) {
-      error = 'Location is required';
-    }
-    return error;
-  }
+  const totalPrice = sumTotal(selectedPrice);
+  const vatAmount = totalPrice * vatRate;
+  const totalAmount = totalPrice + vatAmount;
 
   return (
     <div className="p-5">
-      <Formik
-        initialValues={{
-          location: '',
-        }}
-        onSubmit={(values) => {
-          alert(JSON.stringify(values, null, 2));
-        }}
-      >
-        {({ handleSubmit, errors, touched }) => (
-          <form onSubmit={handleSubmit}>
+      <Formik>
+        {() => (
+          <form>
             <Stack spacing={5} direction={'column'}>
-              <SalesOrderInfo />
-              <ItemsInfo />
-              <EventProgress />
-              <PaymentInfo />
+              <SalesOrderInfo
+                toLocation={toLocation}
+                currentOrder={currentOrder}
+                setToLocation={setToLocation}
+                setSelectedCustomerId={setSelectedCustomerId}
+                setSelectedFacilityId={setSelectedFacilityId}
+              />
+              <ItemsInfo
+                selectedPrice={selectedPrice}
+                setSelectedPrice={setSelectedPrice}
+              />
+              <EventProgress events={events} orderId={currentOrder.id} />
+              <PaymentInfo
+                totalPrice={totalPrice}
+                totalAmount={totalAmount}
+                vatAmount={vatAmount}
+                vatRate={vatRate}
+              />
               <Stack spacing={5} direction="row">
                 <Text as={'span'} fontWeight={'bold'} fontSize="xl">
                   Remaining Amount:

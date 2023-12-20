@@ -28,17 +28,3 @@ export const updateProduct = async (id: string, product: ProductInput) => {
   );
   return response.data;
 };
-
-export const getAllProducts2 = async () => {
-  const response = await fakeApiClient.get<IProductsResponse>(
-    `fbe80f6f-d84c-4f07-a732-32d695f931cc`,
-  );
-  return response.data;
-};
-
-export const getProduct2 = async (id: string) => {
-  const response = await fakeApiClient.get<IProductResponse>(
-    `b3ea8c9e-f47e-4b6b-9337-d513bdbaf4e0`,
-  );
-  return response.data;
-};

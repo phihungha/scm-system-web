@@ -10,7 +10,7 @@ import {
 import {
   Box,
   Text,
-  List,
+  Stack,
   ListItem,
   Button,
   Flex,
@@ -18,34 +18,32 @@ import {
 } from '@chakra-ui/react';
 import OrderItem from '../components/OrderItem';
 import SelectedSalesItem from '../components/SelectedSalesItem';
-import React, { useState } from 'react';
+import React, { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { getAllProducts, getAllProducts2 } from '../api/productApi';
 import { IProductResponse } from '../types/product';
 import { ItemInput, PriceInput } from '../types/sales';
 
 interface ItemsProps {
   selectedPrice: PriceInput[];
-  setSelectedPrice: (prices: PriceInput[]) => void;
+  setSelectedPrice: (value: PriceInput[]) => void;
 }
 
 export default function ItemsInfo(items: ItemsProps) {
   const { data: products } = useQuery({
     queryKey: ['products'],
-    queryFn: () => getAllProducts2(),
+    queryFn: () => getAllProducts(),
   });
-  const [selectedProduct, setSelectedProduct] = useState<number[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<number>(0);
+  const [newList, setNewList] = useState<PriceInput[]>([]);
   const onAdd = () => {
-    const currentItems: number[] = [];
+    const newItem = new PriceInput(selectedProduct, 1, 0);
+    const currentId: number[] = [];
     items.selectedPrice.forEach((item: PriceInput) => {
-      currentItems.push(item.itemId);
+      currentId.push(item.itemId);
     });
-    const priceItems: PriceInput[] = [];
-    selectedProduct.forEach((id: number) => {
-      if (!currentItems.includes(id)) {
-        priceItems.push(new PriceInput(id, 1, 0));
-      }
-    });
-    items.setSelectedPrice(items.selectedPrice.concat(priceItems));
+    if (!currentId.includes(selectedProduct)) {
+      items.setSelectedPrice(items.selectedPrice.concat(newItem));
+    }
   };
   function handleDelete(id: number) {
     const newList = items.selectedPrice.filter((item) => item.itemId !== id);
@@ -75,20 +73,9 @@ export default function ItemsInfo(items: ItemsProps) {
         <FormControl>
           <AutoComplete
             openOnFocus
-            multiple
-            onChange={(product: number[]) => setSelectedProduct(product)}
+            onChange={(product: number) => setSelectedProduct(product)}
           >
-            <AutoCompleteInput variant="filled">
-              {({ tags }) =>
-                tags.map((tag, tid) => (
-                  <AutoCompleteTag
-                    key={tid}
-                    label={tag.label}
-                    onRemove={tag.onRemove}
-                  />
-                ))
-              }
-            </AutoCompleteInput>
+            <AutoCompleteInput variant="filled"></AutoCompleteInput>
             <AutoCompleteList>
               {products?.map((product: IProductResponse) => (
                 <AutoCompleteItem
@@ -102,25 +89,22 @@ export default function ItemsInfo(items: ItemsProps) {
               ))}
             </AutoCompleteList>
           </AutoComplete>
-          <Button mt={4} onClick={onAdd} colorScheme="blue" size="lg">
+          <Button mt={4} onClick={() => onAdd()} colorScheme="blue" size="lg">
             Add
           </Button>
         </FormControl>
       </Flex>
 
-      <List pt={5} spacing={4}>
+      <Stack pt={5} spacing={4}>
         {items.selectedPrice?.map((item: PriceInput) => (
-          <ListItem>
-            <div key={item.itemId}>
-              <SelectedSalesItem
-                handleRefresh={handleRefresh}
-                price={item}
-                handleDelete={handleDelete}
-              />
-            </div>
-          </ListItem>
+          <SelectedSalesItem
+            key={item.itemId}
+            handleRefresh={handleRefresh}
+            price={item}
+            handleDelete={handleDelete}
+          />
         ))}
-      </List>
+      </Stack>
     </Box>
   );
 }

@@ -10,7 +10,6 @@ import {
   Heading,
   Text,
   FormControl,
-  Flex,
 } from '@chakra-ui/react';
 import {
   AutoComplete,
@@ -30,7 +29,7 @@ import {
 import { IFacilityResponse } from '@/app/types/productionFacility';
 import { useRouter } from 'next/navigation';
 import { getAllFacilities, getAllFacilities2 } from '@/app/api/facilityApi';
-import { getConfig2 } from '@/app/api/configApi';
+import { getConfig, getConfig2 } from '@/app/api/configApi';
 import { createSalesOrder } from '@/app/api/salesApi';
 export default function SalesOrder() {
   const [selectedPrice, setSelectedPrice] = useState<PriceInput[]>([]);
@@ -51,16 +50,16 @@ export default function SalesOrder() {
 
   const { data: config } = useQuery({
     queryKey: ['config'],
-    queryFn: () => getConfig2(),
+    queryFn: () => getConfig(),
   });
   const { data: customers } = useQuery({
     queryKey: ['customers'],
-    queryFn: () => getAllCustomers2(),
+    queryFn: () => getAllCustomers(),
   });
 
   const { data: facilities } = useQuery({
     queryKey: ['facilities'],
-    queryFn: () => getAllFacilities2(),
+    queryFn: () => getAllFacilities(),
   });
 
   if (config === undefined) {
@@ -83,8 +82,6 @@ export default function SalesOrder() {
     items: PriceInput[],
   ) {
     const newItems: ItemInput[] = [];
-    const item1 = new ItemInput(1, 1);
-    const item2 = new ItemInput(1, 1);
     items.forEach((item: PriceInput) => {
       newItems.push(new ItemInput(item.itemId, item.quantity));
     });
@@ -108,7 +105,7 @@ export default function SalesOrder() {
             <Stack spacing={{ base: 4, sm: 6 }} direction={'column'}>
               <Box as={'header'}>
                 <Heading lineHeight={1.1} fontWeight={600} fontSize={'5xl'}>
-                  #1
+                  CREATE
                 </Heading>
               </Box>
               <Box>

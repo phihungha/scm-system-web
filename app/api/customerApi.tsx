@@ -29,10 +29,3 @@ export const updateCustomer = async (
   );
   return response.data;
 };
-
-export const getAllCustomers2 = async () => {
-  const response = await fakeApiClient.get<ICustomersResponse>(
-    `e8ca9969-723b-47a5-9a3e-a527c2123171`,
-  );
-  return response.data;
-};

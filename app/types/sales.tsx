@@ -15,7 +15,7 @@ export class ICustomer {
     defaultLocation: string,
     description: string,
     email: string,
-    id: string,
+    id: number,
     isActive: boolean,
     name: string,
     phoneNumber: string,
@@ -50,7 +50,7 @@ export interface IUser {
 }
 
 export interface Product {
-  id: string;
+  id: number;
   name: string;
   description: string;
   unit: string;
@@ -58,16 +58,32 @@ export interface Product {
   isActive: boolean;
   createTime: Date;
   updateTime: Date;
+  imageUrl: string;
+  hasImage: boolean;
 }
 
-export interface Event {
+export class Event {
   type: string;
   id: string;
   location: string;
   message: string;
-  email: string;
   time: Date;
   isAutomatic: boolean;
+  constructor(
+    type: string,
+    id: string,
+    location: string,
+    message: string,
+    time: Date,
+    isAutomatic: boolean,
+  ) {
+    this.type = type;
+    this.id = id;
+    this.message = message;
+    this.location = location;
+    this.time = time;
+    this.isAutomatic = isAutomatic;
+  }
 }
 
 export interface Item {
@@ -91,9 +107,9 @@ export interface productionFacility {
 
 export interface ISaleResponse {
   customer: ICustomer;
-  customerId: string;
+  customerId: number;
   productionFacility: productionFacility;
-  productionFacilityId: string;
+  productionFacilityId: number;
   fromLocation: string;
   invoiceUrl: string;
   paymentStatus: string;
@@ -235,4 +251,10 @@ export class PriceInput {
     this.quantity = quantity;
     this.price = price;
   }
+}
+
+export interface SaleDetailsProps {
+  params: {
+    orderId: string;
+  };
 }

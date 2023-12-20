@@ -16,7 +16,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { BsXLg } from 'react-icons/bs';
-import { getProduct2 } from '../api/productApi';
+import { getProduct, getProduct2 } from '../api/productApi';
 import { useQuery } from 'react-query';
 import { ItemInput, PriceInput } from '../types/sales';
 
@@ -28,21 +28,20 @@ interface OrderProps {
 
 export default function SelectedSalesItem(item: OrderProps) {
   const [quantity, setQuantity] = useState<number>(item.price.quantity);
-  const [price, setPrice] = useState<number>(item.price.price);
   const { data: product } = useQuery({
-    queryKey: ['product'],
-    queryFn: () => getProduct2(`${item.price.itemId}`),
+    queryKey: [`product${item.price.itemId}`],
+    queryFn: () => getProduct(`${item.price.itemId}`),
   });
   if (product === undefined) {
     return <>Still loading...</>;
   }
   item.price.price = product.price;
-  if (price == 0) {
-    setPrice(item.price.price);
+  if (item.price.price == 0) {
     item.handleRefresh();
   }
   function handleChange(quantity: number) {
     item.price.quantity = quantity;
+    item.price.price = product.price;
     setQuantity(quantity);
     item.handleRefresh();
   }
