@@ -16,9 +16,9 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { BsXLg } from 'react-icons/bs';
-import { getProduct, getProduct2 } from '../api/productApi';
+import { getProduct, getProduct2 } from '../../api/productApi';
 import { useQuery } from 'react-query';
-import { ItemInput, PriceInput } from '../types/sales';
+import { ItemInput, PriceInput } from '../../types/sales';
 
 interface OrderProps {
   price: PriceInput;

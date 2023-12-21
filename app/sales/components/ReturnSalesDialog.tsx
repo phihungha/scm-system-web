@@ -1,4 +1,7 @@
 'use client';
+import { returnSalesOrder } from '@/app/api/salesApi';
+import { ISaleResponse } from '@/app/types/sales';
+import { useMutation } from 'react-query';
 import {
   Modal,
   FormControl,
@@ -11,44 +14,40 @@ import {
   Textarea,
   ModalFooter,
   Button,
-  useDisclosure,
 } from '@chakra-ui/react';
-import { useMutation } from 'react-query';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { cancelSalesOrder } from '../api/salesApi';
-import { ISaleResponse } from '../types/sales';
 
 interface DialogProps {
   orderId: string;
-  cancelDialog: boolean;
-  CancelClose: () => void;
+  returnDialog: boolean;
+  returnClose: () => void;
 }
 
-export default function CancelSalesDialog(open: DialogProps) {
+export default function ReturnSalesDialog(open: DialogProps) {
   const router = useRouter();
   const [problem, setProblem] = useState('');
-  const { mutate: cancelOrder } = useMutation(
-    async (problem: string) => await cancelSalesOrder(open.orderId, problem),
+  const { mutate: returnOrder } = useMutation(
+    async (problem: string) => await returnSalesOrder(open.orderId, problem),
     {
       onSuccess: (response: ISaleResponse) => {
         router.replace('/sales');
       },
     },
   );
-  function onCancel(problem: string) {
-    cancelOrder(problem);
+  function onReturn(problem: string) {
+    returnOrder(problem);
   }
   return (
-    <Modal isOpen={open.cancelDialog} onClose={open.CancelClose} size={'xl'}>
+    <Modal isOpen={open.returnDialog} onClose={open.returnClose} size={'xl'}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>You want to cancel this sales order?</ModalHeader>
+        <ModalHeader>You want to return this sales order?</ModalHeader>
         <ModalCloseButton />
         <ModalBody h={200} pb={6}>
           <FormControl>
             <FormLabel>
-              Before canceling the sales order, you can your problem here:
+              Before return the sales order, you can your problem here:
             </FormLabel>
             <Textarea
               value={problem}
@@ -60,10 +59,10 @@ export default function CancelSalesDialog(open: DialogProps) {
         </ModalBody>
 
         <ModalFooter>
-          <Button onClick={() => onCancel(problem)} colorScheme="blue" mr={3}>
+          <Button onClick={() => onReturn(problem)} colorScheme="blue" mr={3}>
             Confirm
           </Button>
-          <Button onClick={open.CancelClose}>Cancel</Button>
+          <Button onClick={open.returnClose}>Cancel</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

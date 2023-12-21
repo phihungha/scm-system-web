@@ -23,10 +23,10 @@ import {
 } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
-import { getAllSalesOrders } from '../api/salesApi';
-import { ISaleResponse } from '../types/sales';
+import { getAllSalesOrders } from '../../api/salesApi';
+import { ISaleResponse } from '../../types/sales';
 import { useQuery } from 'react-query';
-import SalesListItem from '../sales/components/SalesListItem';
+import SalesListItem from './SalesListItem';
 import { FiSearch } from 'react-icons/fi';
 import React from 'react';
 
@@ -92,9 +92,9 @@ export default function SalesOrderList() {
             }
             w="auto"
           >
-            <option value="due">Due</option>
-            <option value="completed">Completed</option>
-            <option value="pending">Pending</option>
+            <option value="Due">Due</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
             <option value="">None</option>
           </Select>
         </GridItem>
@@ -113,12 +113,12 @@ export default function SalesOrderList() {
             w="auto"
           >
             <option value="">None</option>
-            <option value="processing">Processing</option>
-            <option value="executing">Executing</option>
-            <option value="completed">Completed</option>
-            <option value="canceled">Canceled</option>
-            <option value="returned">Returned</option>
-            <option value="waitingAcceptance">Waiting Acceptance</option>
+            <option value="Processing">Processing</option>
+            <option value="Executing">Executing</option>
+            <option value="Completed">Completed</option>
+            <option value="Canceled">Canceled</option>
+            <option value="Returned">Returned</option>
+            <option value="WaitingAcceptance">Waiting Acceptance</option>
           </Select>
         </GridItem>
       </Grid>

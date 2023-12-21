@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import SalesOrderList from '../components/SalesOrderList';
+import SalesOrderList from './components/SalesOrderList';
 import {
   Stack,
   Box,

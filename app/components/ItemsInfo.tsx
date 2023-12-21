@@ -7,21 +7,13 @@ import {
   AutoCompleteList,
   AutoCompleteTag,
 } from '@choc-ui/chakra-autocomplete';
-import {
-  Box,
-  Text,
-  Stack,
-  ListItem,
-  Button,
-  Flex,
-  FormControl,
-} from '@chakra-ui/react';
+import { Box, Text, Stack, Button, Flex, FormControl } from '@chakra-ui/react';
 import OrderItem from '../components/OrderItem';
-import SelectedSalesItem from '../components/SelectedSalesItem';
+import SelectedSalesItem from '../sales/components/SelectedSalesItem';
 import React, { useState, useEffect, SetStateAction, Dispatch } from 'react';
-import { getAllProducts, getAllProducts2 } from '../api/productApi';
+import { getAllProducts } from '../api/productApi';
 import { IProductResponse } from '../types/product';
-import { ItemInput, PriceInput } from '../types/sales';
+import { PriceInput } from '../types/sales';
 
 interface ItemsProps {
   selectedPrice: PriceInput[];
@@ -34,7 +26,6 @@ export default function ItemsInfo(items: ItemsProps) {
     queryFn: () => getAllProducts(),
   });
   const [selectedProduct, setSelectedProduct] = useState<number>(0);
-  const [newList, setNewList] = useState<PriceInput[]>([]);
   const onAdd = () => {
     const newItem = new PriceInput(selectedProduct, 1, 0);
     const currentId: number[] = [];

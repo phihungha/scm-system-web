@@ -7,18 +7,21 @@ import {
 import fakeApiClient from '../utils/fake-api';
 
 export const getAllFacilities = async () => {
-  const response = await apiClient.get<IFacilitiesResponse>(`Customers`);
+  const response =
+    await apiClient.get<IFacilitiesResponse>(`ProductionFacilities`);
   return response.data;
 };
 
 export const getFacility = async (id: string) => {
-  const response = await apiClient.get<IFacilityResponse>(`Customers/${id}`);
+  const response = await apiClient.get<IFacilityResponse>(
+    `ProductionFacilities/${id}`,
+  );
   return response.data;
 };
 
 export const createFacility = async (facility: FacilityInput) => {
   const response = await apiClient.post<IFacilityResponse>(
-    `Customers`,
+    `ProductionFacilities`,
     facility,
   );
   return response.data;
@@ -26,7 +29,7 @@ export const createFacility = async (facility: FacilityInput) => {
 
 export const updateFacility = async (id: string, facility: FacilityInput) => {
   const response = await apiClient.patch<IFacilityResponse>(
-    `Customers/${id}`,
+    `ProductionFacilities/${id}`,
     facility,
   );
   return response.data;

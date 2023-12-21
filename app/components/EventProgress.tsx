@@ -8,15 +8,12 @@ import AddEventDialog from './AddEventDialog';
 interface EventProps {
   events: Event[];
   orderId: string;
+  setEvents: (events: Event[]) => void;
 }
 
 export default function EventProgress(params: EventProps) {
-  const [displayEvents, setDisplayEvents] = useState<Event[]>(params.events);
   const [addDialog, SetAddDialog] = React.useState(false);
-  const handleRefresh = () => {
-    const fakeEvents: Event[] = [];
-    setDisplayEvents(displayEvents.concat(fakeEvents));
-  };
+
   const openAddDialog = () => {
     SetAddDialog(true);
   };
@@ -39,7 +36,7 @@ export default function EventProgress(params: EventProps) {
         Progress Details
       </Text>
       <Stepper orientation="vertical" index={activeStep} gap={0}>
-        {displayEvents?.map((event, index) => (
+        {params.events?.map((event, index) => (
           <EventItem key={index} event={event} orderId={params.orderId} />
         ))}
       </Stepper>
@@ -55,8 +52,8 @@ export default function EventProgress(params: EventProps) {
         orderId={params.orderId}
         display={addDialog}
         setClose={closeAddDialog}
-        displayEvents={displayEvents}
-        setDisplayEvents={setDisplayEvents}
+        displayEvents={params.events}
+        setDisplayEvents={params.setEvents}
       />
     </Stack>
   );

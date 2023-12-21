@@ -1,7 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import SalesOrderInfo from '../../components/SalesOrderInfo';
-import { getSalesOrder } from '@/app/api/salesApi';
+import SalesOrderInfo from '../components/SalesOrderInfo';
+import {
+  completeSalesOrder,
+  finishSalesOrder,
+  getSalesOrder,
+  updateSalesOrder,
+} from '@/app/api/salesApi';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import ItemsInfo from '@/app/components/ItemsInfo';
 import { Stack, Button, Text } from '@chakra-ui/react';
@@ -16,18 +21,22 @@ import {
   SaleDetailsProps,
   Event,
   Item,
+  UpdateInput,
+  ItemInput,
 } from '@/app/types/sales';
 import { useRouter } from 'next/navigation';
+import ReturnSalesDialog from '../components/ReturnSalesDialog';
 
 export default function SalesOrder({ params }: SaleDetailsProps) {
   const router = useRouter();
   const [paymentDialog, SetPaymentDialog] = React.useState(false);
   const [cancelDialog, SetCancelDialog] = React.useState(false);
+  const [returnDialog, SetReturnDialog] = React.useState(false);
   const [selectedPrice, setSelectedPrice] = useState<PriceInput[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
-  const [selectedCustomerId, setSelectedCustomerId] = useState(0);
   const [selectedFacilityId, setSelectedFacilityId] = useState(0);
   const [toLocation, setToLocation] = useState('');
+  const [remainAmount, setRemainAmount] = useState('');
   const [vatRate, setVatRate] = useState(0);
 
   const sumTotal = (arr: PriceInput[]) =>
@@ -37,9 +46,8 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
     queryKey: ['salesOrder'],
     queryFn: () => getSalesOrder(params.orderId),
     onSuccess: (response: ISaleResponse) => {
-      setSelectedCustomerId(response.customerId);
       setSelectedFacilityId(response.productionFacilityId);
-      setToLocation(response.customer.defaultLocation);
+      setToLocation(response.toLocation);
       setEvents(events.concat(response.events));
       response.items.forEach((item: Item) => {
         const newItem = new PriceInput(
@@ -51,14 +59,56 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
       });
       setSelectedPrice(selectedPrice);
       setVatRate(response.vatRate);
+      setRemainAmount(response.remainingAmount);
     },
   });
+
+  const { mutate: updateSales } = useMutation(
+    async (salesData: UpdateInput) =>
+      await updateSalesOrder(params.orderId, salesData),
+    {
+      onSuccess: (response: ISaleResponse) => {
+        router.replace('/sales');
+      },
+    },
+  );
+
+  const { mutate: completeSales } = useMutation(
+    async () => await completeSalesOrder(params.orderId),
+    {
+      onSuccess: (response: ISaleResponse) => {
+        router.replace('/sales');
+      },
+    },
+  );
+
+  const { mutate: finishSales } = useMutation(
+    async () => await finishSalesOrder(params.orderId),
+    {
+      onSuccess: (response: ISaleResponse) => {
+        router.replace('/sales');
+      },
+    },
+  );
 
   if (salesOrder === undefined) {
     return <>Still loading...</>;
   }
 
   const currentOrder: ISaleResponse = salesOrder;
+
+  function onUpdate(
+    productionFacilityId: number,
+    toLocation: string,
+    items: PriceInput[],
+  ) {
+    const newItems: ItemInput[] = [];
+    items.forEach((item: PriceInput) => {
+      newItems.push(new ItemInput(item.itemId, item.quantity));
+    });
+    const sale = new UpdateInput(newItems, toLocation, productionFacilityId);
+    updateSales(sale);
+  }
 
   const CompletePayment = async () => {
     SetPaymentDialog(true);
@@ -73,8 +123,14 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
   function CancelClose() {
     SetCancelDialog(false);
   }
-  const paymentDialogProps = { paymentDialog, handleClose };
-  const cancelDialogProps = { cancelDialog, CancelClose };
+
+  const returnOrder = async () => {
+    SetReturnDialog(true);
+  };
+  function returnClose() {
+    SetReturnDialog(false);
+  }
+
   const totalPrice = sumTotal(selectedPrice);
   const vatAmount = totalPrice * vatRate;
   const totalAmount = totalPrice + vatAmount;
@@ -89,14 +145,17 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
                 toLocation={toLocation}
                 currentOrder={currentOrder}
                 setToLocation={setToLocation}
-                setSelectedCustomerId={setSelectedCustomerId}
                 setSelectedFacilityId={setSelectedFacilityId}
               />
               <ItemsInfo
                 selectedPrice={selectedPrice}
                 setSelectedPrice={setSelectedPrice}
               />
-              <EventProgress events={events} orderId={currentOrder.id} />
+              <EventProgress
+                events={events}
+                setEvents={setEvents}
+                orderId={currentOrder.id}
+              />
               <PaymentInfo
                 totalPrice={totalPrice}
                 totalAmount={totalAmount}
@@ -109,11 +168,11 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
                 </Text>
                 <div className="flex grow items-end justify-end">
                   <Text as={'span'} fontWeight={'bold'} fontSize="xl">
-                    110
+                    {remainAmount}
                   </Text>
                 </div>
               </Stack>
-              <div className="flex flex-row justify-end gap-5 pt-10">
+              <div className="flex w-full flex-row justify-end gap-5 pt-10">
                 <Button
                   onClick={CancelPayment}
                   width={100}
@@ -123,7 +182,25 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
                 >
                   Cancel
                 </Button>
-                <CancelSalesDialog open={cancelDialogProps} />
+                <CancelSalesDialog
+                  cancelDialog={cancelDialog}
+                  CancelClose={CancelClose}
+                  orderId={params.orderId}
+                />
+                <Button
+                  onClick={returnOrder}
+                  width={100}
+                  variant="solid"
+                  colorScheme="red"
+                  size="lg"
+                >
+                  Return
+                </Button>
+                <ReturnSalesDialog
+                  orderId={params.orderId}
+                  returnDialog={returnDialog}
+                  returnClose={returnClose}
+                />
                 <Button
                   onClick={CompletePayment}
                   variant="solid"
@@ -132,8 +209,17 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
                 >
                   Complete Payment
                 </Button>
-                <CompletePaymentDialog open={paymentDialogProps} />
-                <Button variant="solid" colorScheme="orange" size="lg">
+                <CompletePaymentDialog
+                  orderId={params.orderId}
+                  paymentDialog={paymentDialog}
+                  handleClose={handleClose}
+                />
+                <Button
+                  onClick={() => finishSales()}
+                  variant="solid"
+                  colorScheme="orange"
+                  size="lg"
+                >
                   Finish Delivery
                 </Button>
                 <Button
@@ -141,15 +227,18 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
                   variant="solid"
                   colorScheme="green"
                   size="lg"
+                  onClick={() => completeSales()}
                 >
                   Complete
                 </Button>
                 <Button
                   width={100}
-                  type="submit"
                   variant="solid"
                   colorScheme="blue"
                   size="lg"
+                  onClick={() =>
+                    onUpdate(selectedFacilityId, toLocation, selectedPrice)
+                  }
                 >
                   Update
                 </Button>

@@ -17,26 +17,20 @@ import {
   AutoCompleteItem,
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
-import { ICustomer, ISaleResponse } from '../types/sales';
-import { getAllCustomers } from '../api/customerApi';
-import { getAllFacilities } from '../api/facilityApi';
-import { IFacilityResponse } from '../types/productionFacility';
-import { dateToFullFormat } from '../utils/time-conversion';
+import { ICustomer, ISaleResponse } from '../../types/sales';
+import { getAllCustomers } from '../../api/customerApi';
+import { getAllFacilities } from '../../api/facilityApi';
+import { IFacilityResponse } from '../../types/productionFacility';
+import { dateToFullFormat } from '../../utils/time-conversion';
 
 interface OrderProps {
   toLocation: string;
   currentOrder: ISaleResponse;
-  setSelectedCustomerId: (id: number) => void;
   setSelectedFacilityId: (id: number) => void;
   setToLocation: (location: string) => void;
 }
 
 export default function SalesOrderInfo(salesOrder: OrderProps) {
-  const { data: customers } = useQuery({
-    queryKey: ['customers'],
-    queryFn: () => getAllCustomers(),
-  });
-
   const { data: facilities } = useQuery({
     queryKey: ['facilities'],
     queryFn: () => getAllFacilities(),
@@ -50,18 +44,11 @@ export default function SalesOrderInfo(salesOrder: OrderProps) {
   const executionFinishTime = dateToFullFormat(
     new Date(salesOrder.currentOrder.executionFinishTime),
   );
-  function HandleCustomer(customerId: number) {
-    setSelectedCustomer(customerId);
-    salesOrder.setSelectedCustomerId(customerId);
-  }
   function HandleFacility(facilityId: number) {
     setSelectedFacility(facilityId);
     salesOrder.setSelectedFacilityId(facilityId);
   }
 
-  if (customers === undefined) {
-    return <>Still loading...</>;
-  }
   if (facilities === undefined) {
     return <>Still loading...</>;
   }
@@ -74,7 +61,7 @@ export default function SalesOrderInfo(salesOrder: OrderProps) {
     <Stack>
       <Box as={'header'}>
         <Heading lineHeight={1.1} fontWeight={600} fontSize={'5xl'}>
-          #1
+          SalesOrder#{salesOrder.currentOrder.id}
         </Heading>
       </Box>
       <Box>
@@ -137,27 +124,11 @@ export default function SalesOrderInfo(salesOrder: OrderProps) {
           <GridItem colSpan={2}>
             <Box w="full">
               <FormControl w="auto">
-                <AutoComplete
-                  openOnFocus
-                  value={selectedCustomer}
-                  onChange={(customerId: number) => HandleCustomer(customerId)}
-                >
+                <AutoComplete openOnFocus isReadOnly={true}>
                   <AutoCompleteInput
                     placeholder={salesOrder.currentOrder.customer.contactPerson}
                     variant="filled"
                   />
-                  <AutoCompleteList>
-                    {customers?.map((customer: ICustomer) => (
-                      <AutoCompleteItem
-                        key={customer.id}
-                        label={customer.contactPerson}
-                        value={customer.id}
-                        textTransform="capitalize"
-                      >
-                        {customer.contactPerson}
-                      </AutoCompleteItem>
-                    ))}
-                  </AutoCompleteList>
                 </AutoComplete>
               </FormControl>
             </Box>
@@ -172,8 +143,8 @@ export default function SalesOrderInfo(salesOrder: OrderProps) {
             <Box w="full">
               <Input
                 value={salesOrder.toLocation}
-                onChange={(location: string) =>
-                  salesOrder.setToLocation(location)
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  salesOrder.setToLocation(e.target.value)
                 }
               />
             </Box>

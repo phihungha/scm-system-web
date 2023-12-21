@@ -85,7 +85,6 @@ export default function SalesOrder() {
     items.forEach((item: PriceInput) => {
       newItems.push(new ItemInput(item.itemId, item.quantity));
     });
-    console.log(newItems);
     const sale = new salesCreateInput(
       newItems,
       customerId,
