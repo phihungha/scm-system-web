@@ -36,7 +36,6 @@ export default function SalesOrderList() {
     queryFn: () => getAllSalesOrders(),
   });
 
-  console.log(sales);
   const router = useRouter();
   const [searchBy, setSearchBy] = React.useState('');
   const [paymentStatus, setPaymentStatus] = React.useState('');

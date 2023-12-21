@@ -11,7 +11,6 @@ interface StatusProps {
 }
 
 export default function SalesStatus(params: StatusProps) {
-  console.log(params.status);
   switch (params.status) {
     case 'Pending':
       return <Badge colorScheme="yellow">Pending</Badge>;

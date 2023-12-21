@@ -16,7 +16,6 @@ export default function SalesListItem({ sales }: SalesOrderProps) {
   const link = `/sales/${sales.id}`;
   const onDetail = async () => {
     router.replace(`/sales/${sales.id}`);
-    console.log(link);
   };
 
   return (
