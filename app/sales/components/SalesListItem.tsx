@@ -2,6 +2,7 @@
 
 import { ISaleResponse } from '@/app/types/sales';
 import { dateToFullFormat } from '@/app/utils/time-conversion';
+import VND from '@/app/utils/vndFormat';
 import { Td, Tr, Button } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import SalesStatus from './SalesStatus';
@@ -29,7 +30,7 @@ export default function SalesListItem({ sales }: SalesOrderProps) {
       <Td>
         <SalesStatus status={sales.status}></SalesStatus>
       </Td>
-      <Td>{sales.subTotal}</Td>
+      <Td>{VND.format(sales.subTotal)}</Td>
 
       <Td>
         <Button onClick={onDetail} variant="solid" colorScheme="blue">

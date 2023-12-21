@@ -13,6 +13,7 @@ import { ItemInput, PriceInput } from '../types/sales';
 import { useQuery } from 'react-query';
 import { getConfig2 } from '../api/configApi';
 import { getProduct2 } from '../api/productApi';
+import VND from '../utils/vndFormat';
 
 interface ItemsProps {
   totalPrice: number;
@@ -53,7 +54,7 @@ export default function PaymentInfo(prices: ItemsProps) {
                 </Text>
                 <div className="flex grow items-end justify-end">
                   <Text fontSize={'xl'} as={'span'}>
-                    {prices.totalPrice}
+                    {VND.format(prices.totalPrice)}
                   </Text>
                 </div>
               </Stack>
@@ -79,7 +80,7 @@ export default function PaymentInfo(prices: ItemsProps) {
                 </Text>
                 <div className="flex grow items-end justify-end">
                   <Text fontSize={'xl'} as={'span'}>
-                    {prices.vatAmount}
+                    {VND.format(prices.vatAmount)}
                   </Text>
                 </div>
               </Stack>
@@ -93,7 +94,7 @@ export default function PaymentInfo(prices: ItemsProps) {
         </Text>
         <div className="flex grow items-end justify-end">
           <Text as={'span'} fontWeight={'bold'} fontSize="xl">
-            {prices.totalAmount}
+            {VND.format(prices.totalAmount)}
           </Text>
         </div>
       </Stack>
