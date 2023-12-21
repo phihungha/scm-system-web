@@ -163,11 +163,11 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
                 vatRate={vatRate}
               />
               <Stack spacing={5} direction="row">
-                <Text as={'span'} fontWeight={'bold'} fontSize="xl">
+                <Text as={'span'} fontWeight={'bold'} fontSize="3xl">
                   Remaining Amount:
                 </Text>
                 <div className="flex grow items-end justify-end">
-                  <Text as={'span'} fontWeight={'bold'} fontSize="xl">
+                  <Text as={'span'} fontWeight={'bold'} fontSize="3xl">
                     {remainAmount}
                   </Text>
                 </div>

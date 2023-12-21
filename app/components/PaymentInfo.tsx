@@ -89,11 +89,11 @@ export default function PaymentInfo(prices: ItemsProps) {
         </Box>
       </Stack>
       <Stack spacing={5} direction="row">
-        <Text as={'span'} fontWeight={'bold'} fontSize="xl">
+        <Text as={'span'} fontWeight={'bold'} fontSize="3xl">
           Total Amount:
         </Text>
         <div className="flex grow items-end justify-end">
-          <Text as={'span'} fontWeight={'bold'} fontSize="xl">
+          <Text as={'span'} fontWeight={'bold'} fontSize="3xl">
             {VND.format(prices.totalAmount)}
           </Text>
         </div>
