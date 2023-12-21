@@ -144,7 +144,7 @@ export default function SalesOrderList() {
           </Thead>
           <Tbody>
             {sales?.map((sale: ISaleResponse) => (
-              <SalesListItem sales={sale} />
+              <SalesListItem key={sale.id} sales={sale} />
             ))}
           </Tbody>
           <Tfoot>
