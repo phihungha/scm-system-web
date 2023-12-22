@@ -1,11 +1,8 @@
-export interface IConfigResponse {
+export interface Config {
   id: string;
   vatRate: number;
 }
 
-export class ConfigInput {
+export interface ConfigParams {
   vatRate: number;
-  constructor(vatRate: number) {
-    this.vatRate = vatRate;
-  }
 }
