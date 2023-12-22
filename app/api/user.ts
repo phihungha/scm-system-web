@@ -1,5 +1,5 @@
 import { User, UserCreateParams, UserUpdateParams } from '../models/user';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getUsers() {
   const response = await apiClient.get<User>(`Users`);

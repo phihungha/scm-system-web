@@ -1,5 +1,5 @@
 import { Product, ProductParams } from '../models/product';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getProducts() {
   const response = await apiClient.get<Product[]>('Products');

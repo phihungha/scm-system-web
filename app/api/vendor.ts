@@ -1,5 +1,5 @@
 import { Vendor, VendorParams } from '../models/vendor';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getVendors() {
   const response = await apiClient.get<Vendor>(`Vendors`);

@@ -3,7 +3,7 @@ import {
   PurchaseRequisitionCreateParams,
   PurchaseRequisitionUpdateParams,
 } from '../models/purchase-requisition';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getPurchaseRequisitions() {
   const response =

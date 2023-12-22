@@ -9,7 +9,7 @@ import {
   TransOrderEventCreateParams,
 } from '../models/trans-order';
 
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getPurchaseOrders() {
   const response = await apiClient.get<PurchaseOrder>(`PurchaseOrders`);

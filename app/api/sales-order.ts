@@ -8,7 +8,7 @@ import {
   TransOrderEvent,
   TransOrderEventCreateParams,
 } from '../models/trans-order';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getSalesOrders() {
   const response = await apiClient.get<SalesOrder>(`SalesOrders`);

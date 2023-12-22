@@ -2,7 +2,7 @@ import {
   ProductionFacility,
   ProductionFacilityParams,
 } from '../models/production-facility';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getProductionFacilities() {
   const response =

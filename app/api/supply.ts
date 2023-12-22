@@ -1,5 +1,5 @@
 import { Supply, SupplyParams } from '../models/supply';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getSupplies() {
   const response = await apiClient.get<Supply>(`Supplies`);

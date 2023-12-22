@@ -1,5 +1,5 @@
 import { User } from '../models/user';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function signInUser(userName: string, password: string) {
   const body = { userName, password };

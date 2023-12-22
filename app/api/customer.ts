@@ -1,5 +1,5 @@
 import { Customer, CustomerParams } from '../models/customer';
-import apiClient from '../utils/client-api';
+import apiClient from './client-api';
 
 export async function getCustomers() {
   const response = await apiClient.get<Customer[]>('Customers');
