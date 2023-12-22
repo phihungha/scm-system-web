@@ -1,0 +1,31 @@
+import { User } from './user';
+
+export interface CreateUpdateTime {
+  createTime: Date;
+  updateTime?: Date;
+}
+
+export interface SoftDeletable {
+  isActive: boolean;
+}
+
+export interface SoftDeletableParams {
+  isActive: boolean;
+}
+
+export interface StandardLifecycle {
+  createTime: Date;
+  createUser: User;
+  createUserId: string;
+  endTime?: Date;
+  endUser?: User;
+  endUserId?: string;
+  problem?: string;
+  updateTime?: Date;
+}
+
+export type ApprovalStatus = 'Approved' | 'Rejected';
+
+export interface ApprovalInfo {
+  approvalStatus: ApprovalStatus;
+}

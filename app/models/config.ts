@@ -1,5 +1,4 @@
 export interface Config {
-  id: string;
   vatRate: number;
 }
 

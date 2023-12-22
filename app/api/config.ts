@@ -1,12 +1,12 @@
-import { Config, ConfigParams } from '../types/config';
+import { Config, ConfigParams } from '../models/config';
 import apiClient from '../utils/client-api';
 
-export const getConfig = async () => {
+export async function getConfig() {
   const response = await apiClient.get<Config>('Config');
   return response.data;
-};
+}
 
-export const setConfig = async (params: ConfigParams) => {
+export async function setConfig(params: ConfigParams) {
   const response = await apiClient.patch<Config>('Config', params);
   return response.data;
-};
+}
