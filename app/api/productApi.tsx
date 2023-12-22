@@ -1,10 +1,9 @@
-import apiClient from '../utils/client-api';
 import {
   IProductResponse,
   IProductsResponse,
   ProductInput,
 } from '../types/product';
-import fakeApiClient from '../utils/fake-api';
+import apiClient from '../utils/client-api';
 
 export const getAllProducts = async () => {
   const response = await apiClient.get<IProductsResponse>(`Products`);

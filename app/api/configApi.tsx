@@ -1,5 +1,5 @@
-import apiClient from '../utils/client-api';
 import { ConfigInput, IConfigResponse } from '../types/config';
+import apiClient from '../utils/client-api';
 import fakeApiClient from '../utils/fake-api';
 
 export const getConfig = async () => {

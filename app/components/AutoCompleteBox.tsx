@@ -1,6 +1,5 @@
 'use client';
 import { Flex, FormControl } from '@chakra-ui/react';
-import * as React from 'react';
 import {
   AutoComplete,
   AutoCompleteInput,

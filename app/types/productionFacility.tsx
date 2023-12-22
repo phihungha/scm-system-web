@@ -1,5 +1,3 @@
-import { productionFacility } from './sales';
-
 export class IFacilityResponse {
   id: number;
   name: string;

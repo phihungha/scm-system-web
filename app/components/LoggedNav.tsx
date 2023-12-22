@@ -1,21 +1,21 @@
 import {
-  IconButton,
   Avatar,
   Box,
   Flex,
-  HStack,
-  VStack,
-  useColorModeValue,
-  Text,
   FlexProps,
+  HStack,
+  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
+  Text,
+  VStack,
+  useColorModeValue,
 } from '@chakra-ui/react';
-import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi';
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;

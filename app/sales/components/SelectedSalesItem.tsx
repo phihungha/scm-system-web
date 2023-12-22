@@ -1,24 +1,24 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import {
-  NumberInput,
-  NumberInputField,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInputStepper,
-  Card,
-  Stack,
-  Image,
-  CardBody,
-  Heading,
-  Text,
   Box,
   Button,
+  Card,
+  CardBody,
+  Heading,
+  Image,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Stack,
+  Text,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { BsXLg } from 'react-icons/bs';
-import { getProduct, getProduct2 } from '../../api/productApi';
 import { useQuery } from 'react-query';
-import { ItemInput, PriceInput } from '../../types/sales';
+import { getProduct } from '../../api/productApi';
+import { PriceInput } from '../../types/sales';
 
 interface OrderProps {
   price: PriceInput;

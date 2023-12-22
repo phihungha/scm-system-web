@@ -1,17 +1,17 @@
 'use client';
 
+import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Flex,
-  Text,
-  IconButton,
   Button,
+  Flex,
+  IconButton,
   Stack,
-  useColorModeValue,
+  Text,
   useBreakpointValue,
+  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure();

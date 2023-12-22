@@ -2,17 +2,12 @@
 
 import {
   Box,
-  Text,
   List,
   ListItem,
-  Button,
   Stack,
   StackDivider,
+  Text,
 } from '@chakra-ui/react';
-import { ItemInput, PriceInput } from '../types/sales';
-import { useQuery } from 'react-query';
-import { getConfig2 } from '../api/configApi';
-import { getProduct2 } from '../api/productApi';
 import VND from '../utils/vndFormat';
 
 interface ItemsProps {

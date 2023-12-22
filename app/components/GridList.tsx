@@ -8,8 +8,8 @@ import {
   FcDonate,
   FcManager,
 } from 'react-icons/fc';
-import ItemCard from './ItemCard';
 import HomeStats from './HomeStats';
+import ItemCard from './ItemCard';
 
 export default function GridList() {
   return (

@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import SignInForm from '../components/SignInForm';
 
 export default function Login() {

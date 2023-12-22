@@ -1,19 +1,19 @@
 'use client';
-import { useFormik } from 'formik';
-import { LoginInput } from '../types/sales';
 import {
-  Flex,
   Box,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
-  Button,
   VStack,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { signInUser } from '../api/authApi';
+import { LoginInput } from '../types/sales';
 
 export default function SignInForm() {
   const [username, setUsername] = React.useState('');

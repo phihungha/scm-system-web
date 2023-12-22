@@ -1,13 +1,12 @@
 'use client';
 
-import './globals.css';
-import type { Metadata } from 'next';
+import { ChakraProvider } from '@chakra-ui/react';
 import { Inter } from 'next/font/google';
-import QueryProvider from './utils/QueryProvider';
+import { usePathname } from 'next/navigation';
 import NavBar from './components/NavBar';
 import Sidebar from './components/SideBar';
-import { ChakraProvider } from '@chakra-ui/react';
-import { usePathname } from 'next/navigation';
+import './globals.css';
+import QueryProvider from './utils/QueryProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

@@ -1,16 +1,16 @@
-import apiClient from '../utils/client-api';
 import {
-  ISalesResponse,
-  ISaleResponse,
-  UpdateInput,
-  StatusInput,
-  negativeStatusInput,
-  PaymentInput,
-  IEventResponse,
   EventInput,
+  IEventResponse,
+  ISaleResponse,
+  ISalesResponse,
+  PaymentInput,
+  StatusInput,
   UpdateEventInput,
+  UpdateInput,
+  negativeStatusInput,
   salesCreateInput,
 } from '../types/sales';
+import apiClient from '../utils/client-api';
 
 export const getAllSalesOrders = async () => {
   const response = await apiClient.get<ISalesResponse>(`SalesOrders`);

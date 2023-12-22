@@ -1,10 +1,5 @@
 'use client';
-import { returnSalesOrder } from '@/app/api/salesApi';
-import { ISaleResponse } from '@/app/types/sales';
-import { useMutation } from 'react-query';
 import { Badge } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 interface StatusProps {
   status: string;

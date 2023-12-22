@@ -1,21 +1,20 @@
 'use client';
 import {
-  Modal,
-  FormControl,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormLabel,
-  Textarea,
-  ModalFooter,
   Button,
-  useDisclosure,
+  FormControl,
+  FormLabel,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Textarea,
 } from '@chakra-ui/react';
-import { useMutation } from 'react-query';
-import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { useMutation } from 'react-query';
 import { cancelSalesOrder } from '../api/salesApi';
 import { ISaleResponse } from '../types/sales';
 

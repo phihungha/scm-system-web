@@ -1,6 +1,5 @@
 'use client';
 
-import axios from '../../node_modules/axios/index';
 import { useQuery } from 'react-query';
 import apiClient from './client-api';
 

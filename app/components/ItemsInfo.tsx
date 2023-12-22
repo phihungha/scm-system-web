@@ -1,17 +1,16 @@
 'use client';
-import { useQuery } from 'react-query';
+import { Box, Button, Flex, FormControl, Stack, Text } from '@chakra-ui/react';
 import {
   AutoComplete,
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteList,
-  AutoCompleteTag,
 } from '@choc-ui/chakra-autocomplete';
-import { Box, Text, Stack, Button, Flex, FormControl } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { getAllProducts } from '../api/productApi';
 import OrderItem from '../components/OrderItem';
 import SelectedSalesItem from '../sales/components/SelectedSalesItem';
-import React, { useState, useEffect, SetStateAction, Dispatch } from 'react';
-import { getAllProducts } from '../api/productApi';
 import { IProductResponse } from '../types/product';
 import { PriceInput } from '../types/sales';
 

@@ -1,4 +1,3 @@
-import apiClient from '../utils/client-api';
 import {
   completePurchaseInput,
   IPurchaseResponse,
@@ -14,6 +13,7 @@ import {
   StatusInput,
   UpdateEventInput,
 } from '../types/sales';
+import apiClient from '../utils/client-api';
 
 export const getAllPurchaseOrders = async () => {
   const response = await apiClient.get<IPurchasesResponse>(`PurchaseOrders`);

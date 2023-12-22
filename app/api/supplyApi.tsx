@@ -1,10 +1,10 @@
-import apiClient from '../utils/client-api';
 import {
-  ISupplyResponse,
   ISuppliesResponse,
+  ISupplyResponse,
   createSupplyInput,
   updateSupplyInput,
 } from '../types/supply';
+import apiClient from '../utils/client-api';
 
 export const getAllSupplies = async () => {
   const response = await apiClient.get<ISuppliesResponse>(`Supplies`);

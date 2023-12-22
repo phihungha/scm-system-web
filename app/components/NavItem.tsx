@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, FlexProps } from '@chakra-ui/react';
+import { Box, Flex, FlexProps, Icon } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 
 interface NavItemProps extends FlexProps {

@@ -1,21 +1,21 @@
 import {
   Box,
+  BoxProps,
   CloseButton,
   Flex,
-  useColorModeValue,
   Text,
-  BoxProps,
+  useColorModeValue,
 } from '@chakra-ui/react';
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-} from 'react-icons/fi';
-import { IconType } from 'react-icons';
-import NavItem from './NavItem';
 import { useRouter } from 'next/navigation';
+import { IconType } from 'react-icons';
+import {
+  FiCompass,
+  FiHome,
+  FiSettings,
+  FiStar,
+  FiTrendingUp,
+} from 'react-icons/fi';
+import NavItem from './NavItem';
 
 interface LinkItemProps {
   name: string;

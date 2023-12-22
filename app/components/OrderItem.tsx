@@ -1,6 +1,6 @@
 'use client';
 
-import { Image, Card, Text, CardBody, Heading, Stack } from '@chakra-ui/react';
+import { Card, CardBody, Heading, Image, Stack, Text } from '@chakra-ui/react';
 import { IProductResponse } from '../types/product';
 
 interface ProductProps {

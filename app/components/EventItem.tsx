@@ -1,29 +1,23 @@
 'use client';
-import React, { useState } from 'react';
-import {
-  Event,
-  EventInput,
-  IEventResponse,
-  UpdateEventInput,
-} from '@/app/types/sales';
+import { Event, IEventResponse, UpdateEventInput } from '@/app/types/sales';
 import {
   Box,
-  Step,
-  StepIndicator,
-  StepStatus,
-  Button,
   IconButton,
-  StepSeparator,
-  StepIcon,
-  StepNumber,
-  Stack,
-  Text,
   Input,
+  Stack,
+  Step,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  Text,
 } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { FiCheck, FiEdit, FiX } from 'react-icons/fi';
 import { useMutation } from 'react-query';
-import { FiEdit, FiCheck, FiX } from 'react-icons/fi';
-import { dateToFullFormat } from '../utils/time-conversion';
 import { updateSalesEvent } from '../api/salesApi';
+import { dateToFullFormat } from '../utils/time-conversion';
 interface EventProps {
   event: Event;
   orderId: string;

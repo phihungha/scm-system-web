@@ -1,31 +1,31 @@
 'use client';
-import React, { useState } from 'react';
-import SalesOrderInfo from '../components/SalesOrderInfo';
 import {
   completeSalesOrder,
   finishSalesOrder,
   getSalesOrder,
   updateSalesOrder,
 } from '@/app/api/salesApi';
-import PaymentInfo from '@/app/components/PaymentInfo';
-import ItemsInfo from '@/app/components/ItemsInfo';
-import { Stack, Button, Text } from '@chakra-ui/react';
-import { useQuery, useMutation } from 'react-query';
-import { Formik } from 'formik';
-import EventProgress from '@/app/components/EventProgress';
-import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
 import CancelSalesDialog from '@/app/components/CancelSalesDialog';
+import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
+import EventProgress from '@/app/components/EventProgress';
+import ItemsInfo from '@/app/components/ItemsInfo';
+import PaymentInfo from '@/app/components/PaymentInfo';
 import {
+  Event,
   ISaleResponse,
+  Item,
+  ItemInput,
   PriceInput,
   SaleDetailsProps,
-  Event,
-  Item,
   UpdateInput,
-  ItemInput,
 } from '@/app/types/sales';
+import { Button, Stack, Text } from '@chakra-ui/react';
+import { Formik } from 'formik';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import ReturnSalesDialog from '../components/ReturnSalesDialog';
+import SalesOrderInfo from '../components/SalesOrderInfo';
 
 export default function SalesOrder({ params }: SaleDetailsProps) {
   const router = useRouter();

@@ -1,6 +1,6 @@
-import apiClient from '../utils/client-api';
-import { customerVendorInput, IVendorsResponse } from '../types/vendor';
 import { Vendor } from '../types/requisition';
+import { customerVendorInput, IVendorsResponse } from '../types/vendor';
+import apiClient from '../utils/client-api';
 
 export const getAllVendors = async () => {
   const response = await apiClient.get<IVendorsResponse>(`Vendors`);

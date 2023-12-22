@@ -1,4 +1,3 @@
-import apiClient from '../utils/client-api';
 import {
   ApproveInput,
   CancelInput,
@@ -8,7 +7,7 @@ import {
   requisitionCreateInput,
   requisitionUpdateInput,
 } from '../types/requisition';
-import { CreateInput } from '../types/sales';
+import apiClient from '../utils/client-api';
 
 export const getAllRequisitions = async () => {
   const response =

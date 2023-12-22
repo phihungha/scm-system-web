@@ -3,7 +3,7 @@
 import { ISaleResponse } from '@/app/types/sales';
 import { dateToFullFormat } from '@/app/utils/time-conversion';
 import VND from '@/app/utils/vndFormat';
-import { Td, Tr, Button } from '@chakra-ui/react';
+import { Button, Td, Tr } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import SalesStatus from './SalesStatus';
 interface SalesOrderProps {

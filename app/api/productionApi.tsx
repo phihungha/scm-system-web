@@ -1,19 +1,18 @@
-import apiClient from '../utils/client-api';
 import {
   IProductionResponse,
   IProductionsResponse,
   ProductionInput,
 } from '../types/production';
+import { ApproveInput, RejectInput } from '../types/requisition';
 import {
   EventInput,
   IEventResponse,
-  Item,
-  negativeStatusInput,
   PaymentInput,
   StatusInput,
   UpdateEventInput,
+  negativeStatusInput,
 } from '../types/sales';
-import { ApproveInput, RejectInput } from '../types/requisition';
+import apiClient from '../utils/client-api';
 
 export const getAllProductionOrders = async () => {
   const response =

@@ -1,24 +1,11 @@
 'use client';
-import React, { useState } from 'react';
-import { useQuery, useMutation } from 'react-query';
-import PaymentInfo from '@/app/components/PaymentInfo';
+import { getConfig } from '@/app/api/configApi';
+import { getAllCustomers } from '@/app/api/customerApi';
+import { getAllFacilities } from '@/app/api/facilityApi';
+import { createSalesOrder } from '@/app/api/salesApi';
 import ItemsInfo from '@/app/components/ItemsInfo';
-import {
-  Stack,
-  Box,
-  Button,
-  Heading,
-  Text,
-  FormControl,
-} from '@chakra-ui/react';
-import {
-  AutoComplete,
-  AutoCompleteInput,
-  AutoCompleteItem,
-  AutoCompleteList,
-} from '@choc-ui/chakra-autocomplete';
-import { Formik, Field } from 'formik';
-import { getAllCustomers, getAllCustomers2 } from '@/app/api/customerApi';
+import PaymentInfo from '@/app/components/PaymentInfo';
+import { IFacilityResponse } from '@/app/types/productionFacility';
 import {
   ICustomer,
   ISaleResponse,
@@ -26,11 +13,24 @@ import {
   PriceInput,
   salesCreateInput,
 } from '@/app/types/sales';
-import { IFacilityResponse } from '@/app/types/productionFacility';
+import {
+  Box,
+  Button,
+  FormControl,
+  Heading,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
+import {
+  AutoComplete,
+  AutoCompleteInput,
+  AutoCompleteItem,
+  AutoCompleteList,
+} from '@choc-ui/chakra-autocomplete';
+import { Formik } from 'formik';
 import { useRouter } from 'next/navigation';
-import { getAllFacilities, getAllFacilities2 } from '@/app/api/facilityApi';
-import { getConfig, getConfig2 } from '@/app/api/configApi';
-import { createSalesOrder } from '@/app/api/salesApi';
+import { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 export default function SalesOrder() {
   const [selectedPrice, setSelectedPrice] = useState<PriceInput[]>([]);
   const router = useRouter();

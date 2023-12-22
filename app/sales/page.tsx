@@ -3,29 +3,18 @@
 import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import SalesOrderList from './components/SalesOrderList';
 import {
   Stack,
-  Box,
-  TabList,
-  Select,
-  Input,
-  InputGroup,
-  InputRightElement,
   Tab,
-  Tabs,
-  Text,
-  TabPanels,
+  TabList,
   TabPanel,
+  TabPanels,
+  Tabs,
 } from '@chakra-ui/react';
-import {
-  createSalesOrder,
-  getAllSalesOrders,
-  getSalesOrder,
-} from '../api/salesApi';
-import { useQuery, useMutation } from 'react-query';
-import { ItemInput, LoginInput } from '../types/sales';
+import { useMutation } from 'react-query';
 import { signInUser } from '../api/authApi';
+import { LoginInput } from '../types/sales';
+import SalesOrderList from './components/SalesOrderList';
 
 export default function Sales() {
   const [startDate, setStartDate] = useState(new Date());

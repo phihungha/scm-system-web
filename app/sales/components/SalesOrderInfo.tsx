@@ -1,26 +1,25 @@
 'use client';
-import React, { useState } from 'react';
 import {
   Box,
-  Text,
+  FormControl,
   Grid,
-  Stack,
+  GridItem,
   Heading,
   Input,
-  GridItem,
-  FormControl,
+  Stack,
+  Text,
 } from '@chakra-ui/react';
-import { useQuery } from 'react-query';
 import {
   AutoComplete,
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
-import { ICustomer, ISaleResponse } from '../../types/sales';
-import { getAllCustomers } from '../../api/customerApi';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
 import { getAllFacilities } from '../../api/facilityApi';
 import { IFacilityResponse } from '../../types/productionFacility';
+import { ISaleResponse } from '../../types/sales';
 import { dateToFullFormat } from '../../utils/time-conversion';
 
 interface OrderProps {

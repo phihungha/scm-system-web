@@ -1,10 +1,9 @@
 'use client';
-import React, { useState } from 'react';
-import { Stepper, useSteps, Text, Stack, Button } from '@chakra-ui/react';
-import { EventInput } from '../types/sales';
-import EventItem from './EventItem';
 import { Event } from '@/app/types/sales';
+import { Button, Stack, Stepper, Text, useSteps } from '@chakra-ui/react';
+import React from 'react';
 import AddEventDialog from './AddEventDialog';
+import EventItem from './EventItem';
 interface EventProps {
   events: Event[];
   orderId: string;

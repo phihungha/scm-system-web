@@ -1,8 +1,8 @@
 'use client';
 
 import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
-import SidebarContent from './SidebarContent';
 import LoggedNav from './LoggedNav';
+import SidebarContent from './SidebarContent';
 interface RootLayoutProps {
   children: React.ReactNode;
 }

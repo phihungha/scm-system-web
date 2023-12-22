@@ -1,34 +1,33 @@
 'use client';
 
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  InputGroup,
-  Stack,
-  Tfoot,
-  TableContainer,
-  ButtonGroup,
   Button,
-  IconButton,
+  ButtonGroup,
   Flex,
-  InputRightElement,
-  Input,
-  Text,
   Grid,
   GridItem,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
   Select,
+  Stack,
+  Table,
+  TableContainer,
+  Tbody,
+  Text,
+  Tfoot,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
-import { FiPlus } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import React from 'react';
+import { FiPlus, FiSearch } from 'react-icons/fi';
+import { useQuery } from 'react-query';
 import { getAllSalesOrders } from '../../api/salesApi';
 import { ISaleResponse } from '../../types/sales';
-import { useQuery } from 'react-query';
 import SalesListItem from './SalesListItem';
-import { FiSearch } from 'react-icons/fi';
-import React from 'react';
 
 export default function SalesOrderList() {
   const { data: sales } = useQuery({

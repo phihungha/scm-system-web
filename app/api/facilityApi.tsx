@@ -1,10 +1,9 @@
-import apiClient from '../utils/client-api';
 import {
-  IFacilityResponse,
-  IFacilitiesResponse,
   FacilityInput,
+  IFacilitiesResponse,
+  IFacilityResponse,
 } from '../types/productionFacility';
-import fakeApiClient from '../utils/fake-api';
+import apiClient from '../utils/client-api';
 
 export const getAllFacilities = async () => {
   const response =

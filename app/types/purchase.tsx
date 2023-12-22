@@ -1,5 +1,5 @@
-import { Vendor, RequisitionItem } from './requisition';
-import { productionFacility, Event, IUser, ItemInput } from './sales';
+import { RequisitionItem, Vendor } from './requisition';
+import { Event, IUser, ItemInput, productionFacility } from './sales';
 
 export interface IPurchaseResponse {
   additionalDiscount: number;

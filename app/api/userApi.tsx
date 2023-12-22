@@ -1,10 +1,10 @@
-import apiClient from '../utils/client-api';
 import {
   createUserInput,
   IUserResponse,
   IUsersResponse,
   updateUserInput,
 } from '../types/user';
+import apiClient from '../utils/client-api';
 
 export const getAllUsers = async () => {
   const response = await apiClient.get<IUsersResponse>(`Users`);

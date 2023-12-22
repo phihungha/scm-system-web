@@ -1,23 +1,23 @@
 'use client';
-import React, { useState } from 'react';
 import {
-  Modal,
-  FormControl,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormLabel,
-  Textarea,
-  ModalFooter,
   Button,
+  FormControl,
+  FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
+  Textarea,
 } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import { Event, EventInput, IEventResponse } from '../types/sales';
 import { createSalesEvent } from '../api/salesApi';
+import { Event, EventInput, IEventResponse } from '../types/sales';
 
 interface DialogProps {
   displayEvents: Event[];

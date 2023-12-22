@@ -1,24 +1,23 @@
 'use client';
 import {
-  Modal,
-  FormControl,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormLabel,
-  Input,
-  ModalFooter,
   Button,
+  FormControl,
+  FormLabel,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   NumberInput,
   NumberInputField,
 } from '@chakra-ui/react';
-import { useMutation } from 'react-query';
-import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ISaleResponse, PaymentInput } from '../types/sales';
+import { useState } from 'react';
+import { useMutation } from 'react-query';
 import { completeSalesPayment } from '../api/salesApi';
+import { ISaleResponse, PaymentInput } from '../types/sales';
 
 interface DialogProps {
   orderId: string;
