@@ -62,9 +62,7 @@ export default function SalesOrderList() {
         <GridItem>
           <Select
             value={searchBy}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchBy(e.target.value)
-            }
+            onChange={(e) => setSearchBy(e.target.value)}
             w="auto"
           >
             <option value="Id">Id</option>
@@ -85,9 +83,7 @@ export default function SalesOrderList() {
         <GridItem>
           <Select
             value={paymentStatus}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPaymentStatus(e.target.value)
-            }
+            onChange={(e) => setPaymentStatus(e.target.value)}
             w="auto"
           >
             <option value="Due">Due</option>
@@ -105,9 +101,7 @@ export default function SalesOrderList() {
         <GridItem>
           <Select
             value={status}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setStatus(e.target.value)
-            }
+            onChange={(e) => setStatus(e.target.value)}
             w="auto"
           >
             <option value="">None</option>

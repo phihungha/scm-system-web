@@ -1,10 +1,9 @@
-import { ICustomersResponse } from '../types/customer';
 import { ICustomer } from '../types/sales';
 import { customerVendorInput } from '../types/vendor';
 import apiClient from '../utils/client-api';
 
 export const getAllCustomers = async () => {
-  const response = await apiClient.get<ICustomersResponse>(`Customers`);
+  const response = await apiClient.get<ICustomer[]>(`Customers`);
   return response.data;
 };
 

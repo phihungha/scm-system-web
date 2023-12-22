@@ -13,7 +13,7 @@ import {
   StepStatus,
   Text,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FiCheck, FiEdit, FiX } from 'react-icons/fi';
 import { useMutation } from 'react-query';
 import { updateSalesEvent } from '../api/salesApi';
@@ -79,17 +79,13 @@ export default function EventItem({ event, orderId }: EventProps) {
             <Input
               isDisabled={locationInput}
               value={event.location}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleLocationChange(e.target.value)
-              }
+              onChange={(e) => handleLocationChange(e.target.value)}
               fontSize="xl"
             ></Input>
             <Input
               isDisabled={messageInput}
               value={event.message}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleMessageChange(e.target.value)
-              }
+              onChange={(e) => handleMessageChange(e.target.value)}
               fontSize="xl"
             ></Input>
             <Text fontSize="xl">{eventTime}</Text>

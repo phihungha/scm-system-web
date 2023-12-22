@@ -8,28 +8,13 @@ export interface IVendorsResponse {
 }
 
 export class customerVendorInput {
-  contactPerson: string;
-  defaultLocation: string;
-  description: string;
-  email: string;
-  isActive: boolean;
-  name: string;
-  phoneNumber: string;
   constructor(
-    contactPerson: string,
-    defaultLocation: string,
-    description: string,
-    email: string,
-    isActive: boolean,
-    name: string,
-    phoneNumber: string,
-  ) {
-    this.contactPerson = contactPerson;
-    this.defaultLocation = defaultLocation;
-    this.description = description;
-    this.email = email;
-    this.isActive = isActive;
-    this.name = name;
-    this.phoneNumber = phoneNumber;
-  }
+    public contactPerson: string,
+    public defaultLocation: string,
+    public description: string,
+    public email: string,
+    public isActive: boolean,
+    public name: string,
+    public phoneNumber: string,
+  ) {}
 }

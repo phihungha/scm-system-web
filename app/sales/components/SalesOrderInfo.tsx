@@ -15,7 +15,7 @@ import {
   AutoCompleteItem,
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { getAllFacilities } from '../../api/facilityApi';
 import { IFacilityResponse } from '../../types/productionFacility';
@@ -142,9 +142,7 @@ export default function SalesOrderInfo(salesOrder: OrderProps) {
             <Box w="full">
               <Input
                 value={salesOrder.toLocation}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  salesOrder.setToLocation(e.target.value)
-                }
+                onChange={(e) => salesOrder.setToLocation(e.target.value)}
               />
             </Box>
           </GridItem>

@@ -13,7 +13,7 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { cancelSalesOrder } from '../api/salesApi';
 import { ISaleResponse } from '../types/sales';
@@ -51,9 +51,7 @@ export default function CancelSalesDialog(open: DialogProps) {
             </FormLabel>
             <Textarea
               value={problem}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setProblem(e.target.value)
-              }
+              onChange={(e) => setProblem(e.target.value)}
             />
           </FormControl>
         </ModalBody>

@@ -14,7 +14,7 @@ import {
   Select,
   Textarea,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { createSalesEvent } from '../api/salesApi';
 import { Event, EventInput, IEventResponse } from '../types/sales';
@@ -66,9 +66,7 @@ export default function AddEventDialog(addDialog: DialogProps) {
             <FormLabel>Event Type:</FormLabel>
             <Select
               value={eventType}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEventType(e.target.value)
-              }
+              onChange={(e) => setEventType(e.target.value)}
             >
               <option value="Left">Left</option>
               <option value="Arrived">Arrived</option>
@@ -79,18 +77,14 @@ export default function AddEventDialog(addDialog: DialogProps) {
             <FormLabel>Location:</FormLabel>
             <Input
               value={location}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setLocation(e.target.value)
-              }
+              onChange={(e) => setLocation(e.target.value)}
             />
           </FormControl>
           <FormControl>
             <FormLabel>Message:</FormLabel>
             <Textarea
               value={message}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setMessage(e.target.value)
-              }
+              onChange={(e) => setMessage(e.target.value)}
             />
           </FormControl>
         </ModalBody>
