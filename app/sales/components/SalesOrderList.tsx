@@ -40,7 +40,7 @@ export default function SalesOrderList() {
   const [paymentStatus, setPaymentStatus] = React.useState('');
   const [status, setStatus] = React.useState('');
   const onCreate = async () => {
-    router.replace('/sales/ordercreate');
+    router.replace('/sales/create');
   };
 
   return (
