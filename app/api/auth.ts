@@ -6,3 +6,7 @@ export async function signIn(params: SignInParams) {
   const response = await apiClient.post<User>('Auth/SignIn', params);
   return response.data;
 }
+
+export async function signOut() {
+  await apiClient.post('Auth/SignOut');
+}
