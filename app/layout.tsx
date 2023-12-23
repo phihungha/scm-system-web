@@ -3,14 +3,13 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
-import NavBar from './components/NavBar';
 import QueryProvider from './components/QueryProvider';
 import Sidebar from './components/SideBar';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-interface RootLayoutProps {
+interface BodyProps {
   children: React.ReactNode;
 }
 
@@ -32,21 +31,16 @@ export default function RootLayout({
   );
 }
 
-function Body({ children }: RootLayoutProps) {
+function Body({ children }: BodyProps) {
   const currentPath = usePathname();
 
-  const loginBody = (
-    <div>
-      <NavBar />
-      {children}
-    </div>
-  );
+  const loginBody = children;
 
   const mainBody = <Sidebar>{children}</Sidebar>;
 
   return (
     <div className={`${inter.className} flex min-h-screen flex-col p-0`}>
-      {currentPath == '/login' ? loginBody : mainBody}
+      {currentPath == '/sign-in' ? loginBody : mainBody}
     </div>
   );
 }
