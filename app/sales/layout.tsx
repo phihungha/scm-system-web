@@ -1,7 +1,7 @@
 import { Stack, Tab, TabList, Tabs } from '@chakra-ui/react';
 import Link from 'next/link';
 
-export default function RootLayout({
+export default function SalesLayout({
   children,
 }: {
   children: React.ReactNode;

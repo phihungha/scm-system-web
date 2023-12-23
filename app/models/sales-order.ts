@@ -20,8 +20,8 @@ export interface SalesOrderItem extends OrderItem {
 export interface SalesOrder extends TransOrder {
   customer: Customer;
   customerId: number;
-  productionFacility: ProductionFacility;
-  productionFacilityId: number;
+  productionFacility?: ProductionFacility;
+  productionFacilityId?: number;
   events?: TransOrderEvent[];
   items?: SalesOrderItem[];
 }
