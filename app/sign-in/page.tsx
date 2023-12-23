@@ -1,12 +1,12 @@
 'use client';
 
 import {
-  Box,
   Button,
   Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Heading,
   Input,
   Text,
   VStack,
@@ -25,7 +25,7 @@ import { FormInputsProps } from '../types/form-props';
 
 function SignInFormInputs({ errors, touched }: FormInputsProps<SignInParams>) {
   return (
-    <VStack spacing={4} align="flex-start">
+    <>
       <FormControl isInvalid={!!errors.userName && touched.userName}>
         <FormLabel htmlFor="userName">Username</FormLabel>
         <Field as={Input} id="userName" name="userName" variant="filled" />
@@ -43,7 +43,7 @@ function SignInFormInputs({ errors, touched }: FormInputsProps<SignInParams>) {
         />
         <FormErrorMessage>{errors.password}</FormErrorMessage>
       </FormControl>
-    </VStack>
+    </>
   );
 }
 
@@ -83,7 +83,18 @@ export default function SignInPage() {
 
   return (
     <Flex bg="gray.100" align="center" justify="center" h="100vh">
-      <Box bg="white" p={5} rounded="md">
+      <Flex
+        direction="column"
+        width="450px"
+        gap={5}
+        p={5}
+        rounded="md"
+        bg="white"
+      >
+        <Heading textAlign="center" fontWeight={600} fontSize={'3xl'}>
+          Sign In
+        </Heading>
+
         <Formik
           initialValues={initialFormValues}
           validationSchema={formValidationSchema}
@@ -95,20 +106,20 @@ export default function SignInPage() {
               onSubmit={handleSubmit}
               onFocus={() => setIncorrectLogin(false)}
             >
-              <SignInFormInputs {...formProps} />
-              <Button type="submit" mt={4} colorScheme="blue" width="full">
-                {isLoading ? <ButtonSpinner /> : 'Login'}
-              </Button>
+              <VStack spacing={4} align="flex-start">
+                <SignInFormInputs {...formProps} />
+                <Button type="submit" colorScheme="blue" width="full">
+                  {isLoading ? <ButtonSpinner /> : 'Login'}
+                </Button>
+              </VStack>
             </form>
           )}
         </Formik>
 
         {incorrectLogin && (
-          <Text mt={4} color="red">
-            Incorrect username or password.
-          </Text>
+          <Text color="red">Incorrect username or password.</Text>
         )}
-      </Box>
+      </Flex>
     </Flex>
   );
 }
