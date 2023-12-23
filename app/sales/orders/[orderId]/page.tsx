@@ -4,7 +4,7 @@ import {
   finishSalesOrder,
   getSalesOrder,
   updateSalesOrder,
-} from '@/app/api/salesApi';
+} from '@/app/api/sales-order';
 import CancelSalesDialog from '@/app/components/CancelSalesDialog';
 import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
 import EventProgress from '@/app/components/EventProgress';
@@ -12,20 +12,20 @@ import ItemsInfo from '@/app/components/ItemsInfo';
 import PaymentInfo from '@/app/components/PaymentInfo';
 import {
   Event,
-  ISaleResponse,
-  Item,
-  ItemInput,
+  OrderItemParams,
   PriceInput,
   SaleDetailsProps,
-  UpdateInput,
-} from '@/app/types/sales';
+  SalesOrder,
+  SalesOrderItem,
+  SalesOrderUpdateParams,
+} from '@/app/models/sales-order';
 import { Button, Stack, Text } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import ReturnSalesDialog from '../components/ReturnSalesDialog';
-import SalesOrderInfo from '../components/SalesOrderInfo';
+import ReturnSalesDialog from '../../components/ReturnSalesDialog';
+import SalesOrderInfo from '../../components/SalesOrderInfo';
 
 export default function SalesOrder({ params }: SaleDetailsProps) {
   const router = useRouter();
@@ -45,11 +45,11 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
   const { data: salesOrder } = useQuery({
     queryKey: ['salesOrder'],
     queryFn: () => getSalesOrder(params.orderId),
-    onSuccess: (response: ISaleResponse) => {
+    onSuccess: (response: SalesOrder) => {
       setSelectedFacilityId(response.productionFacilityId);
       setToLocation(response.toLocation);
       setEvents(events.concat(response.events));
-      response.items.forEach((item: Item) => {
+      response.items.forEach((item: SalesOrderItem) => {
         const newItem = new PriceInput(
           item.product.id,
           item.quantity,
@@ -64,10 +64,10 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
   });
 
   const { mutate: updateSales } = useMutation(
-    async (salesData: UpdateInput) =>
+    async (salesData: SalesOrderUpdateParams) =>
       await updateSalesOrder(params.orderId, salesData),
     {
-      onSuccess: (response: ISaleResponse) => {
+      onSuccess: (response: SalesOrder) => {
         router.replace('/sales');
       },
     },
@@ -76,7 +76,7 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
   const { mutate: completeSales } = useMutation(
     async () => await completeSalesOrder(params.orderId),
     {
-      onSuccess: (response: ISaleResponse) => {
+      onSuccess: (response: SalesOrder) => {
         router.replace('/sales');
       },
     },
@@ -85,7 +85,7 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
   const { mutate: finishSales } = useMutation(
     async () => await finishSalesOrder(params.orderId),
     {
-      onSuccess: (response: ISaleResponse) => {
+      onSuccess: (response: SalesOrder) => {
         router.replace('/sales');
       },
     },
@@ -95,18 +95,22 @@ export default function SalesOrder({ params }: SaleDetailsProps) {
     return <>Still loading...</>;
   }
 
-  const currentOrder: ISaleResponse = salesOrder;
+  const currentOrder: SalesOrder = salesOrder;
 
   function onUpdate(
     productionFacilityId: number,
     toLocation: string,
     items: PriceInput[],
   ) {
-    const newItems: ItemInput[] = [];
+    const newItems: OrderItemParams[] = [];
     items.forEach((item: PriceInput) => {
-      newItems.push(new ItemInput(item.itemId, item.quantity));
+      newItems.push(new OrderItemParams(item.itemId, item.quantity));
     });
-    const sale = new UpdateInput(newItems, toLocation, productionFacilityId);
+    const sale = new SalesOrderUpdateParams(
+      newItems,
+      toLocation,
+      productionFacilityId,
+    );
     updateSales(sale);
   }
 

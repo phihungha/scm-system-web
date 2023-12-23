@@ -1,18 +1,18 @@
 'use client';
-import { getConfig } from '@/app/api/configApi';
-import { getAllCustomers } from '@/app/api/customerApi';
-import { getAllFacilities } from '@/app/api/facilityApi';
-import { createSalesOrder } from '@/app/api/salesApi';
+import { getConfig } from '@/app/api/config';
+import { getCustomers } from '@/app/api/customer';
+import { getProductionFacilities } from '@/app/api/production-facility';
+import { createSalesOrder } from '@/app/api/sales-order';
 import ItemsInfo from '@/app/components/ItemsInfo';
 import PaymentInfo from '@/app/components/PaymentInfo';
-import { IFacilityResponse } from '@/app/types/productionFacility';
+import { ProductionFacility } from '@/app/models/production-facility';
 import {
-  ICustomer,
-  ISaleResponse,
-  ItemInput,
+  Customer,
+  OrderItemParams,
   PriceInput,
-  salesCreateInput,
-} from '@/app/types/sales';
+  SalesOrder,
+  SalesOrderCreateParams,
+} from '@/app/models/sales-order';
 import {
   Box,
   Button,
@@ -40,9 +40,10 @@ export default function SalesOrder() {
     arr.reduce((sum, { itemId, quantity, price }) => sum + price * quantity, 0);
 
   const { mutate: createSales } = useMutation(
-    async (salesData: salesCreateInput) => await createSalesOrder(salesData),
+    async (salesData: SalesOrderCreateParams) =>
+      await createSalesOrder(salesData),
     {
-      onSuccess: (response: ISaleResponse) => {
+      onSuccess: (response: SalesOrder) => {
         router.replace(`/sales/${response.id}`);
       },
     },
@@ -54,12 +55,12 @@ export default function SalesOrder() {
   });
   const { data: customers } = useQuery({
     queryKey: ['customers'],
-    queryFn: () => getAllCustomers(),
+    queryFn: () => getCustomers(),
   });
 
   const { data: facilities } = useQuery({
     queryKey: ['facilities'],
-    queryFn: () => getAllFacilities(),
+    queryFn: () => getProductionFacilities(),
   });
 
   if (config === undefined) {
@@ -81,11 +82,11 @@ export default function SalesOrder() {
     customerId: number,
     items: PriceInput[],
   ) {
-    const newItems: ItemInput[] = [];
+    const newItems: OrderItemParams[] = [];
     items.forEach((item: PriceInput) => {
-      newItems.push(new ItemInput(item.itemId, item.quantity));
+      newItems.push(new OrderItemParams(item.itemId, item.quantity));
     });
-    const sale = new salesCreateInput(
+    const sale = new SalesOrderCreateParams(
       newItems,
       customerId,
       productionFacilityId,
@@ -138,7 +139,7 @@ export default function SalesOrder() {
                   >
                     <AutoCompleteInput variant="filled" />
                     <AutoCompleteList gap={5}>
-                      {facilities?.map((facility: IFacilityResponse) => (
+                      {facilities?.map((facility: ProductionFacility) => (
                         <AutoCompleteItem
                           key={facility.id}
                           label={facility.name}
@@ -171,7 +172,7 @@ export default function SalesOrder() {
                   >
                     <AutoCompleteInput variant="filled" />
                     <AutoCompleteList>
-                      {customers?.map((customer: ICustomer) => (
+                      {customers?.map((customer: Customer) => (
                         <AutoCompleteItem
                           key={customer.id}
                           label={customer.contactPerson}
