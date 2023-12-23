@@ -25,7 +25,7 @@ export interface StandardLifecycle {
   updateTime?: Date;
 }
 
-export type ApprovalStatus = 'Approved' | 'Rejected';
+export type ApprovalStatus = 'PendingApproval' | 'Approved' | 'Rejected';
 
 export interface ApprovalInfo {
   approvalStatus: ApprovalStatus;

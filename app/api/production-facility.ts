@@ -7,7 +7,7 @@ import {
 import apiClient from './client-api';
 
 export async function getProductionFacilities(params: SimpleItemQueryParams) {
-  const response = await apiClient.get<ProductionFacility>(
+  const response = await apiClient.get<ProductionFacility[]>(
     'ProductionFacilities',
     { params },
   );

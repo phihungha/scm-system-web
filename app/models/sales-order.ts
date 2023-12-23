@@ -2,13 +2,16 @@ import { Customer } from './customer';
 import {
   OrderItem,
   OrderItemParams,
-  OrderQueryParams,
   OrderSearchCriteria,
   OrderUpdateParams,
 } from './order';
 import { Product } from './product';
 import { ProductionFacility } from './production-facility';
-import { TransOrder, TransOrderEvent } from './trans-order';
+import {
+  TransOrder,
+  TransOrderEvent,
+  TransOrderQueryParams,
+} from './trans-order';
 
 export interface SalesOrderItem extends OrderItem {
   product: Product;
@@ -55,6 +58,6 @@ export interface SaleDetailsProps {
 
 export type SalesOrderSearchCriteria = OrderSearchCriteria | 'CustomerName';
 
-export interface SalesOrderQueryParams extends OrderQueryParams {
+export interface SalesOrderQueryParams extends TransOrderQueryParams {
   searchCriteria?: SalesOrderSearchCriteria;
 }

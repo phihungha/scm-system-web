@@ -3,7 +3,7 @@ import { User, UserCreateParams, UserUpdateParams } from '../models/user';
 import apiClient from './client-api';
 
 export async function getUsers(params: SimpleItemQueryParams) {
-  const response = await apiClient.get<User>('Users', { params });
+  const response = await apiClient.get<User[]>('Users', { params });
   return response.data;
 }
 

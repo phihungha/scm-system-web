@@ -24,13 +24,13 @@ export interface TransOrderEventCreateParams extends OrderEventCreateParams {
   type: TransOrderEventOption;
 }
 
-export type PaymentStatus = 'Pending' | 'Due' | 'Completed';
+export type PaymentStatus = 'Pending' | 'Due' | 'Completed' | 'Canceled';
 
 export interface TransOrder extends Order {
   fromLocation: string;
   isPaymentCompleteAllowed: boolean;
   isToLocationUpdateAllowed: boolean;
-  paymentStatus: string;
+  paymentStatus: PaymentStatus;
   remainingAmount: number;
   subTotal: number;
   toLocation: string;

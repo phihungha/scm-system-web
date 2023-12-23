@@ -7,7 +7,7 @@ import {
 import apiClient from './client-api';
 
 export async function getSupplies(params: SimpleItemQueryParams) {
-  const response = await apiClient.get<Supply>('Supplies', { params });
+  const response = await apiClient.get<Supply[]>('Supplies', { params });
   return response.data;
 }
 
