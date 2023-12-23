@@ -1,4 +1,4 @@
-import { OrderEventCreateParams } from './event';
+import { OrderEvent, OrderEventCreateParams } from './event';
 import { Order, OrderItem } from './order';
 
 export type TransOrderEventType =
@@ -16,7 +16,7 @@ export type TransOrderEventType =
 
 export type TransOrderEventOption = 'Left' | 'Arrived' | 'Interrupted';
 
-export interface TransOrderEvent extends Event {
+export interface TransOrderEvent extends OrderEvent {
   type: TransOrderEventType;
 }
 

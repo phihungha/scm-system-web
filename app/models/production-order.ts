@@ -1,4 +1,4 @@
-import { OrderEventCreateParams } from './event';
+import { OrderEvent, OrderEventCreateParams } from './event';
 import { ApprovalInfo } from './interfaces';
 import { Order, OrderItem, OrderItemParams } from './order';
 import { Product } from './product';
@@ -18,7 +18,7 @@ export type ProductionOrderEventType =
   | 'Unaccepted'
   | 'Interrupted';
 
-export interface ProductionOrderEvent extends Event {
+export interface ProductionOrderEvent extends OrderEvent {
   type: ProductionOrderEventType;
 }
 
