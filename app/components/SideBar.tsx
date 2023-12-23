@@ -58,11 +58,11 @@ function NavItem({ href, icon, children }: NavItemProps) {
 
 const navbarItems = [
   { href: '/', name: 'Home', icon: FiHome },
-  { href: '/purchases', name: 'Purchases', icon: FiDownload },
-  { href: '/production', name: 'Production', icon: FiCpu },
-  { href: '/sales', name: 'Sales', icon: FiUpload },
-  { href: '/inventory', name: 'Inventory', icon: FiBox },
-  { href: '/reports', name: 'Reports', icon: FiBarChart },
+  { href: '/purchases/orders', name: 'Purchases', icon: FiDownload },
+  { href: '/production/orders', name: 'Production', icon: FiCpu },
+  { href: '/sales/orders', name: 'Sales', icon: FiUpload },
+  { href: '/inventory/stock', name: 'Inventory', icon: FiBox },
+  { href: '/reports/sales', name: 'Reports', icon: FiBarChart },
   { href: '/settings', name: 'Settings', icon: FiSettings },
 ];
 

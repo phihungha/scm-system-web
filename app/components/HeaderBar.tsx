@@ -49,11 +49,12 @@ function UserMenu() {
   );
 }
 
-// TODO: Use User.profileImageUrl later
-const sampleAvatarUrl =
-  'https://scmss.s3.ap-southeast-1.amazonaws.com/public/user-profile-images/5dbb0c61-6c08-4640-925b-ac89be1c482d';
-
 function UserDisplay() {
+  const fullName = 'Mark Zucc';
+  const profileImageUrl =
+    'https://scmss.s3.ap-southeast-1.amazonaws.com/public/user-profile-images/5dbb0c61-6c08-4640-925b-ac89be1c482d';
+  const role = 'Administrator';
+
   return (
     <HStack spacing={{ base: '0', md: '6' }}>
       <Flex alignItems={'center'}>
@@ -64,18 +65,20 @@ function UserDisplay() {
             _focus={{ boxShadow: 'none' }}
           >
             <HStack>
-              <Avatar size={'sm'} src={sampleAvatarUrl} />
+              <Avatar size="md" src={profileImageUrl} />
+
               <VStack
                 display={{ base: 'none', md: 'flex' }}
                 alignItems="flex-start"
                 spacing="1px"
                 ml="2"
               >
-                <Text fontSize="sm">Justina Clark</Text>
+                <Text fontSize="sm">{fullName}</Text>
                 <Text fontSize="xs" color="gray.600">
-                  Admin
+                  {role}
                 </Text>
               </VStack>
+
               <Box display={{ base: 'none', md: 'flex' }}>
                 <FiChevronDown />
               </Box>
