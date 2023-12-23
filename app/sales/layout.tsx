@@ -1,5 +1,10 @@
-import { Stack, Tab, TabList, Tabs } from '@chakra-ui/react';
-import Link from 'next/link';
+import { Stack } from '@chakra-ui/react';
+import { NavTabs } from '../components/NavTabs';
+
+const navTabItems = [
+  { url: '/sales/orders', name: 'Orders' },
+  { url: '/sales/customers', name: 'Customers' },
+];
 
 export default function SalesLayout({
   children,
@@ -8,16 +13,7 @@ export default function SalesLayout({
 }) {
   return (
     <Stack spacing={5}>
-      <Tabs>
-        <TabList>
-          <Link href="/sales/orders">
-            <Tab>Orders</Tab>
-          </Link>
-          <Link href="/sales/customers">
-            <Tab>Customers</Tab>
-          </Link>
-        </TabList>
-      </Tabs>
+      <NavTabs items={navTabItems} />
       {children}
     </Stack>
   );
