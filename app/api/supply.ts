@@ -1,3 +1,4 @@
+import { SimpleItemQueryParams } from '../models/general';
 import {
   Supply,
   SupplyCreateParams,
@@ -5,8 +6,8 @@ import {
 } from '../models/supply';
 import apiClient from './client-api';
 
-export async function getSupplies() {
-  const response = await apiClient.get<Supply>(`Supplies`);
+export async function getSupplies(params: SimpleItemQueryParams) {
+  const response = await apiClient.get<Supply>('Supplies', { params });
   return response.data;
 }
 

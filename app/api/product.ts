@@ -1,3 +1,4 @@
+import { SimpleItemQueryParams } from '../models/general';
 import {
   Product,
   ProductCreateParams,
@@ -5,8 +6,8 @@ import {
 } from '../models/product';
 import apiClient from './client-api';
 
-export async function getProducts() {
-  const response = await apiClient.get<Product[]>('Products');
+export async function getProducts(params: SimpleItemQueryParams) {
+  const response = await apiClient.get<Product[]>('Products', { params });
   return response.data;
 }
 

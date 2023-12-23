@@ -36,3 +36,11 @@ export interface ProblemParams {
   id: number;
   problem: string;
 }
+
+export type SimpleItemSearchCriteria = 'Id' | 'Name';
+
+export interface SimpleItemQueryParams {
+  searchTerm?: string;
+  searchCriteria?: SimpleItemSearchCriteria;
+  all?: boolean;
+}

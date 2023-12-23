@@ -3,10 +3,11 @@ import {
   CustomerCreateParams,
   CustomerUpdateParams,
 } from '../models/customer';
+import { SimpleItemQueryParams } from '../models/general';
 import apiClient from './client-api';
 
-export async function getCustomers() {
-  const response = await apiClient.get<Customer[]>('Customers');
+export async function getCustomers(params: SimpleItemQueryParams) {
+  const response = await apiClient.get<Customer[]>('Customers', { params });
   return response.data;
 }
 

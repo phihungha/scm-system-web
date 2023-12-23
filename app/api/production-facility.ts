@@ -1,3 +1,4 @@
+import { SimpleItemQueryParams } from '../models/general';
 import {
   ProductionFacility,
   ProductionFacilityCreateParams,
@@ -5,9 +6,11 @@ import {
 } from '../models/production-facility';
 import apiClient from './client-api';
 
-export async function getProductionFacilities() {
-  const response =
-    await apiClient.get<ProductionFacility>(`ProductionFacilities`);
+export async function getProductionFacilities(params: SimpleItemQueryParams) {
+  const response = await apiClient.get<ProductionFacility>(
+    'ProductionFacilities',
+    { params },
+  );
   return response.data;
 }
 
