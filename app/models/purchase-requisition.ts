@@ -1,4 +1,4 @@
-import { ApprovalInfo, StandardLifecycle } from './interfaces';
+import { ApprovalInfo, StandardLifecycle } from './general';
 import { OrderItemParams } from './order';
 import { ProductionFacility } from './production-facility';
 import { Supply } from './supply';

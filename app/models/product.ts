@@ -2,7 +2,7 @@ import {
   CreateUpdateTime,
   SoftDeletable,
   SoftDeletableParams,
-} from './interfaces';
+} from './general';
 import { Supply } from './supply';
 
 export interface Product extends CreateUpdateTime, SoftDeletable {

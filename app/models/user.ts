@@ -2,7 +2,7 @@ import {
   CreateUpdateTime,
   SoftDeletable,
   SoftDeletableParams,
-} from './interfaces';
+} from './general';
 
 type Gender = 'Male' | 'Female' | 'Other';
 

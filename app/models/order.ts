@@ -1,4 +1,4 @@
-import { StandardLifecycle } from './interfaces';
+import { StandardLifecycle } from './general';
 
 export type OrderStatus =
   | 'Processing'

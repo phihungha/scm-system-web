@@ -1,4 +1,4 @@
-import { SoftDeletableParams } from './interfaces';
+import { SoftDeletableParams } from './general';
 
 export interface Customer {
   contactPerson: string;

@@ -31,3 +31,8 @@ export interface ApprovalInfo {
   approvalStatus: ApprovalStatus;
   isApprovalAllowed: boolean;
 }
+
+export interface ProblemParams {
+  id: number;
+  problem: string;
+}

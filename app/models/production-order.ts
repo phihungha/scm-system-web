@@ -1,5 +1,5 @@
 import { OrderEvent, OrderEventCreateParams } from './event';
-import { ApprovalInfo } from './interfaces';
+import { ApprovalInfo } from './general';
 import { Order, OrderItem, OrderItemParams } from './order';
 import { Product } from './product';
 import { ProductionFacility } from './production-facility';

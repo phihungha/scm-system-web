@@ -2,7 +2,7 @@ import {
   CreateUpdateTime,
   SoftDeletable,
   SoftDeletableParams,
-} from './interfaces';
+} from './general';
 
 export interface ProductionFacility extends CreateUpdateTime, SoftDeletable {
   id: number;
