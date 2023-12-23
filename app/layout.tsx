@@ -9,10 +9,6 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-interface BodyProps {
-  children: React.ReactNode;
-}
-
 export default function RootLayout({
   children,
 }: {
@@ -29,6 +25,10 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+
+interface BodyProps {
+  children: React.ReactNode;
 }
 
 function Body({ children }: BodyProps) {
