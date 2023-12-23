@@ -13,6 +13,7 @@ export interface PurchaseOrder extends TransOrder {
   discountAmount: number;
   discountSubtotal: number;
   invoiceUrl: string;
+  isDiscountUpdateAllowed: boolean;
   netSubtotal: number;
   productionFacility: ProductionFacility;
   productionFacilityId: number;

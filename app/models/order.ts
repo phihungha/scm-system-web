@@ -23,5 +23,13 @@ export interface OrderItemParams {
 export interface Order extends StandardLifecycle {
   executionFinishTime: Date;
   id: number;
+  isAcceptAllowed: boolean;
+  isCancelAllowed: boolean;
+  isExecuting: boolean;
+  isExecutionFinishAllowed: boolean;
+  isExecutionFinished: boolean;
+  isExecutionInfoUpdateAllowed: boolean;
+  isExecutionStartAllowed: boolean;
+  isProcessing: boolean;
   status: OrderStatus;
 }

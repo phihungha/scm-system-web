@@ -20,6 +20,7 @@ export interface StandardLifecycle {
   endTime?: Date;
   endUser?: User;
   endUserId?: string;
+  isEnded: boolean;
   problem?: string;
   updateTime?: Date;
 }
@@ -28,4 +29,5 @@ export type ApprovalStatus = 'Approved' | 'Rejected';
 
 export interface ApprovalInfo {
   approvalStatus: ApprovalStatus;
+  isApprovalAllowed: boolean;
 }

@@ -22,6 +22,10 @@ export interface PurchaseRequisition extends StandardLifecycle, ApprovalInfo {
   approveFinanceId: string;
   approveProductionManager: User;
   approveProductionManagerId: string;
+  id: number;
+  isCancelAllowed: boolean;
+  isInfoUpdateAllowed: boolean;
+  isPurchaseOrderCreateAllowed: boolean;
   items?: PurchaseRequisitionItem[];
   productionFacility: ProductionFacility;
   productionFacilityId: number;

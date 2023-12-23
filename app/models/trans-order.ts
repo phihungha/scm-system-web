@@ -28,6 +28,8 @@ export type PaymentStatus = 'Pending' | 'Due' | 'Completed';
 
 export interface TransOrder extends Order {
   fromLocation: string;
+  isPaymentCompleteAllowed: boolean;
+  isToLocationUpdateAllowed: boolean;
   paymentStatus: string;
   remainingAmount: number;
   subTotal: number;
