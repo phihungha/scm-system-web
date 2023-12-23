@@ -7,11 +7,14 @@ export interface OrderEvent {
 }
 
 export interface OrderEventCreateParams {
+  orderId: number;
   location: string;
   message?: string;
 }
 
 export interface OrderEventUpdateParams {
+  orderId: number;
+  id: number;
   location?: string;
   message?: string;
 }

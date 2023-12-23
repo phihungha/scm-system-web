@@ -33,3 +33,7 @@ export interface Order extends StandardLifecycle {
   isProcessing: boolean;
   status: OrderStatus;
 }
+
+export interface OrderUpdateParams {
+  id: number;
+}

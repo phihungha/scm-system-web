@@ -35,7 +35,7 @@ export interface SupplyCostItemParams {
   quantity: number;
 }
 
-export interface ProductParams extends SoftDeletableParams {
+export interface ProductCreateParams extends SoftDeletableParams {
   expirationMonth: number;
   name: string;
   price: number;
@@ -44,4 +44,8 @@ export interface ProductParams extends SoftDeletableParams {
   description: string;
   miscCost: number;
   supplyCostItems: SupplyCostItemParams[];
+}
+
+export interface ProductUpdateParams extends ProductCreateParams {
+  id: number;
 }

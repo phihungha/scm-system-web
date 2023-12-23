@@ -1,7 +1,10 @@
 import { OrderEventUpdateParams } from '../models/event';
+import { ProblemParams } from '../models/general';
 import {
   PurchaseOrder,
+  PurchaseOrderCompleteParams,
   PurchaseOrderCreateParams,
+  PurchaseOrderPaymentCompleteParams,
   PurchaseOrderUpdateParams,
 } from '../models/purchase-order';
 import {
@@ -29,10 +32,10 @@ export async function createPurchaseOrder(params: PurchaseOrderCreateParams) {
   return response.data;
 }
 
-export async function updatePurchaseOrder(
-  id: number,
-  params: PurchaseOrderUpdateParams,
-) {
+export async function updatePurchaseOrder({
+  id,
+  ...params
+}: PurchaseOrderUpdateParams) {
   const response = await apiClient.patch<PurchaseOrder>(
     `PurchaseOrders/${id}`,
     params,
@@ -58,7 +61,10 @@ export async function finishPurchaseOrder(id: number) {
   return response.data;
 }
 
-export async function completePurchaseOrder(id: number, hasInvoice: boolean) {
+export async function completePurchaseOrder({
+  id,
+  hasInvoice,
+}: PurchaseOrderCompleteParams) {
   const body = { status: 'Completed', hasInvoice };
   const response = await apiClient.patch<PurchaseOrder>(
     `PurchaseOrders/${id}`,
@@ -67,11 +73,11 @@ export async function completePurchaseOrder(id: number, hasInvoice: boolean) {
   return response.data;
 }
 
-export async function completePurchasePayment(
-  id: number,
-  payAmount: number,
-  hasReceipt: boolean,
-) {
+export async function completePurchasePayment({
+  id,
+  payAmount,
+  hasReceipt,
+}: PurchaseOrderPaymentCompleteParams) {
   const body = { payAmount, hasReceipt };
   const response = await apiClient.patch<PurchaseOrder>(
     `PurchaseOrders/${id}`,
@@ -80,7 +86,7 @@ export async function completePurchasePayment(
   return response.data;
 }
 
-export async function cancelPurchaseOrder(id: number, problem: string) {
+export async function cancelPurchaseOrder({ id, problem }: ProblemParams) {
   const body = { status: 'Canceled', problem };
   const response = await apiClient.patch<PurchaseOrder>(
     `PurchaseOrders/${id}`,
@@ -89,7 +95,7 @@ export async function cancelPurchaseOrder(id: number, problem: string) {
   return response.data;
 }
 
-export async function returnPurchaseOrder(id: number, problem: string) {
+export async function returnPurchaseOrder({ id, problem }: ProblemParams) {
   const body = { status: 'Returned', problem };
   const response = await apiClient.patch<PurchaseOrder>(
     `PurchaseOrders/${id}`,
@@ -98,24 +104,24 @@ export async function returnPurchaseOrder(id: number, problem: string) {
   return response.data;
 }
 
-export async function createPurchaseOrderEvent(
-  id: number,
-  params: TransOrderEventCreateParams,
-) {
+export async function createPurchaseOrderEvent({
+  orderId,
+  ...params
+}: TransOrderEventCreateParams) {
   const response = await apiClient.post<TransOrderEvent>(
-    `PurchaseOrders/${id}/events`,
+    `PurchaseOrders/${orderId}/events`,
     params,
   );
   return response.data;
 }
 
-export async function updatePurchaseOrderEvent(
-  id: number,
-  eventId: number,
-  params: OrderEventUpdateParams,
-) {
+export async function updatePurchaseOrderEvent({
+  orderId,
+  id,
+  ...params
+}: OrderEventUpdateParams) {
   const response = await apiClient.patch<TransOrderEvent>(
-    `PurchaseOrders/${id}/events/${eventId}`,
+    `PurchaseOrders/${orderId}/events/${id}`,
     params,
   );
   return response.data;

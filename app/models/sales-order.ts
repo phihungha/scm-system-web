@@ -1,5 +1,5 @@
 import { Customer } from './customer';
-import { OrderItem, OrderItemParams } from './order';
+import { OrderItem, OrderItemParams, OrderUpdateParams } from './order';
 import { Product } from './product';
 import { ProductionFacility } from './production-facility';
 import { TransOrder, TransOrderEvent } from './trans-order';
@@ -24,7 +24,7 @@ export interface SalesOrderCreateParams {
   productionFacilityId?: number;
 }
 
-export interface SalesOrderUpdateParams {
+export interface SalesOrderUpdateParams extends OrderUpdateParams {
   items?: OrderItemParams[];
   toLocation?: string;
   productionFacilityId?: number;

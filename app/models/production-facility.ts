@@ -14,10 +14,15 @@ export interface ProductionFacility extends CreateUpdateTime, SoftDeletable {
   contactPerson: string;
 }
 
-export interface ProductionFacilityParams extends SoftDeletableParams {
+export interface ProductionFacilityCreateParams extends SoftDeletableParams {
   location: string;
   description: string;
   email: string;
   name: string;
   phoneNumber: string;
+}
+
+export interface ProductionFacilityUpdateParams
+  extends ProductionFacilityCreateParams {
+  id: number;
 }

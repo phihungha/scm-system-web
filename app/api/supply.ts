@@ -1,4 +1,8 @@
-import { Supply, SupplyParams } from '../models/supply';
+import {
+  Supply,
+  SupplyCreateParams,
+  SupplyUpdateParams,
+} from '../models/supply';
 import apiClient from './client-api';
 
 export async function getSupplies() {
@@ -11,12 +15,12 @@ export async function getSupply(id: number) {
   return response.data;
 }
 
-export async function createSupply(params: SupplyParams) {
+export async function createSupply(params: SupplyCreateParams) {
   const response = await apiClient.post<Supply>(`Supplies`, params);
   return response.data;
 }
 
-export async function updateSupply(id: number, params: SupplyParams) {
+export async function updateSupply({ id, ...params }: SupplyUpdateParams) {
   const response = await apiClient.patch<Supply>(`Supplies/${id}`, params);
   return response.data;
 }

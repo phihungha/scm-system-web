@@ -15,11 +15,15 @@ export interface Supply extends CreateUpdateTime, SoftDeletable {
   price: number;
 }
 
-export interface SupplyParams extends SoftDeletableParams {
+export interface SupplyCreateParams extends SoftDeletableParams {
   vendorId: number;
   expirationMonth: number;
   name: string;
   price: number;
   unit: string;
   description: string;
+}
+
+export interface SupplyUpdateParams extends SupplyCreateParams {
+  id: number;
 }

@@ -1,5 +1,5 @@
 import { OrderEvent, OrderEventCreateParams } from './event';
-import { Order, OrderItem } from './order';
+import { Order, OrderItem, OrderUpdateParams } from './order';
 
 export type TransOrderEventType =
   | 'Processing'
@@ -42,4 +42,8 @@ export interface TransOrder extends Order {
 export interface TransOrderItem extends OrderItem {
   totalPrice: number;
   unitPrice: number;
+}
+
+export interface TransOrderPaymentCompleteParams extends OrderUpdateParams {
+  payAmount: number;
 }

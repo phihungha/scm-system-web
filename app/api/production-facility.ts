@@ -1,6 +1,7 @@
 import {
   ProductionFacility,
-  ProductionFacilityParams,
+  ProductionFacilityCreateParams,
+  ProductionFacilityUpdateParams,
 } from '../models/production-facility';
 import apiClient from './client-api';
 
@@ -18,7 +19,7 @@ export async function getProductionFacility(id: number) {
 }
 
 export async function createProductionFacility(
-  params: ProductionFacilityParams,
+  params: ProductionFacilityCreateParams,
 ) {
   const response = await apiClient.post<ProductionFacility>(
     `ProductionFacilities`,
@@ -27,10 +28,10 @@ export async function createProductionFacility(
   return response.data;
 }
 
-export async function updateProductionFacility(
-  id: number,
-  params: ProductionFacilityParams,
-) {
+export async function updateProductionFacility({
+  id,
+  ...params
+}: ProductionFacilityUpdateParams) {
   const response = await apiClient.patch<ProductionFacility>(
     `ProductionFacilities/${id}`,
     params,

@@ -1,4 +1,8 @@
-import { Vendor, VendorParams } from '../models/vendor';
+import {
+  Vendor,
+  VendorCreateParams,
+  VendorUpdateParams,
+} from '../models/vendor';
 import apiClient from './client-api';
 
 export async function getVendors() {
@@ -11,12 +15,12 @@ export async function getVendor(id: number) {
   return response.data;
 }
 
-export async function createVendor(params: VendorParams) {
+export async function createVendor(params: VendorCreateParams) {
   const response = await apiClient.post<Vendor>(`Vendors`, params);
   return response.data;
 }
 
-export async function updateVendor(id: number, params: VendorParams) {
+export async function updateVendor({ id, ...params }: VendorUpdateParams) {
   const response = await apiClient.patch<Vendor>(`Vendors/${id}`, params);
   return response.data;
 }

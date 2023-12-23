@@ -33,6 +33,7 @@ export interface UserCreateParams extends SoftDeletableParams {
 }
 
 export interface UserUpdateParams extends SoftDeletableParams {
+  id: number;
   address: string;
   dateOfBirth: Date;
   description: string;

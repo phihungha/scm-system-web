@@ -44,5 +44,6 @@ export interface PurchaseRequisitionCreateParams {
 }
 
 export interface PurchaseRequisitionUpdateParams {
+  id: number;
   items?: OrderItemParams[];
 }

@@ -1,4 +1,5 @@
 import { OrderEventUpdateParams } from '../models/event';
+import { ProblemParams } from '../models/general';
 import {
   ProductionOrder,
   ProductionOrderCreateParams,
@@ -30,10 +31,10 @@ export async function createProductionOrder(
   return response.data;
 }
 
-export async function updateProductionOrder(
-  id: number,
-  params: ProductionOrderUpdateParams,
-) {
+export async function updateProductionOrder({
+  id,
+  ...params
+}: ProductionOrderUpdateParams) {
   const response = await apiClient.patch<ProductionOrder>(
     `ProductionOrders/${id}`,
     params,
@@ -50,7 +51,7 @@ export async function approveProductionOrder(id: number) {
   return response.data;
 }
 
-export async function rejectProductionOrder(id: number, problem: string) {
+export async function rejectProductionOrder({ id, problem }: ProblemParams) {
   const body = { approvalStatus: 'Rejected', problem };
   const response = await apiClient.patch<ProductionOrder>(
     `ProductionOrders/${id}`,
@@ -86,7 +87,7 @@ export async function completeProductionOrder(id: number) {
   return response.data;
 }
 
-export async function cancelProductionOrder(id: number, problem: string) {
+export async function cancelProductionOrder({ id, problem }: ProblemParams) {
   const body = { status: 'Canceled', problem };
   const response = await apiClient.patch<ProductionOrder>(
     `ProductionOrders/${id}`,
@@ -95,7 +96,7 @@ export async function cancelProductionOrder(id: number, problem: string) {
   return response.data;
 }
 
-export async function returnProductionOrder(id: number, problem: string) {
+export async function returnProductionOrder({ id, problem }: ProblemParams) {
   const body = { status: 'Returned', problem };
   const response = await apiClient.patch<ProductionOrder>(
     `ProductionOrders/${id}`,
@@ -104,24 +105,24 @@ export async function returnProductionOrder(id: number, problem: string) {
   return response.data;
 }
 
-export async function createProductionOrderEvent(
-  id: number,
-  params: ProductionOrderEventCreateParams,
-) {
+export async function createProductionOrderEvent({
+  orderId,
+  ...params
+}: ProductionOrderEventCreateParams) {
   const response = await apiClient.post<ProductionOrderEvent>(
-    `ProductionOrders/${id}/events`,
+    `ProductionOrders/${orderId}/events`,
     params,
   );
   return response.data;
 }
 
-export async function updateProductionOrderEvent(
-  id: number,
-  eventId: number,
-  params: OrderEventUpdateParams,
-) {
+export async function updateProductionOrderEvent({
+  orderId,
+  id,
+  ...params
+}: OrderEventUpdateParams) {
   const response = await apiClient.patch<ProductionOrderEvent>(
-    `ProductionOrders/${id}/events/${eventId}`,
+    `ProductionOrders/${orderId}/events/${id}`,
     params,
   );
   return response.data;

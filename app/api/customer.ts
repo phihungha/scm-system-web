@@ -1,4 +1,8 @@
-import { Customer, CustomerParams } from '../models/customer';
+import {
+  Customer,
+  CustomerCreateParams,
+  CustomerUpdateParams,
+} from '../models/customer';
 import apiClient from './client-api';
 
 export async function getCustomers() {
@@ -11,12 +15,12 @@ export async function getCustomer(id: number) {
   return response.data;
 }
 
-export async function createCustomer(params: CustomerParams) {
+export async function createCustomer(params: CustomerCreateParams) {
   const response = await apiClient.post<Customer>(`Customers`, params);
   return response.data;
 }
 
-export async function updateCustomer(id: number, customer: CustomerParams) {
-  const response = await apiClient.patch<Customer>(`Customers/${id}`, customer);
+export async function updateCustomer({ id, ...params }: CustomerUpdateParams) {
+  const response = await apiClient.patch<Customer>(`Customers/${id}`, params);
   return response.data;
 }

@@ -1,3 +1,4 @@
+import { ProblemParams } from '../models/general';
 import {
   PurchaseRequisition,
   PurchaseRequisitionCreateParams,
@@ -28,10 +29,10 @@ export async function createPurchaseRequisition(
   return response.data;
 }
 
-export async function updatePurchaseRequisition(
-  id: number,
-  params: PurchaseRequisitionUpdateParams,
-) {
+export async function updatePurchaseRequisition({
+  id,
+  ...params
+}: PurchaseRequisitionUpdateParams) {
   const response = await apiClient.patch<PurchaseRequisition>(
     `PurchaseRequisitions/${id}`,
     params,
@@ -48,7 +49,10 @@ export async function approvePurchaseRequisition(id: number) {
   return response.data;
 }
 
-export async function rejectPurchaseRequisition(id: number, problem: string) {
+export async function rejectPurchaseRequisition({
+  id,
+  problem,
+}: ProblemParams) {
   const body = { approvalStatus: 'Rejected', problem };
   const response = await apiClient.patch<PurchaseRequisition>(
     `PurchaseRequisitions/${id}`,
@@ -57,10 +61,10 @@ export async function rejectPurchaseRequisition(id: number, problem: string) {
   return response.data;
 }
 
-export const cancelPurchaseRequisition = async (
-  id: number,
-  problem: string,
-) => {
+export const cancelPurchaseRequisition = async ({
+  id,
+  problem,
+}: ProblemParams) => {
   const body = { status: 'Canceled', problem };
   const response = await apiClient.patch<PurchaseRequisition>(
     `PurchaseRequisitions/${id}`,

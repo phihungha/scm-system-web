@@ -1,4 +1,5 @@
 import { OrderEventUpdateParams } from '../models/event';
+import { ProblemParams } from '../models/general';
 import {
   SalesOrder,
   SalesOrderCreateParams,
@@ -7,6 +8,7 @@ import {
 import {
   TransOrderEvent,
   TransOrderEventCreateParams,
+  TransOrderPaymentCompleteParams,
 } from '../models/trans-order';
 import apiClient from './client-api';
 
@@ -25,10 +27,10 @@ export async function createSalesOrder(params: SalesOrderCreateParams) {
   return response.data;
 }
 
-export async function updateSalesOrder(
-  id: number,
-  params: SalesOrderUpdateParams,
-) {
+export async function updateSalesOrder({
+  id,
+  ...params
+}: SalesOrderUpdateParams) {
   const response = await apiClient.patch<SalesOrder>(
     `SalesOrders/${id}`,
     params,
@@ -54,42 +56,45 @@ export async function completeSalesOrder(id: number) {
   return response.data;
 }
 
-export async function completeSalesOrderPayment(id: number, payAmount: number) {
+export async function completeSalesOrderPayment({
+  id,
+  payAmount,
+}: TransOrderPaymentCompleteParams) {
   const body = { payAmount };
   const response = await apiClient.patch<SalesOrder>(`SalesOrders/${id}`, body);
   return response.data;
 }
 
-export async function cancelSalesOrder(id: number, problem: string) {
+export async function cancelSalesOrder({ id, problem }: ProblemParams) {
   const body = { status: 'Canceled', problem };
   const response = await apiClient.patch<SalesOrder>(`SalesOrders/${id}`, body);
   return response.data;
 }
 
-export async function returnSalesOrder(id: number, problem: string) {
+export async function returnSalesOrder({ id, problem }: ProblemParams) {
   const body = { status: 'Returned', problem };
   const response = await apiClient.patch<SalesOrder>(`SalesOrders/${id}`, body);
   return response.data;
 }
 
-export async function createSalesOrderEvent(
-  id: number,
-  params: TransOrderEventCreateParams,
-) {
+export async function createSalesOrderEvent({
+  orderId,
+  ...params
+}: TransOrderEventCreateParams) {
   const response = await apiClient.post<TransOrderEvent>(
-    `SalesOrders/${id}/events`,
+    `SalesOrders/${orderId}/events`,
     params,
   );
   return response.data;
 }
 
-export async function updateSalesOrderEvent(
-  id: number,
-  eventId: number,
-  params: OrderEventUpdateParams,
-) {
+export async function updateSalesOrderEvent({
+  orderId,
+  id,
+  ...params
+}: OrderEventUpdateParams) {
   const response = await apiClient.patch<TransOrderEvent>(
-    `SalesOrders/${id}/events/${eventId}`,
+    `SalesOrders/${orderId}/events/${id}`,
     params,
   );
   return response.data;

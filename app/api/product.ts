@@ -1,4 +1,8 @@
-import { Product, ProductParams } from '../models/product';
+import {
+  Product,
+  ProductCreateParams,
+  ProductUpdateParams,
+} from '../models/product';
 import apiClient from './client-api';
 
 export async function getProducts() {
@@ -11,12 +15,12 @@ export async function getProduct(id: number) {
   return response.data;
 }
 
-export async function createProduct(params: ProductParams) {
+export async function createProduct(params: ProductCreateParams) {
   const response = await apiClient.post<Product[]>(`Products`, params);
   return response.data;
 }
 
-export async function updateProduct(id: number, params: ProductParams) {
+export async function updateProduct({ id, ...params }: ProductUpdateParams) {
   const response = await apiClient.patch<Product[]>(`Products/${id}`, params);
   return response.data;
 }

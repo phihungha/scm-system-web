@@ -14,11 +14,15 @@ export interface Vendor extends CreateUpdateTime, SoftDeletable {
   phoneNumber: string;
 }
 
-export interface VendorParams extends SoftDeletableParams {
+export interface VendorCreateParams extends SoftDeletableParams {
   contactPerson: string;
   defaultLocation: string;
   description: string;
   email: string;
   name: string;
   phoneNumber: string;
+}
+
+export interface VendorUpdateParams extends VendorCreateParams {
+  id: number;
 }

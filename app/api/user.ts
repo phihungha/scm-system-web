@@ -16,7 +16,7 @@ export async function createUser(params: UserCreateParams) {
   return response.data;
 }
 
-export async function updateUser(id: string, params: UserUpdateParams) {
+export async function updateUser({ id, ...params }: UserUpdateParams) {
   const response = await apiClient.patch<User>(`Users/${id}`, params);
   return response.data;
 }

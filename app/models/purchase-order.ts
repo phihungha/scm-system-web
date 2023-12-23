@@ -1,7 +1,12 @@
-import { OrderItemParams } from './order';
+import { OrderItemParams, OrderUpdateParams } from './order';
 import { ProductionFacility } from './production-facility';
 import { Supply } from './supply';
-import { TransOrder, TransOrderEvent, TransOrderItem } from './trans-order';
+import {
+  TransOrder,
+  TransOrderEvent,
+  TransOrderItem,
+  TransOrderPaymentCompleteParams,
+} from './trans-order';
 import { Vendor } from './vendor';
 
 export interface PurchaseOrderItem extends TransOrderItem {
@@ -32,8 +37,17 @@ export interface PurchaseOrderCreateParams {
   purchaseRequisitionId: number;
 }
 
-export interface PurchaseOrderUpdateParams {
+export interface PurchaseOrderUpdateParams extends OrderUpdateParams {
   additionalDiscount?: number;
   items?: OrderItemParams[];
   fromLocation?: string;
+}
+
+export interface PurchaseOrderCompleteParams extends OrderUpdateParams {
+  hasInvoice: boolean;
+}
+
+export interface PurchaseOrderPaymentCompleteParams
+  extends TransOrderPaymentCompleteParams {
+  hasReceipt: boolean;
 }
