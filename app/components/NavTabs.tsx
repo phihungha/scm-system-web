@@ -2,7 +2,7 @@ import { Tab, TabList, Tabs } from '@chakra-ui/react';
 import Link from 'next/link';
 
 export interface NavTabsProps {
-  items: { url: string; name: string }[];
+  items: NavTabProps[];
 }
 
 export function NavTabs({ items }: NavTabsProps) {
