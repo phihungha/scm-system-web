@@ -4,7 +4,7 @@ import {
   ProductCreateParams,
   ProductUpdateParams,
 } from '../models/product';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getProducts(params: SimpleItemQueryParams) {
   const response = await apiClient.get<Product[]>('Products', { params });

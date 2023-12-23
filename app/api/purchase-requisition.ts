@@ -5,7 +5,7 @@ import {
   PurchaseRequisitionQueryParams,
   PurchaseRequisitionUpdateParams,
 } from '../models/purchase-requisition';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getPurchaseRequisitions(
   params: PurchaseRequisitionQueryParams,

@@ -1,6 +1,6 @@
 import { SimpleItemQueryParams } from '../models/general';
 import { User, UserCreateParams, UserUpdateParams } from '../models/user';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getUsers(params: SimpleItemQueryParams) {
   const response = await apiClient.get<User[]>('Users', { params });

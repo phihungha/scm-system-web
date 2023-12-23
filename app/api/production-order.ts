@@ -8,7 +8,7 @@ import {
   ProductionOrderQueryParams,
   ProductionOrderUpdateParams,
 } from '../models/production-order';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getProductionOrders(params: ProductionOrderQueryParams) {
   const response = await apiClient.get<ProductionOrder[]>('ProductionOrders', {

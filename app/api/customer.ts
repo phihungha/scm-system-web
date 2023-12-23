@@ -4,7 +4,7 @@ import {
   CustomerUpdateParams,
 } from '../models/customer';
 import { SimpleItemQueryParams } from '../models/general';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getCustomers(params: SimpleItemQueryParams) {
   const response = await apiClient.get<Customer[]>('Customers', { params });

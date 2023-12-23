@@ -4,7 +4,7 @@ import {
   VendorCreateParams,
   VendorUpdateParams,
 } from '../models/vendor';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getVendors(params: SimpleItemQueryParams) {
   const response = await apiClient.get<Vendor[]>('Vendors', { params });

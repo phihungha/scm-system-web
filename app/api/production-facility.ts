@@ -4,7 +4,7 @@ import {
   ProductionFacilityCreateParams,
   ProductionFacilityUpdateParams,
 } from '../models/production-facility';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getProductionFacilities(params: SimpleItemQueryParams) {
   const response = await apiClient.get<ProductionFacility[]>(

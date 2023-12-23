@@ -1,5 +1,5 @@
 import { Config, ConfigParams } from '../models/config';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getConfig() {
   const response = await apiClient.get<Config>('Config');

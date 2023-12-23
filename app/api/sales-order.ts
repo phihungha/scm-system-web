@@ -11,7 +11,7 @@ import {
   TransOrderEventCreateParams,
   TransOrderPaymentCompleteParams,
 } from '../models/trans-order';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function getSalesOrders(params: SalesOrderQueryParams) {
   const response = await apiClient.get<SalesOrder[]>('SalesOrders', { params });

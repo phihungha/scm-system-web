@@ -1,6 +1,6 @@
 import { SignInParams } from '../models/auth';
 import { User } from '../models/user';
-import apiClient from './client-api';
+import apiClient from './api-client';
 
 export async function signIn(params: SignInParams) {
   const response = await apiClient.post<User>('Auth/SignIn', params);
