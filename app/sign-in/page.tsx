@@ -84,8 +84,8 @@ export default function SignInPage() {
   return (
     <Flex bg="gray.100" align="center" justify="center" h="100vh">
       <Flex
-        direction="column"
         width="450px"
+        direction="column"
         gap={5}
         p={5}
         rounded="md"
@@ -106,7 +106,7 @@ export default function SignInPage() {
               onSubmit={handleSubmit}
               onFocus={() => setIncorrectLogin(false)}
             >
-              <VStack spacing={4} align="flex-start">
+              <VStack spacing={4}>
                 <SignInFormInputs {...formProps} />
                 <Button type="submit" colorScheme="blue" width="full">
                   {isLoading ? <ButtonSpinner /> : 'Login'}
@@ -117,7 +117,9 @@ export default function SignInPage() {
         </Formik>
 
         {incorrectLogin && (
-          <Text color="red">Incorrect username or password.</Text>
+          <Text textAlign="center" color="red">
+            Incorrect username or password.
+          </Text>
         )}
       </Flex>
     </Flex>
