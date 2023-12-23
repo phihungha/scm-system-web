@@ -9,8 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
+import AppQueryClientProvider from './components/AppQueryClientProvider';
 import HeaderBar from './components/HeaderBar';
-import QueryProvider from './components/QueryProvider';
 import Sidebar from './components/SideBar';
 import './globals.css';
 import { RootLayoutProps } from './types/layout-props';
@@ -25,11 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <QueryProvider>
+        <AppQueryClientProvider>
           <ChakraProvider>
             <Body>{children}</Body>
           </ChakraProvider>
-        </QueryProvider>
+        </AppQueryClientProvider>
       </body>
     </html>
   );
