@@ -17,7 +17,7 @@ export async function getCustomer(id: number) {
 }
 
 export async function createCustomer(params: CustomerCreateParams) {
-  const response = await apiClient.post<Customer>(`Customers`, params);
+  const response = await apiClient.post<Customer>('Customers', params);
   return response.data;
 }
 

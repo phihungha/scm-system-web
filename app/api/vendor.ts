@@ -17,7 +17,7 @@ export async function getVendor(id: number) {
 }
 
 export async function createVendor(params: VendorCreateParams) {
-  const response = await apiClient.post<Vendor>(`Vendors`, params);
+  const response = await apiClient.post<Vendor>('Vendors', params);
   return response.data;
 }
 

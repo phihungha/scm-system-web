@@ -1,5 +1,11 @@
 import { Customer } from './customer';
-import { OrderItem, OrderItemParams, OrderUpdateParams } from './order';
+import {
+  OrderItem,
+  OrderItemParams,
+  OrderQueryParams,
+  OrderSearchCriteria,
+  OrderUpdateParams,
+} from './order';
 import { Product } from './product';
 import { ProductionFacility } from './production-facility';
 import { TransOrder, TransOrderEvent } from './trans-order';
@@ -45,4 +51,10 @@ export interface SaleDetailsProps {
   params: {
     orderId: string;
   };
+}
+
+export type SalesOrderSearchCriteria = OrderSearchCriteria | 'CustomerName';
+
+export interface SalesOrderQueryParams extends OrderQueryParams {
+  searchCriteria?: SalesOrderSearchCriteria;
 }

@@ -1,6 +1,13 @@
 import { OrderEvent, OrderEventCreateParams } from './event';
 import { ApprovalInfo } from './general';
-import { Order, OrderItem, OrderItemParams, OrderUpdateParams } from './order';
+import {
+  Order,
+  OrderItem,
+  OrderItemParams,
+  OrderQueryParams,
+  OrderSearchCriteria,
+  OrderUpdateParams,
+} from './order';
 import { Product } from './product';
 import { ProductionFacility } from './production-facility';
 import { Supply } from './supply';
@@ -65,4 +72,10 @@ export interface ProductionOrderCreateParams {
 
 export interface ProductionOrderUpdateParams extends OrderUpdateParams {
   items?: OrderItemParams[];
+}
+
+export type ProductionOrderSearchCriteria = OrderSearchCriteria;
+
+export interface ProductionOrderQueryParams extends OrderQueryParams {
+  searchCriteria?: ProductionOrderSearchCriteria;
 }

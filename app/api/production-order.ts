@@ -5,12 +5,15 @@ import {
   ProductionOrderCreateParams,
   ProductionOrderEvent,
   ProductionOrderEventCreateParams,
+  ProductionOrderQueryParams,
   ProductionOrderUpdateParams,
 } from '../models/production-order';
 import apiClient from './client-api';
 
-export async function getProductionOrders() {
-  const response = await apiClient.get<ProductionOrder[]>(`ProductionOrders`);
+export async function getProductionOrders(params: ProductionOrderQueryParams) {
+  const response = await apiClient.get<ProductionOrder[]>('ProductionOrders', {
+    params,
+  });
   return response.data;
 }
 
@@ -25,7 +28,7 @@ export async function createProductionOrder(
   params: ProductionOrderCreateParams,
 ) {
   const response = await apiClient.post<ProductionOrder>(
-    `ProductionOrders`,
+    'ProductionOrders',
     params,
   );
   return response.data;

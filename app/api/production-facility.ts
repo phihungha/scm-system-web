@@ -25,7 +25,7 @@ export async function createProductionFacility(
   params: ProductionFacilityCreateParams,
 ) {
   const response = await apiClient.post<ProductionFacility>(
-    `ProductionFacilities`,
+    'ProductionFacilities',
     params,
   );
   return response.data;

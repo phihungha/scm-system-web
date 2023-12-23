@@ -1,5 +1,5 @@
-import { ApprovalInfo, StandardLifecycle } from './general';
-import { OrderItemParams } from './order';
+import { ApprovalInfo, ApprovalStatus, StandardLifecycle } from './general';
+import { OrderItemParams, OrderSearchCriteria } from './order';
 import { ProductionFacility } from './production-facility';
 import { Supply } from './supply';
 import { TransOrderItem } from './trans-order';
@@ -46,4 +46,13 @@ export interface PurchaseRequisitionCreateParams {
 export interface PurchaseRequisitionUpdateParams {
   id: number;
   items?: OrderItemParams[];
+}
+
+export type PurchaseRequisitionCriteria = OrderSearchCriteria | 'VendorName';
+
+export interface PurchaseRequisitionQueryParams {
+  searchCriteria?: PurchaseRequisitionCriteria;
+  searchTerm?: string;
+  status?: PurchaseRequisitionStatus[];
+  approvalStatus?: ApprovalStatus[];
 }

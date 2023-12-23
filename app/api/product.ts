@@ -17,7 +17,7 @@ export async function getProduct(id: number) {
 }
 
 export async function createProduct(params: ProductCreateParams) {
-  const response = await apiClient.post<Product[]>(`Products`, params);
+  const response = await apiClient.post<Product[]>('Products', params);
   return response.data;
 }
 

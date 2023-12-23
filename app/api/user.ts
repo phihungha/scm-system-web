@@ -13,7 +13,7 @@ export async function getUser(id: string) {
 }
 
 export async function createUser(params: UserCreateParams) {
-  const response = await apiClient.post<User>(`Users`, params);
+  const response = await apiClient.post<User>('Users', params);
   return response.data;
 }
 

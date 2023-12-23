@@ -17,7 +17,7 @@ export async function getSupply(id: number) {
 }
 
 export async function createSupply(params: SupplyCreateParams) {
-  const response = await apiClient.post<Supply>(`Supplies`, params);
+  const response = await apiClient.post<Supply>('Supplies', params);
   return response.data;
 }
 

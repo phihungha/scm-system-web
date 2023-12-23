@@ -2,13 +2,18 @@ import { ProblemParams } from '../models/general';
 import {
   PurchaseRequisition,
   PurchaseRequisitionCreateParams,
+  PurchaseRequisitionQueryParams,
   PurchaseRequisitionUpdateParams,
 } from '../models/purchase-requisition';
 import apiClient from './client-api';
 
-export async function getPurchaseRequisitions() {
-  const response =
-    await apiClient.get<PurchaseRequisition>(`PurchaseRequisitions`);
+export async function getPurchaseRequisitions(
+  params: PurchaseRequisitionQueryParams,
+) {
+  const response = await apiClient.get<PurchaseRequisition>(
+    'PurchaseRequisitions',
+    { params },
+  );
   return response.data;
 }
 
@@ -23,7 +28,7 @@ export async function createPurchaseRequisition(
   params: PurchaseRequisitionCreateParams,
 ) {
   const response = await apiClient.post<PurchaseRequisition>(
-    `PurchaseRequisitions`,
+    'PurchaseRequisitions',
     params,
   );
   return response.data;

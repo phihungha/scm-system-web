@@ -3,6 +3,7 @@ import { ProblemParams } from '../models/general';
 import {
   SalesOrder,
   SalesOrderCreateParams,
+  SalesOrderQueryParams,
   SalesOrderUpdateParams,
 } from '../models/sales-order';
 import {
@@ -12,8 +13,8 @@ import {
 } from '../models/trans-order';
 import apiClient from './client-api';
 
-export async function getSalesOrders() {
-  const response = await apiClient.get<SalesOrder>(`SalesOrders`);
+export async function getSalesOrders(params: SalesOrderQueryParams) {
+  const response = await apiClient.get<SalesOrder>('SalesOrders', { params });
   return response.data;
 }
 

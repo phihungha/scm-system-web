@@ -37,3 +37,13 @@ export interface Order extends StandardLifecycle {
 export interface OrderUpdateParams {
   id: number;
 }
+
+export type OrderSearchCriteria =
+  | 'Id'
+  | 'CreateUserName'
+  | 'ProductionFacilityName';
+
+export interface OrderQueryParams {
+  status?: OrderStatus[];
+  searchTerm?: string;
+}

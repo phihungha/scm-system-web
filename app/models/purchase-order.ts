@@ -1,5 +1,7 @@
-import { OrderItemParams, OrderUpdateParams } from './order';
+import { ApprovalStatus } from './general';
+import { OrderItemParams, OrderQueryParams, OrderUpdateParams } from './order';
 import { ProductionFacility } from './production-facility';
+import { PurchaseRequisitionCriteria } from './purchase-requisition';
 import { Supply } from './supply';
 import {
   TransOrder,
@@ -50,4 +52,11 @@ export interface PurchaseOrderCompleteParams extends OrderUpdateParams {
 export interface PurchaseOrderPaymentCompleteParams
   extends TransOrderPaymentCompleteParams {
   hasReceipt: boolean;
+}
+
+export type PurchaseOrderSearchCriteria = PurchaseRequisitionCriteria;
+
+export interface PurchaseOrderQueryParams extends OrderQueryParams {
+  searchCriteria?: PurchaseOrderSearchCriteria;
+  approvalStatus?: ApprovalStatus[];
 }

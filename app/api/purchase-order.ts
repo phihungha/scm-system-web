@@ -5,6 +5,7 @@ import {
   PurchaseOrderCompleteParams,
   PurchaseOrderCreateParams,
   PurchaseOrderPaymentCompleteParams,
+  PurchaseOrderQueryParams,
   PurchaseOrderUpdateParams,
 } from '../models/purchase-order';
 import {
@@ -14,8 +15,10 @@ import {
 
 import apiClient from './client-api';
 
-export async function getPurchaseOrders() {
-  const response = await apiClient.get<PurchaseOrder>(`PurchaseOrders`);
+export async function getPurchaseOrders(params: PurchaseOrderQueryParams) {
+  const response = await apiClient.get<PurchaseOrder>('PurchaseOrders', {
+    params,
+  });
   return response.data;
 }
 
@@ -26,7 +29,7 @@ export async function getPurchaseOrder(id: number) {
 
 export async function createPurchaseOrder(params: PurchaseOrderCreateParams) {
   const response = await apiClient.post<PurchaseOrder>(
-    `PurchaseOrders`,
+    'PurchaseOrders',
     params,
   );
   return response.data;
