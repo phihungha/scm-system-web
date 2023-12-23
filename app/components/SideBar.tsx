@@ -1,38 +1,99 @@
 'use client';
 
-import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
-import LoggedNav from './LoggedNav';
-import SidebarContent from './SidebarContent';
-interface RootLayoutProps {
+import {
+  Box,
+  BoxProps,
+  CloseButton,
+  Flex,
+  Icon,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import Link from 'next/link';
+import { IconType } from 'react-icons';
+import {
+  FiBarChart,
+  FiBox,
+  FiCpu,
+  FiDownload,
+  FiHome,
+  FiSettings,
+  FiUpload,
+} from 'react-icons/fi';
+
+interface NavItemProps {
+  href: string;
+  icon: IconType;
   children: React.ReactNode;
 }
 
-const Sidebar = ({ children }: RootLayoutProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+function NavItem({ href, icon, children }: NavItemProps) {
   return (
-    <Box minH="100vh">
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
-      />
-      <Drawer
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
+    <Link href={href}>
+      <Flex
+        align="center"
+        p="4"
+        mx="4"
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
+        _hover={{
+          bg: 'cyan.400',
+          color: 'white',
+        }}
       >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      return <LoggedNav onOpen={onOpen} />;
-      <Box ml={{ base: 0, md: 60 }} p="4">
+        <Icon
+          mr="4"
+          fontSize="16"
+          _groupHover={{
+            color: 'white',
+          }}
+          as={icon}
+        />
         {children}
-      </Box>
+      </Flex>
+    </Link>
+  );
+}
+
+const navbarItems = [
+  { href: '/', name: 'Home', icon: FiHome },
+  { href: '/purchases', name: 'Purchases', icon: FiDownload },
+  { href: '/production', name: 'Production', icon: FiCpu },
+  { href: '/sales', name: 'Sales', icon: FiUpload },
+  { href: '/inventory', name: 'Inventory', icon: FiBox },
+  { href: '/reports', name: 'Reports', icon: FiBarChart },
+  { href: '/settings', name: 'Settings', icon: FiSettings },
+];
+
+interface SidebarProps extends BoxProps {
+  onClose: () => void;
+}
+
+export default function Sidebar({ onClose, ...rest }: SidebarProps) {
+  return (
+    <Box
+      transition="3s ease"
+      bg={useColorModeValue('white', 'gray.900')}
+      borderRight="1px"
+      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      w={{ base: 'full', md: 60 }}
+      pos="fixed"
+      h="full"
+      {...rest}
+    >
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+          Logo
+        </Text>
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      </Flex>
+
+      {navbarItems.map((navbarItem) => (
+        <NavItem key={navbarItem.href} {...navbarItem}>
+          {navbarItem.name}
+        </NavItem>
+      ))}
     </Box>
   );
-};
-export default Sidebar;
+}
