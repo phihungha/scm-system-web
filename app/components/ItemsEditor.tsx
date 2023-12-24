@@ -52,7 +52,11 @@ export default function ItemsEditor<T>(props: ItemsEditorProps<T>) {
     <Box pt={10}>
       <Flex align="center" gap={3}>
         <AutoComplete openOnFocus onChange={(id: string) => setNewItemId(+id)}>
-          <AutoCompleteInput h={50} variant="filled" />
+          <AutoCompleteInput
+            placeholder="Enter name of item to add..."
+            h={50}
+            variant="filled"
+          />
           <AutoCompleteList>{props.itemAddSelections}</AutoCompleteList>
         </AutoComplete>
 
