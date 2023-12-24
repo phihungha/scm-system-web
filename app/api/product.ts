@@ -12,16 +12,16 @@ export async function getProducts(params?: SimpleItemQueryParams) {
 }
 
 export async function getProduct(id: number) {
-  const response = await apiClient.get<Product[]>(`Products/${id}`);
+  const response = await apiClient.get<Product>(`Products/${id}`);
   return response.data;
 }
 
 export async function createProduct(params: ProductCreateParams) {
-  const response = await apiClient.post<Product[]>('Products', params);
+  const response = await apiClient.post<Product>('Products', params);
   return response.data;
 }
 
 export async function updateProduct({ id, ...params }: ProductUpdateParams) {
-  const response = await apiClient.patch<Product[]>(`Products/${id}`, params);
+  const response = await apiClient.patch<Product>(`Products/${id}`, params);
   return response.data;
 }

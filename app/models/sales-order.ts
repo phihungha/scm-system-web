@@ -1,6 +1,5 @@
 import { Customer } from './customer';
 import {
-  OrderItem,
   OrderItemParams,
   OrderSearchCriteria,
   OrderUpdateParams,
@@ -10,10 +9,11 @@ import { ProductionFacility } from './production-facility';
 import {
   TransOrder,
   TransOrderEvent,
+  TransOrderItem,
   TransOrderQueryParams,
 } from './trans-order';
 
-export interface SalesOrderItem extends OrderItem {
+export interface SalesOrderItem extends TransOrderItem {
   product: Product;
 }
 
@@ -37,23 +37,6 @@ export interface SalesOrderUpdateParams extends OrderUpdateParams {
   items?: OrderItemParams[];
   toLocation?: string;
   productionFacilityId?: number;
-}
-
-export class PriceInput {
-  itemId: number;
-  quantity: number;
-  price: number;
-  constructor(itemId: number, quantity: number, price: number) {
-    this.itemId = itemId;
-    this.quantity = quantity;
-    this.price = price;
-  }
-}
-
-export interface SaleDetailsProps {
-  params: {
-    orderId: string;
-  };
 }
 
 export type SalesOrderSearchCriteria = OrderSearchCriteria | 'CustomerName';
