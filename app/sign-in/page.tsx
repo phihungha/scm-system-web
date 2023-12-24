@@ -19,7 +19,7 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { object, string } from 'yup';
 import { signIn } from '../api/auth';
-import { ButtonSpinner } from '../components/StandardSpinner';
+import { ButtonSpinner } from '../components/spinners';
 import { SignInParams } from '../models/auth';
 import { FormInputsProps } from '../types/form-props';
 
