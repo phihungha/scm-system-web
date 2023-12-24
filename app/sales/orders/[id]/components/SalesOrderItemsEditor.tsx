@@ -1,6 +1,7 @@
 'use client';
 
 import { getProducts } from '@/app/api/product';
+import AutoCompleteItemPreview from '@/app/components/AutoCompleteItemPreview';
 import ItemsEditor from '@/app/components/ItemsEditor';
 import { SalesOrderItem } from '@/app/models/sales-order';
 import { Box, Text } from '@chakra-ui/react';
@@ -39,14 +40,24 @@ export default function SalesOrderItemsEditor({
     };
   };
 
-  const itemAddSelections = products?.map((product) => (
-    <AutoCompleteItem
-      key={product.id}
-      label={product.name}
-      value={product.id}
-      textTransform="capitalize"
-    ></AutoCompleteItem>
-  ));
+  const alreadyAddedItemIds = new Set(items.map((i) => i.itemId));
+
+  const itemAddSelections = products
+    ?.filter(({ id }) => !alreadyAddedItemIds.has(id))
+    .map((product) => (
+      <AutoCompleteItem
+        key={product.id}
+        label={product.name}
+        value={product.id}
+        textTransform="capitalize"
+      >
+        <AutoCompleteItemPreview
+          name={product.name}
+          price={product.price}
+          imageUrl={product.imageUrl}
+        />
+      </AutoCompleteItem>
+    ));
 
   return (
     <Box pt={10}>

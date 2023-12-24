@@ -1,13 +1,17 @@
 'use client';
 
 import { Card, CardBody, Heading, Image, Stack, Text } from '@chakra-ui/react';
-import { Product } from '../models/product';
+import CurrencyFormat from '../utils/currency-formats';
 
-interface ProductProps {
-  product: Product;
+interface AutoCompleteItemPreviewProps {
+  name: string;
+  price: number;
+  imageUrl?: string;
 }
 
-export default function OrderItemPreview({ product }: ProductProps) {
+export default function AutoCompleteItemPreview(
+  props: AutoCompleteItemPreviewProps,
+) {
   return (
     <Card
       width="full"
@@ -18,15 +22,14 @@ export default function OrderItemPreview({ product }: ProductProps) {
       <Image
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
-        src={product.imageUrl}
-        alt={product.name}
+        src={props.imageUrl}
+        alt={props.name}
       />
 
       <Stack>
         <CardBody>
-          <Heading size="md">{product.name}</Heading>
-          <Text pt={5}>Unit: {product.unit}</Text>
-          <Text>Price: {product.price}</Text>
+          <Heading size="md">{props.name}</Heading>
+          <Text>Price: {CurrencyFormat.format(props.price)}</Text>
         </CardBody>
       </Stack>
     </Card>

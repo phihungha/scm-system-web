@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Flex, FormControl, Stack } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack } from '@chakra-ui/react';
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -50,20 +50,15 @@ export default function ItemsEditor<T>(props: ItemsEditorProps<T>) {
 
   return (
     <Box pt={10}>
-      <Flex justify="center" align="center" w="full">
-        <FormControl>
-          <AutoComplete
-            openOnFocus
-            onChange={(id: string) => setNewItemId(+id)}
-          >
-            <AutoCompleteInput variant="filled" />
-            <AutoCompleteList>{props.itemAddSelections}</AutoCompleteList>
-          </AutoComplete>
+      <Flex align="center" gap={3}>
+        <AutoComplete openOnFocus onChange={(id: string) => setNewItemId(+id)}>
+          <AutoCompleteInput h={50} variant="filled" />
+          <AutoCompleteList>{props.itemAddSelections}</AutoCompleteList>
+        </AutoComplete>
 
-          <Button mt={4} onClick={onItemAdd} colorScheme="blue" size="lg">
-            Add
-          </Button>
-        </FormControl>
+        <Button onClick={onItemAdd} colorScheme="blue" size="lg">
+          Add
+        </Button>
       </Flex>
 
       <Stack pt={5} spacing={4}>

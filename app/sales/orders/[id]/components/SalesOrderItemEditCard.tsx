@@ -1,7 +1,7 @@
 'use client';
 import ItemEditCard from '@/app/components/ItemEditCard';
 import { SalesOrderItem } from '@/app/models/sales-order';
-import VndCurrencyFormat from '@/app/utils/currency-formats';
+import CurrencyFormat from '@/app/utils/currency-formats';
 import { Text } from '@chakra-ui/react';
 
 export interface SalesOrderItemEditCardProps {
@@ -34,10 +34,10 @@ export default function SalesOrderItemEditCard(
       onDelete={() => props.onDelete(item)}
     >
       <Text fontSize={'xl'}>
-        Price: {VndCurrencyFormat.format(item.unitPrice)}
+        Price: {CurrencyFormat.format(item.unitPrice)}
       </Text>
       <Text fontSize={'xl'}>
-        Total price: {VndCurrencyFormat.format(item.totalPrice)}
+        Total price: {CurrencyFormat.format(item.totalPrice)}
       </Text>
     </ItemEditCard>
   );
