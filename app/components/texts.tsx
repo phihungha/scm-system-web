@@ -24,9 +24,9 @@ export function SectionText(props: TextProps) {
 }
 
 export function FormLabelText(props: TextProps) {
-  return <Text fontWeight={'bold'} {...props} />;
+  return <Text alignSelf="center" fontWeight={'bold'} {...props} />;
 }
 
 export function FormValueText(props: TextProps) {
-  return <Text {...props} />;
+  return <Text alignSelf="center" {...props} />;
 }
