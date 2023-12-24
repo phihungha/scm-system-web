@@ -6,7 +6,7 @@ import {
 } from '../models/product';
 import apiClient from './api-client';
 
-export async function getProducts(params: SimpleItemQueryParams) {
+export async function getProducts(params?: SimpleItemQueryParams) {
   const response = await apiClient.get<Product[]>('Products', { params });
   return response.data;
 }

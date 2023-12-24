@@ -13,7 +13,7 @@ import {
 } from '../models/trans-order';
 import apiClient from './api-client';
 
-export async function getSalesOrders(params: SalesOrderQueryParams) {
+export async function getSalesOrders(params?: SalesOrderQueryParams) {
   const response = await apiClient.get<SalesOrder[]>('SalesOrders', { params });
   return response.data;
 }

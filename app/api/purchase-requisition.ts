@@ -8,7 +8,7 @@ import {
 import apiClient from './api-client';
 
 export async function getPurchaseRequisitions(
-  params: PurchaseRequisitionQueryParams,
+  params?: PurchaseRequisitionQueryParams,
 ) {
   const response = await apiClient.get<PurchaseRequisition[]>(
     'PurchaseRequisitions',

@@ -6,7 +6,7 @@ import {
 } from '../models/vendor';
 import apiClient from './api-client';
 
-export async function getVendors(params: SimpleItemQueryParams) {
+export async function getVendors(params?: SimpleItemQueryParams) {
   const response = await apiClient.get<Vendor[]>('Vendors', { params });
   return response.data;
 }

@@ -15,7 +15,7 @@ import {
 
 import apiClient from './api-client';
 
-export async function getPurchaseOrders(params: PurchaseOrderQueryParams) {
+export async function getPurchaseOrders(params?: PurchaseOrderQueryParams) {
   const response = await apiClient.get<PurchaseOrder[]>('PurchaseOrders', {
     params,
   });
