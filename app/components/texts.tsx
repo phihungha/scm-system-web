@@ -1,9 +1,20 @@
 import { Heading, HeadingProps, Text, TextProps } from '@chakra-ui/react';
 
+export function TitleText(props: HeadingProps) {
+  return (
+    <Heading
+      fontWeight={600}
+      fontSize={'4xl'}
+      textTransform="uppercase"
+      {...props}
+    />
+  );
+}
+
 export function SectionText(props: TextProps) {
   return (
     <Text
-      fontSize="3xl"
+      fontSize="2xl"
       color="black.500"
       fontWeight="bold"
       textTransform="uppercase"
@@ -12,16 +23,10 @@ export function SectionText(props: TextProps) {
   );
 }
 
-export function TitleText(props: HeadingProps) {
-  return (
-    <Heading lineHeight={1.1} fontWeight={600} fontSize={'5xl'} {...props} />
-  );
-}
-
 export function FormLabelText(props: TextProps) {
-  return <Text fontSize={'xl'} fontWeight={'bold'} {...props} />;
+  return <Text fontWeight={'bold'} {...props} />;
 }
 
 export function FormValueText(props: TextProps) {
-  return <Text fontSize={'xl'} {...props} />;
+  return <Text {...props} />;
 }
