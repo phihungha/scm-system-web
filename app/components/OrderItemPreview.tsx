@@ -1,13 +1,13 @@
 'use client';
 
 import { Card, CardBody, Heading, Image, Stack, Text } from '@chakra-ui/react';
-import { IProductResponse } from '../types/product';
+import { Product } from '../models/product';
 
 interface ProductProps {
-  product: IProductResponse;
+  product: Product;
 }
 
-export default function OrderItem({ product }: ProductProps) {
+export default function OrderItemPreview({ product }: ProductProps) {
   return (
     <Card
       width="full"
