@@ -49,7 +49,7 @@ export default function ItemsEditor<T>(props: ItemsEditorProps<T>) {
   }
 
   return (
-    <Box pt={10}>
+    <Box>
       <Flex align="center" gap={3}>
         <AutoComplete openOnFocus onChange={(id: string) => setNewItemId(+id)}>
           <AutoCompleteInput

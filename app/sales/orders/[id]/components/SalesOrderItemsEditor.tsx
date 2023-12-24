@@ -4,7 +4,6 @@ import { getProducts } from '@/app/api/product';
 import AutoCompleteItemPreview from '@/app/components/AutoCompleteItemPreview';
 import ItemsEditor from '@/app/components/ItemsEditor';
 import { SalesOrderItem } from '@/app/models/sales-order';
-import { Box, Text } from '@chakra-ui/react';
 import { AutoCompleteItem } from '@choc-ui/chakra-autocomplete';
 import { useQuery } from 'react-query';
 import SalesOrderItemEditCard from './SalesOrderItemEditCard';
@@ -60,36 +59,23 @@ export default function SalesOrderItemsEditor({
     ));
 
   return (
-    <Box pt={10}>
-      <Text
-        fontSize={'3xl'}
-        color={'black.500'}
-        fontWeight={'bold'}
-        textTransform={'uppercase'}
-        mb={'4'}
-        pb={4}
-      >
-        Items Details
-      </Text>
-
-      <ItemsEditor
-        items={items}
-        onItemsChange={onItemsChange}
-        createNewItem={createNewItem}
-        getItemId={(i) => i.itemId}
-        itemAddSelections={itemAddSelections}
-      >
-        {(onQuantityChange, onDelete) =>
-          items.map((item) => (
-            <SalesOrderItemEditCard
-              key={item.itemId}
-              item={item}
-              onQuantityChange={onQuantityChange}
-              onDelete={onDelete}
-            />
-          ))
-        }
-      </ItemsEditor>
-    </Box>
+    <ItemsEditor
+      items={items}
+      onItemsChange={onItemsChange}
+      createNewItem={createNewItem}
+      getItemId={(i) => i.itemId}
+      itemAddSelections={itemAddSelections}
+    >
+      {(onQuantityChange, onDelete) =>
+        items.map((item) => (
+          <SalesOrderItemEditCard
+            key={item.itemId}
+            item={item}
+            onQuantityChange={onQuantityChange}
+            onDelete={onDelete}
+          />
+        ))
+      }
+    </ItemsEditor>
   );
 }
