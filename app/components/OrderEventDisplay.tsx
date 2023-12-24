@@ -1,4 +1,5 @@
 import {
+  Button,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -15,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { useState } from 'react';
-import { FiCheck, FiEdit, FiX } from 'react-icons/fi';
+import { FiEdit, FiX } from 'react-icons/fi';
 import { object, string } from 'yup';
 import { dateToFullFormat } from '../utils/time-formats';
 
@@ -39,8 +40,20 @@ export default function OrderEventDisplay(props: OrderEventDisplayProp) {
   const info = (
     <>
       <Text>{props.location}</Text>
-      <Text>{props.message}</Text>
+      {props.message && <Text overflowWrap="anywhere">{props.message}</Text>}
     </>
+  );
+
+  const editor = (
+    <OrderItemEditor
+      {...props}
+      onEditCancel={() => setEditMode(false)}
+      location={props.location ?? ''}
+      onChange={(input) => {
+        setEditMode(false);
+        props.onChange(input);
+      }}
+    />
   );
 
   return (
@@ -53,25 +66,13 @@ export default function OrderEventDisplay(props: OrderEventDisplayProp) {
         />
       </StepIndicator>
 
-      <Flex w={500}>
+      <Flex w={500} mb="5">
         <Stack flexGrow={1}>
           <Text fontWeight="bold" fontSize="lg">
             {props.type}
           </Text>
           <Text>{dateToFullFormat(props.time)}</Text>
-          {editMode ? (
-            <OrderItemEditor
-              {...props}
-              onEditCancel={() => setEditMode(false)}
-              location={props.location ?? ''}
-              onChange={(input) => {
-                setEditMode(false);
-                props.onChange(input);
-              }}
-            />
-          ) : (
-            info
-          )}
+          {editMode ? editor : info}
         </Stack>
 
         <IconButton
@@ -125,38 +126,34 @@ function OrderItemEditor(props: OrderItemEditorProps) {
     >
       {({ handleSubmit, errors, touched }) => (
         <form method="POST" onSubmit={handleSubmit}>
-          <Stack spacing={5}>
-            {props.isLocationEditAllowed && (
-              <FormControl isInvalid={!!errors.location && touched.location}>
+          <Stack spacing={2}>
+            <Stack spacing={5}>
+              {props.isLocationEditAllowed && (
+                <FormControl isInvalid={!!errors.location && touched.location}>
+                  <Field
+                    as={Input}
+                    id="location"
+                    name="location"
+                    isDisabled={!props.isLocationEditAllowed ?? true}
+                    placeholder="Enter location..."
+                  />
+                  <FormErrorMessage>{errors.location}</FormErrorMessage>
+                </FormControl>
+              )}
+
+              <FormControl>
                 <Field
                   as={Input}
-                  id="location"
-                  name="location"
-                  isDisabled={!props.isLocationEditAllowed ?? true}
-                  placeholder="Enter location..."
+                  id="message"
+                  name="message"
+                  placeholder="Enter an optional custom message..."
                 />
-                <FormErrorMessage>{errors.location}</FormErrorMessage>
               </FormControl>
-            )}
+            </Stack>
 
-            <FormControl>
-              <Field
-                as={Input}
-                id="message"
-                name="message"
-                placeholder="Enter an optional custom message..."
-              />
-            </FormControl>
-
-            <IconButton
-              alignSelf="end"
-              aria-label="Accept event edit"
-              type="submit"
-              variant="outline"
-              colorScheme="blue"
-              fontSize="20px"
-              icon={<FiCheck />}
-            />
+            <Button alignSelf="end" type="submit" colorScheme="blue">
+              Edit
+            </Button>
           </Stack>
         </form>
       )}

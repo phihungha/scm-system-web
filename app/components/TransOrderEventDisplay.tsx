@@ -23,6 +23,8 @@ export default function TransOrderEventDisplay(
         return 'Arrived';
       case 'Interrupted':
         return 'Interrupted';
+      case 'Delivered':
+        return 'Delivered & Waiting to accept';
       case 'Completed':
         return 'Completed';
       case 'PaymentDue':
