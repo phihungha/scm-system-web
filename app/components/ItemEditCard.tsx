@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   CardBody,
-  Heading,
   Image,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -42,12 +41,13 @@ export default function ItemEditCard(props: ItemEditCardProps) {
       />
 
       <CardBody>
-        <Heading size="lg">{props.name}</Heading>
-        <Stack mt={5} spacing={3}>
+        <Text fontWeight="bold" fontSize="xl">
+          {props.name}
+        </Text>
+
+        <Stack mt={3} spacing={3}>
           <Stack alignItems="center" direction="row" spacing={3}>
-            <Text fontWeight="bold" fontSize="xl">
-              Quantity:
-            </Text>
+            <Text fontWeight="bold">Quantity:</Text>
             <Box>
               <NumberInput
                 value={props.quantity}
@@ -65,7 +65,7 @@ export default function ItemEditCard(props: ItemEditCardProps) {
                 </NumberInputStepper>
               </NumberInput>
             </Box>
-            <Text fontSize={'xl'}>{props.unit}</Text>
+            <Text>{props.unit}</Text>
           </Stack>
 
           {props.children}

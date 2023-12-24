@@ -33,12 +33,8 @@ export default function SalesOrderItemEditCard(
       imageUrl={product.imageUrl}
       onDelete={() => props.onDelete(item)}
     >
-      <Text fontSize={'xl'}>
-        Price: {CurrencyFormat.format(item.unitPrice)}
-      </Text>
-      <Text fontSize={'xl'}>
-        Total price: {CurrencyFormat.format(item.totalPrice)}
-      </Text>
+      <Text>Price: {CurrencyFormat.format(item.unitPrice)}</Text>
+      <Text>Total price: {CurrencyFormat.format(item.totalPrice)}</Text>
     </ItemEditCard>
   );
 }
