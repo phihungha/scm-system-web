@@ -1,7 +1,8 @@
 'use client';
 import ItemEditCard from '@/app/components/ItemEditCard';
 import { SalesOrderItem } from '@/app/models/sales-order';
-import { Stack, Text } from '@chakra-ui/react';
+import VndCurrencyFormat from '@/app/utils/currency-formats';
+import { Text } from '@chakra-ui/react';
 
 export interface SalesOrderItemEditCardProps {
   item: SalesOrderItem;
@@ -14,26 +15,30 @@ export default function SalesOrderItemEditCard(
 ) {
   const item = props.item;
   const product = props.item.product;
-  const totalPrice = props.item.quantity * product.price;
+
+  const onQuantityChange = (quantity: number) =>
+    props.onQuantityChange({
+      ...item,
+      quantity,
+      totalPrice: quantity * product.price,
+    });
 
   return (
     <ItemEditCard
       id={product.id}
       quantity={item.quantity}
-      onQuantityChange={() => props.onQuantityChange({ ...item, totalPrice })}
+      onQuantityChange={(_, quantity) => onQuantityChange(quantity)}
       name={product.name}
+      unit={item.unit}
       imageUrl={product.imageUrl}
-      onDelete={(i) => props.onDelete(item)}
+      onDelete={() => props.onDelete(item)}
     >
-      <Stack alignItems="center" direction={'row'}>
-        <Text fontSize={'xl'}>Unit:</Text>
-        <Text fontSize={'xl'}>{product.unit}</Text>
-      </Stack>
-
-      <Stack alignItems="center" direction={'row'}>
-        <Text fontSize={'xl'}>Price:</Text>
-        <Text fontSize={'xl'}>{product.price}</Text>
-      </Stack>
+      <Text fontSize={'xl'}>
+        Price: {VndCurrencyFormat.format(item.unitPrice)}
+      </Text>
+      <Text fontSize={'xl'}>
+        Total price: {VndCurrencyFormat.format(item.totalPrice)}
+      </Text>
     </ItemEditCard>
   );
 }

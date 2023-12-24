@@ -20,6 +20,7 @@ export interface ItemEditCardProps {
   id: number;
   quantity: number;
   name: string;
+  unit: string;
   imageUrl?: string;
   children: React.ReactNode;
   onDelete: (id: number) => void;
@@ -28,41 +29,48 @@ export interface ItemEditCardProps {
 
 export default function ItemEditCard(props: ItemEditCardProps) {
   return (
-    <Card>
+    <Card
+      direction={{ base: 'column', sm: 'row' }}
+      overflow="hidden"
+      variant="outline"
+    >
       <Image
         objectFit="cover"
-        maxW={{ base: '100%', sm: '200px' }}
+        w={{ base: '100%', sm: '200px' }}
         src={props.imageUrl}
         alt={props.name}
       />
 
-      <Stack width="full">
-        <CardBody>
-          <Heading size="lg">{props.name}</Heading>
-          <Stack>
-            <Stack alignItems="center" direction={'row'}>
-              <Text fontSize="xl">Quantity:</Text>
-              <Box>
-                <NumberInput
-                  value={props.quantity}
-                  onChange={(_, value) =>
-                    props.onQuantityChange(props.id, value)
-                  }
-                  min={1}
-                >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </Box>
-            </Stack>
-
-            {props.children}
+      <CardBody>
+        <Heading size="lg">{props.name}</Heading>
+        <Stack mt={5} spacing={3}>
+          <Stack alignItems="center" direction="row" spacing={3}>
+            <Text fontWeight="bold" fontSize="xl">
+              Quantity:
+            </Text>
+            <Box>
+              <NumberInput
+                value={props.quantity}
+                onChange={(_, value) =>
+                  // Don't update if number box is empty.
+                  value && props.onQuantityChange(props.id, value)
+                }
+                isRequired={true}
+                min={1}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </Box>
+            <Text fontSize={'xl'}>{props.unit}</Text>
           </Stack>
-        </CardBody>
-      </Stack>
+
+          {props.children}
+        </Stack>
+      </CardBody>
 
       <div className="self-center p-5">
         <Button

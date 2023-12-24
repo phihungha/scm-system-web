@@ -42,7 +42,7 @@ export default function ItemsEditor<T>(props: ItemsEditorProps<T>) {
   function onItemQuantityChange(item: T) {
     const updatedItems = [...items];
     const updatedItemIdx = updatedItems.findIndex(
-      (i) => getId(i) !== getId(item),
+      (i) => getId(i) == getId(item),
     );
     updatedItems[updatedItemIdx] = item;
     onItemsChange(updatedItems);
@@ -52,7 +52,10 @@ export default function ItemsEditor<T>(props: ItemsEditorProps<T>) {
     <Box pt={10}>
       <Flex justify="center" align="center" w="full">
         <FormControl>
-          <AutoComplete openOnFocus onChange={(id: number) => setNewItemId(id)}>
+          <AutoComplete
+            openOnFocus
+            onChange={(id: string) => setNewItemId(+id)}
+          >
             <AutoCompleteInput variant="filled" />
             <AutoCompleteList>{props.itemAddSelections}</AutoCompleteList>
           </AutoComplete>
