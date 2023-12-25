@@ -12,10 +12,10 @@ import { Box, Stack, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import SalesOrderItemsPanel from '../components/SalesOrderItemsPanel';
 import SalesOrderActionPanel from './components/SalesOrderActionPanel';
 import SalesOrderEventTimelinePanel from './components/SalesOrderEventTimelinePanel';
 import SalesOrderInfoPanel from './components/SalesOrderInfoPanel';
-import SalesOrderItemsPanel from './components/SalesOrderItemsPanel';
 import SalesOrderPaymentPanel from './components/SalesOrderPaymentPanel';
 
 interface SalesOrderDetailsPageProps {
@@ -86,7 +86,7 @@ export default function SalesOrderDetailsPage({
 
   return (
     <Box p={5}>
-      <Stack spacing={10} direction={'column'}>
+      <Stack spacing={10}>
         <Stack spacing={5}>
           <TitleText>Sales order #{order.id}</TitleText>
           <SubtitleText>
