@@ -7,6 +7,7 @@ import {
 } from '@/app/api/sales-order';
 import CancelSalesDialog from '@/app/components/CancelSalesDialog';
 import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
+import { ActionButton } from '@/app/components/buttons';
 import { NormalSpinner } from '@/app/components/spinners';
 import { SectionText, SubtitleText, TitleText } from '@/app/components/texts';
 import { ProductionFacility } from '@/app/models/production-facility';
@@ -20,6 +21,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import ReturnSalesDialog from './components/ReturnSalesDialog';
@@ -104,10 +106,13 @@ export default function SalesOrderDetailsPage({
     },
   );
 
-  const onEventAdd = (event: TransOrderEvent) => {
+  const onAddEvent = (event: TransOrderEvent) => {
     setEvents([...events, event]);
     refetch();
   };
+
+  const isUpdateALlowed =
+    order?.isExecutionInfoUpdateAllowed && items.length > 0;
 
   const [paymentDialog, SetPaymentDialog] = useState(false);
   const [cancelDialog, SetCancelDialog] = useState(false);
@@ -149,7 +154,7 @@ export default function SalesOrderDetailsPage({
         <SalesOrderEventTimeline
           events={events}
           orderId={order.id}
-          onAdd={onEventAdd}
+          onAdd={onAddEvent}
         />
 
         <Stack spacing={5} direction="row">
@@ -225,15 +230,18 @@ export default function SalesOrderDetailsPage({
           >
             Complete
           </Button>
-          <Button
-            width={100}
-            variant="solid"
+
+          <Link href="/sales/orders">
+            <ActionButton>Close</ActionButton>
+          </Link>
+
+          <ActionButton
             colorScheme="blue"
-            size="lg"
+            isDisabled={!isUpdateALlowed}
             onClick={() => updateOrder()}
           >
             Update
-          </Button>
+          </ActionButton>
         </div>
       </Stack>
     </div>
