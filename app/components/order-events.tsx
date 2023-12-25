@@ -66,25 +66,6 @@ export interface OrderEventDisplayProp {
 export function OrderEventDisplay(props: OrderEventDisplayProp) {
   const [editMode, setEditMode] = useState(false);
 
-  const info = (
-    <>
-      <Text>{props.location}</Text>
-      {props.message && <Text overflowWrap="anywhere">{props.message}</Text>}
-    </>
-  );
-
-  const editor = (
-    <OrderEventEditor
-      {...props}
-      onEditCancel={() => setEditMode(false)}
-      location={props.location ?? ''}
-      onChange={(input) => {
-        setEditMode(false);
-        props.onChange(input);
-      }}
-    />
-  );
-
   let eventTypeTextColor: string | undefined;
   if (props.isInterrupted) {
     eventTypeTextColor = 'orange';
@@ -101,6 +82,29 @@ export function OrderEventDisplay(props: OrderEventDisplayProp) {
     indicatorIcon = <StepIcon />;
   }
 
+  const info = (
+    <>
+      <Text>{props.location}</Text>
+      {props.message && (
+        <Text fontWeight="bold" overflowWrap="anywhere">
+          {props.message}
+        </Text>
+      )}
+    </>
+  );
+
+  const editor = (
+    <OrderEventEditor
+      {...props}
+      onEditCancel={() => setEditMode(false)}
+      location={props.location ?? ''}
+      onChange={(input) => {
+        setEditMode(false);
+        props.onChange(input);
+      }}
+    />
+  );
+
   return (
     <Step>
       <StepIndicator padding={0}>
@@ -112,11 +116,11 @@ export function OrderEventDisplay(props: OrderEventDisplayProp) {
       </StepIndicator>
 
       <Flex w={600} mb="5">
-        <Stack flexGrow={1}>
+        <Stack flexGrow={1} spacing={1}>
           <Text color={eventTypeTextColor} fontWeight="bold" fontSize="lg">
             {props.type}
           </Text>
-          <Text>{dateToFullFormat(props.time)}</Text>
+          <Text color="gray">{dateToFullFormat(props.time)}</Text>
           {editMode ? editor : info}
         </Stack>
 
