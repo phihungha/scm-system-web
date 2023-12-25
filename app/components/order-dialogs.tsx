@@ -6,6 +6,8 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightAddon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { number, object, string } from 'yup';
+import { currencySymbol } from '../utils/currency-formats';
 import { DialogProps } from './dialogs';
 import { ButtonSpinner } from './spinners';
 import { SubtitleText } from './texts';
@@ -31,7 +34,7 @@ export function PaymentCompleteDialog(props: PaymentCompleteDialogProps) {
   };
 
   const formValidationSchema = object({
-    payAmount: number().min(1),
+    payAmount: number().label('Pay amount').required().min(1),
   });
 
   return (
@@ -52,19 +55,26 @@ export function PaymentCompleteDialog(props: PaymentCompleteDialogProps) {
                 <SubtitleText mb={5}>
                   Complete payment for this order.
                 </SubtitleText>
+
                 <FormControl
                   isInvalid={!!errors.payAmount && touched.payAmount}
                 >
                   <FormLabel>Pay amount</FormLabel>
-                  <Field
-                    as={Input}
-                    placeholder="Enter pay amount..."
-                    id="payAmount"
-                    name="payAmount"
-                  />
+
+                  <InputGroup>
+                    <Field
+                      as={Input}
+                      placeholder="Enter pay amount..."
+                      id="payAmount"
+                      name="payAmount"
+                    />
+                    <InputRightAddon>{currencySymbol}</InputRightAddon>
+                  </InputGroup>
+
                   <FormErrorMessage>{errors.payAmount}</FormErrorMessage>
                 </FormControl>
               </ModalBody>
+
               <ModalFooter>
                 <Button mr={3} onClick={props.onClose}>
                   Cancel
@@ -93,7 +103,7 @@ export function ProblemDialog(props: ProblemDialogProps) {
   };
 
   const formValidationSchema = object({
-    problem: string().required(),
+    problem: string().label('Problem').required(),
   });
 
   return (
@@ -112,6 +122,7 @@ export function ProblemDialog(props: ProblemDialogProps) {
             <form method="POST" onSubmit={handleSubmit}>
               <ModalBody>
                 <SubtitleText mb={5}>{props.description}</SubtitleText>
+
                 <FormControl isInvalid={!!errors.problem && touched.problem}>
                   <FormLabel>Problem</FormLabel>
                   <Field
@@ -123,6 +134,7 @@ export function ProblemDialog(props: ProblemDialogProps) {
                   <FormErrorMessage>{errors.problem}</FormErrorMessage>
                 </FormControl>
               </ModalBody>
+
               <ModalFooter>
                 <Button mr={3} onClick={props.onClose}>
                   Cancel

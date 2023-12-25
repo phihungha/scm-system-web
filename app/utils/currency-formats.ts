@@ -6,3 +6,5 @@ const CurrencyFormat = new Intl.NumberFormat('vi-VN', {
 });
 
 export default CurrencyFormat;
+
+export const currencySymbol = '₫';
