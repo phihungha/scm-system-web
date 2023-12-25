@@ -159,12 +159,12 @@ function EventEditor(props: EventEditorProps) {
   };
 
   const validationWithLocationSchema = object({
-    location: string().required(),
-    message: string().nullable(),
+    location: string().label('Location').required(),
+    message: string().label('Message').nullable(),
   });
 
   const validationWithoutLocationSchema = object({
-    message: string().nullable(),
+    message: string().label('Message').nullable(),
   });
 
   const formValidationSchema = isLocationEditDisabled
