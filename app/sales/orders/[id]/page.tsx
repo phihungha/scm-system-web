@@ -60,9 +60,11 @@ export default function SalesOrderDetailsPage({
     () =>
       updateSalesOrder({
         id: orderId,
-        items,
+        items: order?.isExecutionInfoUpdateAllowed ? items : undefined,
         toLocation,
-        productionFacilityId: facility?.id,
+        productionFacilityId: order?.isExecutionInfoUpdateAllowed
+          ? facility?.id
+          : undefined,
       }),
     {
       onSuccess: (resp) => {
@@ -78,7 +80,8 @@ export default function SalesOrderDetailsPage({
   };
 
   const isUpdateALlowed =
-    order?.isExecutionInfoUpdateAllowed && items.length > 0;
+    (order?.isExecutionInfoUpdateAllowed || order?.isToLocationUpdateAllowed) &&
+    items.length > 0;
 
   if (order === undefined) {
     return <LoadingPage />;
