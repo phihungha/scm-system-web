@@ -7,12 +7,12 @@ import {
 } from '@/app/api/sales-order';
 import CancelSalesDialog from '@/app/components/CancelSalesDialog';
 import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
-import PaymentInfo from '@/app/components/PaymentInfo';
 import { NormalSpinner } from '@/app/components/spinners';
-import { SectionText, TitleText } from '@/app/components/texts';
+import { SectionText, SubtitleText, TitleText } from '@/app/components/texts';
 import { ProductionFacility } from '@/app/models/production-facility';
 import { SalesOrder, SalesOrderItem } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
+import SalesOrderTotalsDisplay from '@/app/sales/orders/components/SalesOrderTotalsDisplay';
 import {
   AbsoluteCenter,
   Button,
@@ -121,15 +121,15 @@ export default function SalesOrderDetailsPage({
     );
   }
 
-  const vatRate = order.vatRate;
-  const totalPrice = items.reduce((sum, item) => sum + item.totalPrice, 0);
-  const vatAmount = totalPrice * vatRate;
-  const totalAmount = totalPrice + vatAmount;
-
   return (
     <div className="p-5">
       <Stack spacing={10} direction={'column'}>
-        <TitleText>Sales order #{order.id}</TitleText>
+        <Stack spacing={5}>
+          <TitleText>Sales order #{order.id}</TitleText>
+          <SubtitleText>
+            Manage and view the details of this sales order.
+          </SubtitleText>
+        </Stack>
 
         <SalesOrderInfo
           order={order}
@@ -142,18 +142,14 @@ export default function SalesOrderDetailsPage({
         <SectionText>Items</SectionText>
         <SalesOrderItemsEditor items={items} onItemsChange={setItems} />
 
+        <SectionText>Totals</SectionText>
+        <SalesOrderTotalsDisplay items={items} vatRate={order.vatRate} />
+
         <SectionText>Progress</SectionText>
         <SalesOrderEventTimeline
           events={events}
           orderId={order.id}
           onAdd={onEventAdd}
-        />
-
-        <PaymentInfo
-          totalPrice={totalPrice}
-          totalAmount={totalAmount}
-          vatAmount={vatAmount}
-          vatRate={vatRate}
         />
 
         <Stack spacing={5} direction="row">
