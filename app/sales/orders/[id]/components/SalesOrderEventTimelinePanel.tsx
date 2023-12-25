@@ -60,10 +60,10 @@ export default function SalesOrderEventTimelinePanel(
       </OrderEventTimeline>
 
       <Button
-        onClick={() => setDisplayAddDialog(true)}
+        width={200}
         colorScheme="blue"
         alignSelf="start"
-        size="lg"
+        onClick={() => setDisplayAddDialog(true)}
       >
         Add event
       </Button>
