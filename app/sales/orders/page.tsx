@@ -244,7 +244,9 @@ export default function SalesOrdersPage() {
       <Flex justifyContent="right">
         <ButtonGroup size="md" isAttached variant="outline">
           <Link href="/sales/orders/create">
-            <Button leftIcon={<FiPlus />}>Create</Button>
+            <Button variant="solid" colorScheme="blue" leftIcon={<FiPlus />}>
+              Create
+            </Button>
           </Link>
         </ButtonGroup>
       </Flex>
