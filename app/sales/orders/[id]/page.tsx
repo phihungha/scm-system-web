@@ -1,24 +1,18 @@
 'use client';
-import {
-  completeSalesOrder,
-  finishSalesOrder,
-  getSalesOrder,
-  updateSalesOrder,
-} from '@/app/api/sales-order';
-import CancelSalesDialog from '@/app/components/CancelSalesDialog';
-import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
+import { getSalesOrder, updateSalesOrder } from '@/app/api/sales-order';
 import { ActionButton } from '@/app/components/buttons';
 import { LoadingPage } from '@/app/components/spinners';
 import { SectionText, SubtitleText, TitleText } from '@/app/components/texts';
 import { ProductionFacility } from '@/app/models/production-facility';
-import { SalesOrder, SalesOrderItem } from '@/app/models/sales-order';
+import { SalesOrderItem } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
 import SalesOrderTotalsPanel from '@/app/sales/orders/components/SalesOrderTotalsPanel';
-import { Button, Stack, Text, useToast } from '@chakra-ui/react';
+import { showSuccessToast } from '@/app/utils/toast-messages';
+import { Stack, Text, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import ReturnSalesDialog from './components/ReturnSalesDialog';
+import SalesOrderActionPanel from './components/SalesOrderActionPanel';
 import SalesOrderEventTimelinePanel from './components/SalesOrderEventTimelinePanel';
 import SalesOrderInfoPanel from './components/SalesOrderInfoPanel';
 import SalesOrderItemsPanel from './components/SalesOrderItemsPanel';
@@ -70,32 +64,9 @@ export default function SalesOrderDetailsPage({
         productionFacilityId: facility?.id,
       }),
     {
-      onSuccess: (resp: SalesOrder) => {
+      onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
-        toast({
-          title: 'Item updated!',
-          description: 'Item has been updated successfully!',
-          duration: 2000,
-          status: 'success',
-        });
-      },
-    },
-  );
-
-  const { mutate: completeOrder } = useMutation(
-    () => completeSalesOrder(orderId),
-    {
-      onSuccess: (resp: SalesOrder) => {
-        queryClient.setQueryData(queryKey, resp);
-      },
-    },
-  );
-
-  const { mutate: finishOrderDelivery } = useMutation(
-    () => finishSalesOrder(orderId),
-    {
-      onSuccess: (resp: SalesOrder) => {
-        queryClient.setQueryData(queryKey, resp);
+        showSuccessToast(toast);
       },
     },
   );
@@ -107,10 +78,6 @@ export default function SalesOrderDetailsPage({
 
   const isUpdateALlowed =
     order?.isExecutionInfoUpdateAllowed && items.length > 0;
-
-  const [paymentDialog, SetPaymentDialog] = useState(false);
-  const [cancelDialog, SetCancelDialog] = useState(false);
-  const [returnDialog, SetReturnDialog] = useState(false);
 
   if (order === undefined) {
     return <LoadingPage />;
@@ -140,13 +107,6 @@ export default function SalesOrderDetailsPage({
         <SectionText>Totals</SectionText>
         <SalesOrderTotalsPanel items={items} vatRate={order.vatRate} />
 
-        <SectionText>Progress</SectionText>
-        <SalesOrderEventTimelinePanel
-          events={events}
-          orderId={order.id}
-          onAdd={onAddEvent}
-        />
-
         <Stack spacing={5} direction="row">
           <Text as={'span'} fontWeight={'bold'} fontSize="3xl">
             Remaining Amount:
@@ -158,69 +118,16 @@ export default function SalesOrderDetailsPage({
           </div>
         </Stack>
 
+        <SectionText>Progress</SectionText>
+        <SalesOrderEventTimelinePanel
+          events={events}
+          orderId={order.id}
+          onAdd={onAddEvent}
+        />
+
+        <SalesOrderActionPanel order={order} />
+
         <div className="flex w-full flex-row justify-end gap-5 pt-10">
-          <Button
-            onClick={() => SetCancelDialog(true)}
-            width={100}
-            variant="solid"
-            colorScheme="red"
-            size="lg"
-          >
-            Cancel
-          </Button>
-          <CancelSalesDialog
-            cancelDialog={cancelDialog}
-            CancelClose={() => SetCancelDialog(false)}
-            orderId={orderId}
-          />
-
-          <Button
-            onClick={() => SetCancelDialog(true)}
-            width={100}
-            variant="solid"
-            colorScheme="red"
-            size="lg"
-          >
-            Return
-          </Button>
-          <ReturnSalesDialog
-            orderId={orderId}
-            returnDialog={returnDialog}
-            returnClose={() => SetReturnDialog(false)}
-          />
-
-          <Button
-            onClick={() => SetPaymentDialog(true)}
-            variant="solid"
-            colorScheme="purple"
-            size="lg"
-          >
-            Complete Payment
-          </Button>
-          <CompletePaymentDialog
-            orderId={orderId}
-            paymentDialog={paymentDialog}
-            handleClose={() => SetPaymentDialog(false)}
-          />
-
-          <Button
-            onClick={() => finishOrderDelivery()}
-            variant="solid"
-            colorScheme="orange"
-            size="lg"
-          >
-            Finish Delivery
-          </Button>
-          <Button
-            width={100}
-            variant="solid"
-            colorScheme="green"
-            size="lg"
-            onClick={() => completeOrder()}
-          >
-            Complete
-          </Button>
-
           <Link href="/sales/orders">
             <ActionButton>Close</ActionButton>
           </Link>
