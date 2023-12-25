@@ -121,7 +121,7 @@ export function OrderEventDisplay(props: OrderEventDisplayProp) {
           <Text color={eventTypeTextColor} fontWeight="bold" fontSize="lg">
             {props.type}
           </Text>
-          <Text color="gray">{dateToFullFormat(props.time)}</Text>
+          <Text color="gray.500">{dateToFullFormat(props.time)}</Text>
           {editMode ? editor : info}
         </Stack>
 
