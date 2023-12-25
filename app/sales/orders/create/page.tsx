@@ -1,220 +1,159 @@
 'use client';
+
 import { getConfig } from '@/app/api/config';
 import { getCustomers } from '@/app/api/customer';
 import { getProductionFacilities } from '@/app/api/production-facility';
 import { createSalesOrder } from '@/app/api/sales-order';
-import ItemsInfo from '@/app/components/ItemsInfo';
-import PaymentInfo from '@/app/components/PaymentInfo';
-import { ProductionFacility } from '@/app/models/production-facility';
+import { AutoCompleteSelect } from '@/app/components/auto-complete';
+import { ActionButton } from '@/app/components/buttons';
+import { NormalSpinner } from '@/app/components/spinners';
 import {
-  Customer,
-  OrderItemParams,
-  PriceInput,
-  SalesOrder,
-  SalesOrderCreateParams,
-} from '@/app/models/sales-order';
+  FormLabelText,
+  FormValueText,
+  SubtitleText,
+  TitleText,
+} from '@/app/components/texts';
+import { Customer } from '@/app/models/customer';
+import { ProductionFacility } from '@/app/models/production-facility';
+import { SalesOrderItem } from '@/app/models/sales-order';
+import { showSuccessToast } from '@/app/utils/toast-messages';
 import {
   Box,
-  Button,
-  FormControl,
-  Heading,
+  Flex,
+  Grid,
+  Input,
+  Link,
   Stack,
-  Text,
+  useToast,
 } from '@chakra-ui/react';
-import {
-  AutoComplete,
-  AutoCompleteInput,
-  AutoCompleteItem,
-  AutoCompleteList,
-} from '@choc-ui/chakra-autocomplete';
-import { Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-export default function SalesOrder() {
-  const [selectedPrice, setSelectedPrice] = useState<PriceInput[]>([]);
-  const router = useRouter();
-  const [selectedCustomer, setSelectedCustomer] = useState(0);
-  const [selectedFacility, setSelectedFacility] = useState(0);
-  const sumTotal = (arr: PriceInput[]) =>
-    arr.reduce((sum, { itemId, quantity, price }) => sum + price * quantity, 0);
+import SalesOrderItemsPanel from '../components/SalesOrderItemsPanel';
+import SalesOrderTotalsPanel from '../components/SalesOrderTotalsPanel';
 
-  const { mutate: createSales } = useMutation(
-    async (salesData: SalesOrderCreateParams) =>
-      await createSalesOrder(salesData),
+export default function SalesOrderCreatePage() {
+  const toast = useToast();
+  const router = useRouter();
+
+  const [facility, setFacility] = useState<ProductionFacility | undefined>();
+  const [customer, setCustomer] = useState<Customer | undefined>();
+  const [toLocation, setToLocation] = useState('');
+  const [items, setItems] = useState<SalesOrderItem[]>([]);
+
+  const { mutate: createOrder, isLoading } = useMutation(
+    () =>
+      createSalesOrder({
+        items,
+        customerId: customer!.id,
+        toLocation,
+        productionFacilityId: facility?.id,
+      }),
     {
-      onSuccess: (response: SalesOrder) => {
-        router.replace(`/sales/${response.id}`);
+      onSuccess: (resp) => {
+        router.push(resp.id.toString());
+        showSuccessToast(toast, { title: 'Order successfully created!' });
       },
     },
   );
-
-  const { data: config } = useQuery({
-    queryKey: ['config'],
-    queryFn: () => getConfig(),
-  });
-  const { data: customers } = useQuery({
-    queryKey: ['customers'],
-    queryFn: () => getCustomers(),
-  });
 
   const { data: facilities } = useQuery({
     queryKey: ['facilities'],
     queryFn: () => getProductionFacilities(),
   });
 
-  if (config === undefined) {
-    return <>Still loading...</>;
-  }
-  if (customers === undefined) {
-    return <>Still loading...</>;
-  }
-  if (facilities === undefined) {
-    return <>Still loading...</>;
-  }
+  const { data: customers } = useQuery({
+    queryKey: ['customers'],
+    queryFn: () => getCustomers(),
+  });
 
-  const totalPrice = sumTotal(selectedPrice);
-  const vatAmount = totalPrice * config.vatRate;
-  const totalAmount = totalPrice + vatAmount;
+  const { data: config } = useQuery({
+    queryKey: ['config'],
+    queryFn: () => getConfig(),
+  });
 
-  function onCreate(
-    productionFacilityId: number,
-    customerId: number,
-    items: PriceInput[],
-  ) {
-    const newItems: OrderItemParams[] = [];
-    items.forEach((item: PriceInput) => {
-      newItems.push(new OrderItemParams(item.itemId, item.quantity));
-    });
-    const sale = new SalesOrderCreateParams(
-      newItems,
-      customerId,
-      productionFacilityId,
-    );
-    createSales(sale);
-  }
+  const onFacilitySelect = (id: number) => {
+    const facility = facilities!.find((i) => i.id === id)!;
+    setFacility(facility);
+  };
+
+  const onCustomerSelect = (id: number) => {
+    const customer = customers!.find((i) => i.id === id)!;
+    setCustomer(customer);
+    setToLocation(customer.defaultLocation);
+  };
+
+  const isCreateAllowed = customer !== undefined && items.length > 0;
+
   return (
-    <div className="p-5">
-      <Formik
-        onSubmit={() => {
-          alert(selectedCustomer);
-        }}
-      >
-        {({}) => (
-          <form>
-            <Stack spacing={{ base: 4, sm: 6 }} direction={'column'}>
-              <Box as={'header'}>
-                <Heading lineHeight={1.1} fontWeight={600} fontSize={'5xl'}>
-                  CREATE
-                </Heading>
-              </Box>
-              <Box>
-                <Text
-                  fontSize={'3xl'}
-                  color={'black.500'}
-                  fontWeight={'bold'}
-                  textTransform={'uppercase'}
-                  mb={'4'}
-                  pt={10}
-                >
-                  Order Details
-                </Text>
-              </Box>
-              <Stack
-                fontSize={'xl'}
-                alignItems="center"
-                spacing={8}
-                direction="row"
-              >
-                <Text as={'span'} fontWeight={'bold'}>
-                  Facility:
-                </Text>
-                <FormControl>
-                  <AutoComplete
-                    openOnFocus
-                    value={selectedFacility}
-                    onChange={(facilityId: number) =>
-                      setSelectedFacility(facilityId)
-                    }
-                  >
-                    <AutoCompleteInput variant="filled" />
-                    <AutoCompleteList gap={5}>
-                      {facilities?.map((facility: ProductionFacility) => (
-                        <AutoCompleteItem
-                          key={facility.id}
-                          label={facility.name}
-                          value={facility.id}
-                          textTransform="capitalize"
-                        >
-                          {facility.name}
-                        </AutoCompleteItem>
-                      ))}
-                    </AutoCompleteList>
-                  </AutoComplete>
-                </FormControl>
-              </Stack>
-              <Stack
-                fontSize={'xl'}
-                alignItems="center"
-                spacing={2}
-                direction="row"
-              >
-                <Text mr={1} as={'span'} fontWeight={'bold'}>
-                  Customer:
-                </Text>
-                <FormControl w="auto">
-                  <AutoComplete
-                    openOnFocus
-                    value={selectedCustomer}
-                    onChange={(customerId: number) =>
-                      setSelectedCustomer(customerId)
-                    }
-                  >
-                    <AutoCompleteInput variant="filled" />
-                    <AutoCompleteList>
-                      {customers?.map((customer: Customer) => (
-                        <AutoCompleteItem
-                          key={customer.id}
-                          label={customer.contactPerson}
-                          value={customer.id}
-                          textTransform="capitalize"
-                        >
-                          {customer.contactPerson}
-                        </AutoCompleteItem>
-                      ))}
-                    </AutoCompleteList>
-                  </AutoComplete>
-                </FormControl>
-              </Stack>
-              <ItemsInfo
-                selectedPrice={selectedPrice}
-                setSelectedPrice={setSelectedPrice}
-              />
-              <PaymentInfo
-                totalPrice={totalPrice}
-                totalAmount={totalAmount}
-                vatAmount={vatAmount}
-                vatRate={config.vatRate}
-              />
-              <div className="flex flex-row justify-end gap-10 pt-10">
-                <Button variant="solid" colorScheme="red" size={'lg'}>
-                  Close
-                </Button>
-                <Button
-                  onClick={() =>
-                    onCreate(selectedFacility, selectedCustomer, selectedPrice)
-                  }
-                  variant="solid"
-                  colorScheme="blue"
-                  size={'lg'}
-                >
-                  Create
-                </Button>
-              </div>
-            </Stack>
-          </form>
+    <Box p={5}>
+      <Stack spacing={10}>
+        <Stack spacing={5}>
+          <TitleText>Create sales order</TitleText>
+          <SubtitleText>
+            Create a new sales order. Please enter the information below.
+          </SubtitleText>
+        </Stack>
+
+        <Grid templateRows="repeat(4, 1fr)" templateColumns="300px 1fr" gap={5}>
+          <FormLabelText>Production Facility:</FormLabelText>
+          {facilities ? (
+            <AutoCompleteSelect
+              items={facilities}
+              selectedId={facility?.id}
+              placeholder="Production facility must be selected to start delivery..."
+              onSelect={onFacilitySelect}
+            />
+          ) : (
+            <NormalSpinner />
+          )}
+
+          <FormLabelText>From location:</FormLabelText>
+          <FormValueText>{facility?.location ?? 'N/A'}</FormValueText>
+
+          <FormLabelText>Customer:</FormLabelText>
+          {customers ? (
+            <AutoCompleteSelect
+              items={customers}
+              selectedId={customer?.id}
+              placeholder="Customer must be selected..."
+              onSelect={onCustomerSelect}
+            />
+          ) : (
+            <NormalSpinner />
+          )}
+
+          <FormLabelText>To location:</FormLabelText>
+          <Input
+            value={toLocation}
+            onChange={(e) => setToLocation(e.target.value)}
+          />
+        </Grid>
+
+        <SalesOrderItemsPanel items={items} onItemsChange={setItems} />
+
+        {config ? (
+          <SalesOrderTotalsPanel items={items} vatRate={config.vatRate} />
+        ) : (
+          <NormalSpinner />
         )}
-      </Formik>
-    </div>
+
+        <Flex justify="end" mt={5} gap={5}>
+          <Link href="/sales/orders">
+            <ActionButton size="lg">Close</ActionButton>
+          </Link>
+
+          <ActionButton
+            size="lg"
+            colorScheme="blue"
+            isDisabled={!isCreateAllowed}
+            isLoading={isLoading}
+            onClick={() => createOrder()}
+          >
+            Create
+          </ActionButton>
+        </Flex>
+      </Stack>
+    </Box>
   );
 }

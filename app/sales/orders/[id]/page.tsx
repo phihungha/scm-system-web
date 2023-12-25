@@ -8,7 +8,7 @@ import { SalesOrderItem } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
 import SalesOrderTotalsPanel from '@/app/sales/orders/components/SalesOrderTotalsPanel';
 import { showSuccessToast } from '@/app/utils/toast-messages';
-import { Box, Stack, useToast } from '@chakra-ui/react';
+import { Box, Flex, Stack, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -56,7 +56,7 @@ export default function SalesOrderDetailsPage({
     },
   });
 
-  const { mutate: updateOrder } = useMutation(
+  const { mutate: updateOrder, isLoading } = useMutation(
     () =>
       updateSalesOrder({
         id: orderId,
@@ -120,19 +120,21 @@ export default function SalesOrderDetailsPage({
 
         <SalesOrderActionPanel order={order} />
 
-        <div className="flex w-full flex-row justify-end gap-5 pt-10">
+        <Flex justify="end" mt={5} gap={5}>
           <Link href="/sales/orders">
-            <ActionButton>Close</ActionButton>
+            <ActionButton size="lg">Close</ActionButton>
           </Link>
 
           <ActionButton
+            size="lg"
             colorScheme="blue"
             isDisabled={!isUpdateALlowed}
+            isLoading={isLoading}
             onClick={() => updateOrder()}
           >
             Update
           </ActionButton>
-        </div>
+        </Flex>
       </Stack>
     </Box>
   );

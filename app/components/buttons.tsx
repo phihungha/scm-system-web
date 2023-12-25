@@ -11,20 +11,21 @@ import {
 import { ButtonSpinner } from './spinners';
 
 export function ActionButton(props: ButtonProps) {
-  return <Button width={200} variant="solid" {...props} />;
+  return (
+    <Button width={200} variant="solid" {...props}>
+      {props.isLoading ? <ButtonSpinner /> : props.children}
+    </Button>
+  );
 }
 
 export interface ActionButtonRowProps extends ButtonProps {
   buttonText: string;
-  isLoading?: boolean;
 }
 
 export function ActionButtonRow(props: ActionButtonRowProps) {
   return (
     <HStack spacing={6} alignItems="center">
-      <ActionButton {...props}>
-        {props.isLoading ? <ButtonSpinner /> : props.buttonText}
-      </ActionButton>
+      <ActionButton {...props}>{props.buttonText}</ActionButton>
       <Text>{props.children}</Text>
     </HStack>
   );

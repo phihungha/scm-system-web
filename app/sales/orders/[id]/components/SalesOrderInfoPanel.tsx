@@ -28,10 +28,7 @@ export default function SalesOrderInfoPanel(props: SalesOrderInfoProps) {
   });
 
   const onFacilitySelect = (id: number) => {
-    const facility = facilities?.find((i) => i.id === id);
-    if (!facility) {
-      throw new Error('Facility ID not found.');
-    }
+    const facility = facilities!.find((i) => i.id === id)!;
     props.onFacilitySelect(facility);
   };
 
