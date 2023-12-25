@@ -54,10 +54,10 @@ export function SmallTotalValueRow({ label, value }: TotalValueRowProps) {
 export function BigTotalValueRow({ label, value }: TotalValueRowProps) {
   return (
     <Flex justify="space-between">
-      <Text fontSize="3xl" fontWeight={'bold'}>
+      <Text fontSize="2xl" fontWeight={'bold'}>
         {label}
       </Text>
-      <Text fontSize="3xl" fontWeight={'bold'}>
+      <Text fontSize="2xl" fontWeight={'bold'}>
         {value}
       </Text>
     </Flex>
