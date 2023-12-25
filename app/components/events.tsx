@@ -33,7 +33,6 @@ import { FiEdit, FiPause, FiX } from 'react-icons/fi';
 import { object, string } from 'yup';
 import { dateToFullFormat } from '../utils/time-formats';
 import { DialogProps } from './dialogs';
-import { ButtonSpinner } from './spinners';
 
 export interface EventTimelineProps {
   lastId: number;
@@ -238,8 +237,8 @@ export function EventAddDialog(props: EventAddDialogProps) {
 
   const formValidationSchema = object({
     type: string().required(),
-    location: string().required(),
-    message: string().nullable(),
+    location: string().label('Location').required(),
+    message: string().label('Message').nullable(),
   });
 
   return (
@@ -288,8 +287,12 @@ export function EventAddDialog(props: EventAddDialogProps) {
                 <Button mr={3} onClick={props.onClose}>
                   Cancel
                 </Button>
-                <Button type="submit" colorScheme="blue">
-                  {props.isLoading ? <ButtonSpinner /> : 'Create'}
+                <Button
+                  type="submit"
+                  colorScheme="blue"
+                  isLoading={props.isLoading}
+                >
+                  Confirm
                 </Button>
               </ModalFooter>
             </form>

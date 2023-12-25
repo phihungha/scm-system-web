@@ -21,7 +21,6 @@ import { Field, Formik } from 'formik';
 import { number, object, string } from 'yup';
 import { currencySymbol } from '../utils/currency-formats';
 import { DialogProps } from './dialogs';
-import { ButtonSpinner } from './spinners';
 import { SubtitleText } from './texts';
 
 export interface PaymentCompleteDialogProps extends DialogProps {
@@ -79,8 +78,12 @@ export function PaymentCompleteDialog(props: PaymentCompleteDialogProps) {
                 <Button mr={3} onClick={props.onClose}>
                   Cancel
                 </Button>
-                <Button type="submit" colorScheme="blue">
-                  {props.isLoading ? <ButtonSpinner /> : 'Confirm'}
+                <Button
+                  type="submit"
+                  colorScheme="blue"
+                  isLoading={props.isLoading}
+                >
+                  Confirm
                 </Button>
               </ModalFooter>
             </form>
@@ -139,8 +142,12 @@ export function ProblemDialog(props: ProblemDialogProps) {
                 <Button mr={3} onClick={props.onClose}>
                   Cancel
                 </Button>
-                <Button type="submit" colorScheme="blue">
-                  {props.isLoading ? <ButtonSpinner /> : 'Confirm'}
+                <Button
+                  type="submit"
+                  colorScheme="blue"
+                  isLoading={props.isLoading}
+                >
+                  Confirm
                 </Button>
               </ModalFooter>
             </form>
