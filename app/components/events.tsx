@@ -42,7 +42,7 @@ export interface EventTimelineProps {
 
 export function EventTimeline(props: EventTimelineProps) {
   return (
-    <Stepper orientation="vertical" index={props.lastId} gap={0}>
+    <Stepper orientation="vertical" index={props.lastId + 1} gap={0}>
       {props.children}
     </Stepper>
   );
