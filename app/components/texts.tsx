@@ -45,7 +45,7 @@ export interface TotalValueRowProps {
 export function SmallTotalValueRow({ label, value }: TotalValueRowProps) {
   return (
     <Flex justify="space-between">
-      <Text fontSize="xl" fontWeight={'bold'}>
+      <Text fontSize="lg" fontWeight={'bold'}>
         {label}
       </Text>
       <Text fontSize="xl">{value}</Text>

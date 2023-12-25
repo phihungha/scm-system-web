@@ -8,7 +8,7 @@ import { SalesOrderItem } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
 import SalesOrderTotalsPanel from '@/app/sales/orders/components/SalesOrderTotalsPanel';
 import { showSuccessToast } from '@/app/utils/toast-messages';
-import { Stack, Text, useToast } from '@chakra-ui/react';
+import { Box, Stack, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -16,6 +16,7 @@ import SalesOrderActionPanel from './components/SalesOrderActionPanel';
 import SalesOrderEventTimelinePanel from './components/SalesOrderEventTimelinePanel';
 import SalesOrderInfoPanel from './components/SalesOrderInfoPanel';
 import SalesOrderItemsPanel from './components/SalesOrderItemsPanel';
+import SalesOrderPaymentPanel from './components/SalesOrderPaymentPanel';
 
 interface SalesOrderDetailsPageProps {
   params: {
@@ -84,7 +85,7 @@ export default function SalesOrderDetailsPage({
   }
 
   return (
-    <div className="p-5">
+    <Box p={5}>
       <Stack spacing={10} direction={'column'}>
         <Stack spacing={5}>
           <TitleText>Sales order #{order.id}</TitleText>
@@ -111,16 +112,7 @@ export default function SalesOrderDetailsPage({
         <SectionText>Totals</SectionText>
         <SalesOrderTotalsPanel items={items} vatRate={order.vatRate} />
 
-        <Stack spacing={5} direction="row">
-          <Text as={'span'} fontWeight={'bold'} fontSize="3xl">
-            Remaining Amount:
-          </Text>
-          <div className="flex grow items-end justify-end">
-            <Text as={'span'} fontWeight={'bold'} fontSize="3xl">
-              {order.remainingAmount}
-            </Text>
-          </div>
-        </Stack>
+        <SalesOrderPaymentPanel order={order} />
 
         <SectionText>Progress</SectionText>
         <SalesOrderEventTimelinePanel
@@ -145,6 +137,6 @@ export default function SalesOrderDetailsPage({
           </ActionButton>
         </div>
       </Stack>
-    </div>
+    </Box>
   );
 }

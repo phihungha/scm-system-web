@@ -11,7 +11,7 @@ import {
 import { ButtonSpinner } from './spinners';
 
 export function ActionButton(props: ButtonProps) {
-  return <Button width={100} variant="solid" size="lg" {...props} />;
+  return <Button width={200} variant="solid" {...props} />;
 }
 
 export interface ActionButtonRowProps extends ButtonProps {
@@ -22,9 +22,9 @@ export interface ActionButtonRowProps extends ButtonProps {
 export function ActionButtonRow(props: ActionButtonRowProps) {
   return (
     <HStack spacing={6} alignItems="center">
-      <Button width={200} variant="solid" {...props}>
+      <ActionButton {...props}>
         {props.isLoading ? <ButtonSpinner /> : props.buttonText}
-      </Button>
+      </ActionButton>
       <Text>{props.children}</Text>
     </HStack>
   );

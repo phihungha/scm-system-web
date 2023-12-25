@@ -25,6 +25,9 @@ export default function SalesOrderActionPanel({
 }: SalesOrderActionPanelProps) {
   const orderId = order.id;
 
+  const [displayCancelDialog, setDisplayCancelDialog] = useState(false);
+  const [displayReturnDialog, setDisplayReturnDialog] = useState(false);
+
   const toast = useToast();
   const queryClient = useQueryClient();
   const queryKey = ['salesOrder', orderId];
@@ -33,7 +36,7 @@ export default function SalesOrderActionPanel({
     mutate: finishOrderDelivery,
     isLoading: isFinishOrderDeliveryLoading,
   } = useMutation(() => finishSalesOrder(orderId), {
-    onSuccess: (resp: SalesOrder) => {
+    onSuccess: (resp) => {
       queryClient.setQueryData(queryKey, resp);
       showSuccessToast(toast);
     },
@@ -41,7 +44,7 @@ export default function SalesOrderActionPanel({
 
   const { mutate: completeOrder, isLoading: isCompleteOrderLoading } =
     useMutation(() => completeSalesOrder(orderId), {
-      onSuccess: (resp: SalesOrder) => {
+      onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast);
       },
@@ -50,7 +53,7 @@ export default function SalesOrderActionPanel({
   const { mutate: returnOrder, isLoading: isReturnOrderLoading } = useMutation(
     returnSalesOrder,
     {
-      onSuccess: (resp: SalesOrder) => {
+      onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast);
         setDisplayReturnDialog(false);
@@ -61,16 +64,13 @@ export default function SalesOrderActionPanel({
   const { mutate: cancelOrder, isLoading: isCancelOrderLoading } = useMutation(
     cancelSalesOrder,
     {
-      onSuccess: (resp: SalesOrder) => {
+      onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast);
         setDisplayCancelDialog(false);
       },
     },
   );
-
-  const [displayCancelDialog, setDisplayCancelDialog] = useState(false);
-  const [displayReturnDialog, setDisplayReturnDialog] = useState(false);
 
   return (
     <>
