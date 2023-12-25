@@ -4,11 +4,11 @@ import {
   finishSalesOrder,
   returnSalesOrder,
 } from '@/app/api/sales-order';
+import { ActionButtonRow, ActionButtonSection } from '@/app/components/buttons';
 import {
   OrderCancelDialog,
   OrderReturnDialog,
-} from '@/app/components/action-dialogs';
-import { ActionButtonRow, ActionButtonSection } from '@/app/components/buttons';
+} from '@/app/components/order-dialogs';
 import { SectionText } from '@/app/components/texts';
 import { SalesOrder } from '@/app/models/sales-order';
 import { showSuccessToast } from '@/app/utils/toast-messages';

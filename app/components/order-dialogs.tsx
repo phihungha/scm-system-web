@@ -5,6 +5,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -15,17 +16,75 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
-import { object, string } from 'yup';
+import { number, object, string } from 'yup';
+import { DialogProps } from './dialogs';
 import { ButtonSpinner } from './spinners';
 import { SubtitleText } from './texts';
 
-export interface ProblemDialogProps {
+export interface PaymentCompleteDialogProps extends DialogProps {
+  onSubmit: (payAmount: number) => void;
+}
+
+export function PaymentCompleteDialog(props: PaymentCompleteDialogProps) {
+  const initialFormValues = {
+    payAmount: 1000,
+  };
+
+  const formValidationSchema = object({
+    payAmount: number().min(1),
+  });
+
+  return (
+    <Modal isOpen={props.display} onClose={props.onClose} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Complete payment</ModalHeader>
+        <ModalCloseButton />
+
+        <Formik
+          initialValues={initialFormValues}
+          validationSchema={formValidationSchema}
+          onSubmit={(i) => props.onSubmit(i.payAmount)}
+        >
+          {({ handleSubmit, errors, touched }) => (
+            <form method="POST" onSubmit={handleSubmit}>
+              <ModalBody>
+                <SubtitleText mb={5}>
+                  Complete payment for this order.
+                </SubtitleText>
+                <FormControl
+                  isInvalid={!!errors.payAmount && touched.payAmount}
+                >
+                  <FormLabel>Pay amount</FormLabel>
+                  <Field
+                    as={Input}
+                    placeholder="Enter pay amount..."
+                    id="payAmount"
+                    name="payAmount"
+                  />
+                  <FormErrorMessage>{errors.payAmount}</FormErrorMessage>
+                </FormControl>
+              </ModalBody>
+              <ModalFooter>
+                <Button mr={3} onClick={props.onClose}>
+                  Cancel
+                </Button>
+                <Button type="submit" colorScheme="blue">
+                  {props.isLoading ? <ButtonSpinner /> : 'Confirm'}
+                </Button>
+              </ModalFooter>
+            </form>
+          )}
+        </Formik>
+      </ModalContent>
+    </Modal>
+  );
+}
+
+export interface ProblemDialogProps extends DialogProps {
   title: string;
   description: string;
   onSubmit: (problem: string) => void;
-  isLoading?: boolean;
-  display: boolean;
-  onClose: () => void;
 }
 
 export function ProblemDialog(props: ProblemDialogProps) {
@@ -80,11 +139,8 @@ export function ProblemDialog(props: ProblemDialogProps) {
   );
 }
 
-export interface OrderProblemDialogProps {
+export interface OrderProblemDialogProps extends DialogProps {
   onSubmit: (problem: string) => void;
-  isLoading?: boolean;
-  display: boolean;
-  onClose: () => void;
 }
 
 export function OrderCancelDialog(props: OrderProblemDialogProps) {

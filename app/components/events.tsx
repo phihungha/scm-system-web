@@ -32,6 +32,7 @@ import { useState } from 'react';
 import { FiEdit, FiPause, FiX } from 'react-icons/fi';
 import { object, string } from 'yup';
 import { dateToFullFormat } from '../utils/time-formats';
+import { DialogProps } from './dialogs';
 import { ButtonSpinner } from './spinners';
 
 export interface EventTimelineProps {
@@ -222,13 +223,10 @@ export interface EventAddDialogResult {
   message?: string;
 }
 
-export interface EventAddDialogProps {
+export interface EventAddDialogProps extends DialogProps {
   typeOptions: EventAddDialogTypeOption[];
   onSubmit: (result: EventAddDialogResult) => void;
   defaultTypeOption: string;
-  onClose: () => void;
-  display: boolean;
-  isLoading?: boolean;
 }
 
 export function EventAddDialog(props: EventAddDialogProps) {
