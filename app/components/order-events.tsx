@@ -28,7 +28,7 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { useState } from 'react';
-import { FiEdit, FiX } from 'react-icons/fi';
+import { FiEdit, FiPause, FiX } from 'react-icons/fi';
 import { object, string } from 'yup';
 import { dateToFullFormat } from '../utils/time-formats';
 import { ButtonSpinner } from './spinners';
@@ -56,8 +56,10 @@ export interface OrderEventDisplayProp {
   time: Date;
   location?: string;
   message?: string;
-  isLocationEditDisabled?: boolean;
   isDisabled?: boolean;
+  isInterrupted?: boolean;
+  isEndedInError?: boolean;
+  isLocationEditDisabled?: boolean;
   onChange: (input: OrderEventUpdateData) => void;
 }
 
@@ -72,7 +74,7 @@ export function OrderEventDisplay(props: OrderEventDisplayProp) {
   );
 
   const editor = (
-    <OrderItemEditor
+    <OrderEventEditor
       {...props}
       onEditCancel={() => setEditMode(false)}
       location={props.location ?? ''}
@@ -83,19 +85,35 @@ export function OrderEventDisplay(props: OrderEventDisplayProp) {
     />
   );
 
+  let eventTypeTextColor: string | undefined;
+  if (props.isInterrupted) {
+    eventTypeTextColor = 'orange';
+  } else if (props.isEndedInError) {
+    eventTypeTextColor = 'red';
+  }
+
+  let indicatorIcon: JSX.Element;
+  if (props.isInterrupted) {
+    indicatorIcon = <FiPause />;
+  } else if (props.isEndedInError) {
+    indicatorIcon = <FiX />;
+  } else {
+    indicatorIcon = <StepIcon />;
+  }
+
   return (
     <Step>
-      <StepIndicator>
+      <StepIndicator padding={0}>
         <StepStatus
-          complete={<StepIcon />}
-          incomplete={<StepNumber />}
+          complete={indicatorIcon}
           active={<StepNumber />}
+          incomplete={<StepNumber />}
         />
       </StepIndicator>
 
       <Flex w={600} mb="5">
         <Stack flexGrow={1}>
-          <Text fontWeight="bold" fontSize="lg">
+          <Text color={eventTypeTextColor} fontWeight="bold" fontSize="lg">
             {props.type}
           </Text>
           <Text>{dateToFullFormat(props.time)}</Text>
@@ -118,7 +136,7 @@ export function OrderEventDisplay(props: OrderEventDisplayProp) {
   );
 }
 
-interface OrderItemEditorProps {
+interface OrderEventEditorProps {
   location?: string;
   message?: string;
   isLocationEditDisabled?: boolean;
@@ -126,7 +144,7 @@ interface OrderItemEditorProps {
   onEditCancel: () => void;
 }
 
-function OrderItemEditor(props: OrderItemEditorProps) {
+function OrderEventEditor(props: OrderEventEditorProps) {
   const isLocationEditDisabled = props.isLocationEditDisabled;
 
   const initialFormValues: OrderEventUpdateData = {
@@ -136,11 +154,11 @@ function OrderItemEditor(props: OrderItemEditorProps) {
 
   const validationWithLocationSchema = object({
     location: string().required(),
-    message: string(),
+    message: string().nullable(),
   });
 
   const validationWithoutLocationSchema = object({
-    message: string(),
+    message: string().nullable(),
   });
 
   const formValidationSchema = isLocationEditDisabled
@@ -155,30 +173,28 @@ function OrderItemEditor(props: OrderItemEditorProps) {
     >
       {({ handleSubmit, errors, touched }) => (
         <form method="POST" onSubmit={handleSubmit}>
-          <Stack spacing={2}>
-            <Stack spacing={5}>
-              {(!props.isLocationEditDisabled ?? true) && (
-                <FormControl isInvalid={!!errors.location && touched.location}>
-                  <Field
-                    as={Input}
-                    id="location"
-                    name="location"
-                    placeholder="Enter location..."
-                  />
-                  <FormErrorMessage>{errors.location}</FormErrorMessage>
-                </FormControl>
-              )}
-
-              <FormControl isInvalid={!!errors.message && touched.message}>
+          <Stack spacing={3}>
+            {(!props.isLocationEditDisabled ?? true) && (
+              <FormControl isInvalid={!!errors.location && touched.location}>
                 <Field
                   as={Input}
-                  id="message"
-                  name="message"
-                  placeholder="Enter an optional custom message..."
+                  id="location"
+                  name="location"
+                  placeholder="Enter location..."
                 />
-                <FormErrorMessage>{errors.message}</FormErrorMessage>
+                <FormErrorMessage>{errors.location}</FormErrorMessage>
               </FormControl>
-            </Stack>
+            )}
+
+            <FormControl isInvalid={!!errors.message && touched.message}>
+              <Field
+                as={Textarea}
+                id="message"
+                name="message"
+                placeholder="Enter an optional custom message..."
+              />
+              <FormErrorMessage>{errors.message}</FormErrorMessage>
+            </FormControl>
 
             <Button alignSelf="end" type="submit" colorScheme="blue">
               Edit
@@ -220,7 +236,7 @@ export function OrderEventAddDialog(props: OrderEventAddDialogProps) {
   const formValidationSchema = object({
     type: string().required(),
     location: string().required(),
-    message: string(),
+    message: string().nullable(),
   });
 
   return (

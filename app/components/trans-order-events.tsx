@@ -28,8 +28,10 @@ export function TransOrderEventDisplay(props: TransOrderEventDisplayProps) {
     Canceled: 'Canceled',
     Returned: 'Returned',
   };
-
   const typeDisplayName = displayNames[event.type];
+
+  const isEndedInError = event.type === 'Canceled' || event.type === 'Returned';
+  const isInterrupted = event.type === 'Interrupted';
 
   return (
     <OrderEventDisplay
@@ -37,6 +39,8 @@ export function TransOrderEventDisplay(props: TransOrderEventDisplayProps) {
       time={event.time}
       location={event.location}
       message={event.message}
+      isEndedInError={isEndedInError}
+      isInterrupted={isInterrupted}
       isLocationEditDisabled={event.isAutomatic}
       onChange={props.onChange}
     />
