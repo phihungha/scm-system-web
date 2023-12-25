@@ -67,6 +67,7 @@ export default function SuppliesPage() {
   const [queryParams, setQueryParams] = useState<SimpleItemQueryParams>({
     searchTerm: '',
     searchCriteria: 'Id',
+    all: false,
   });
 
   const { data: items } = useQuery({
@@ -75,7 +76,7 @@ export default function SuppliesPage() {
   });
 
   return (
-    <Stack spacing={10}>
+    <Stack spacing={5}>
       <SimpleItemSearchPanel
         queryParams={queryParams}
         setQueryParams={setQueryParams}

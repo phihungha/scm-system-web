@@ -30,7 +30,6 @@ export default function SimpleItemSearchPanel({
   const [searchCriteria, setSearchCriteria] = useState(
     queryParams.searchCriteria as string,
   );
-  const [displayAll, setDisplayAll] = useState(false);
 
   const onSearchClick = () =>
     setQueryParams({
@@ -74,10 +73,12 @@ export default function SimpleItemSearchPanel({
       </HStack>
 
       <Checkbox
-        isChecked={displayAll}
-        onChange={(e) => setDisplayAll(!displayAll)}
+        isChecked={queryParams.all}
+        onChange={() =>
+          setQueryParams({ ...queryParams, all: !queryParams.all })
+        }
       >
-        Display all
+        Display inactive
       </Checkbox>
     </Stack>
   );

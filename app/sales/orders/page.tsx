@@ -238,7 +238,7 @@ export default function SalesOrdersPage() {
   });
 
   return (
-    <Stack spacing={10}>
+    <Stack spacing={5}>
       <SalesOrderSearchPanel
         queryParams={queryParams}
         setQueryParams={setQueryParams}
