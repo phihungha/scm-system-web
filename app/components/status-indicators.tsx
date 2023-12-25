@@ -5,42 +5,46 @@ import { OrderStatus } from '../models/order';
 import { PaymentStatus } from '../models/trans-order';
 
 export function OrderStatusBadge({ status }: { status: OrderStatus }) {
-  switch (status) {
-    case 'Processing':
-      return <Badge colorScheme="yellow">Processing</Badge>;
-    case 'Executing':
-      return <Badge colorScheme="cyan">Executing</Badge>;
-    case 'WaitingAcceptance':
-      return <Badge colorScheme="blue">Waiting Acceptance</Badge>;
-    case 'Completed':
-      return <Badge colorScheme="green">Completed</Badge>;
-    case 'Canceled':
-      return <Badge colorScheme="red">Canceled</Badge>;
-    case 'Returned':
-      return <Badge colorScheme="purple">Returned</Badge>;
-  }
+  const displayOptions = {
+    Processing: { color: 'yellow', displayName: 'Processing' },
+    Executing: { color: 'cyan', displayName: 'Executing' },
+    Interrupted: { color: 'pink', displayName: 'Interrupted' },
+    WaitingAcceptance: { color: 'blue', displayName: 'Waiting Acceptance' },
+    Completed: { color: 'green', displayName: 'Completed' },
+    Canceled: { color: 'red', displayName: 'Canceled' },
+    Returned: { color: 'purple', displayName: 'Returned' },
+  };
+
+  const displayOption = displayOptions[status];
+
+  return (
+    <Badge colorScheme={displayOption.color}>{displayOption.displayName}</Badge>
+  );
 }
 
 export function PaymentStatusBadge({ status }: { status: PaymentStatus }) {
-  switch (status) {
-    case 'Pending':
-      return <Badge colorScheme="yellow">Pending</Badge>;
-    case 'Due':
-      return <Badge colorScheme="orange">Due</Badge>;
-    case 'Completed':
-      return <Badge colorScheme="green">Completed</Badge>;
-    case 'Canceled':
-      return <Badge colorScheme="red">Canceled</Badge>;
-  }
+  const displayOptions = {
+    Pending: { color: 'yellow', displayName: 'Pending' },
+    Due: { color: 'orange', displayName: 'Due' },
+    Completed: { color: 'green', displayName: 'Completed' },
+    Canceled: { color: 'red', displayName: 'Canceled' },
+  };
+  const displayOption = displayOptions[status];
+
+  return (
+    <Badge colorScheme={displayOption.color}>{displayOption.displayName}</Badge>
+  );
 }
 
 export function ApprovalStatusBadge({ status }: { status: ApprovalStatus }) {
-  switch (status) {
-    case 'PendingApproval':
-      return <Badge colorScheme="yellow">Pending</Badge>;
-    case 'Approved':
-      return <Badge colorScheme="green">Approved</Badge>;
-    case 'Rejected':
-      return <Badge colorScheme="red">Rejected</Badge>;
-  }
+  const displayOptions = {
+    PendingApproval: { color: 'yellow', displayName: 'Pending' },
+    Approved: { color: 'green', displayName: 'Approved' },
+    Rejected: { color: 'red', displayName: 'Rejected' },
+  };
+  const displayOption = displayOptions[status];
+
+  return (
+    <Badge colorScheme={displayOption.color}>{displayOption.displayName}</Badge>
+  );
 }
