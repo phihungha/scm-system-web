@@ -48,7 +48,7 @@ export default function SalesOrderDetailsPage({
 
   const queryKey = ['salesOrder', orderId];
 
-  const { data: order } = useQuery({
+  const { data: order, refetch } = useQuery({
     queryKey,
     queryFn: () => getSalesOrder(orderId),
     onSuccess: (resp) => {
@@ -104,6 +104,11 @@ export default function SalesOrderDetailsPage({
     },
   );
 
+  const onEventAdd = (event: TransOrderEvent) => {
+    setEvents([...events, event]);
+    refetch();
+  };
+
   const [paymentDialog, SetPaymentDialog] = useState(false);
   const [cancelDialog, SetCancelDialog] = useState(false);
   const [returnDialog, SetReturnDialog] = useState(false);
@@ -138,7 +143,11 @@ export default function SalesOrderDetailsPage({
         <SalesOrderItemsEditor items={items} onItemsChange={setItems} />
 
         <SectionText>Progress</SectionText>
-        <SalesOrderEventTimeline events={events} orderId={order.id} />
+        <SalesOrderEventTimeline
+          events={events}
+          orderId={order.id}
+          onAdd={onEventAdd}
+        />
 
         <PaymentInfo
           totalPrice={totalPrice}
