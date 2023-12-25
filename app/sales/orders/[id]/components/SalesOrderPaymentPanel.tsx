@@ -49,9 +49,14 @@ export default function SalesOrderPaymentPanel({
   }
 
   return (
-    <Stack spacing={5}>
+    <Stack spacing={4}>
       <SectionText>Payment</SectionText>
-      <Text fontSize="lg">{description}</Text>
+      <Text
+        fontSize="lg"
+        color={order.paymentStatus === 'Due' ? 'orange' : 'black'}
+      >
+        {description}
+      </Text>
 
       <Flex
         justify="space-between"
@@ -61,9 +66,7 @@ export default function SalesOrderPaymentPanel({
           Remaining amount
         </Text>
         <Text fontSize="xl" fontWeight={'bold'}>
-          {order.paymentStatus === 'Pending'
-            ? 'Pending'
-            : CurrencyFormat.format(order.remainingAmount)}
+          {CurrencyFormat.format(order.remainingAmount)}
         </Text>
       </Flex>
 
