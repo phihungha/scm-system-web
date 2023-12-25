@@ -3,7 +3,7 @@
 import { BigTotalValueRow, SmallTotalValueRow } from '@/app/components/texts';
 import { SalesOrderItem } from '@/app/models/sales-order';
 import CurrencyFormat from '@/app/utils/currency-formats';
-import { toPercentage } from '@/app/utils/percentage.formats';
+import { toPercentage } from '@/app/utils/percentage-formats';
 import { Stack, StackDivider } from '@chakra-ui/react';
 
 export interface SalesOrderTotalsDisplayProps {

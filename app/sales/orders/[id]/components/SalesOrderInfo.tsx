@@ -1,5 +1,5 @@
 'use client';
-import AutoCompleteSelect from '@/app/components/AutoCompleteSelect';
+import { AutoCompleteSelect } from '@/app/components/auto-complete';
 import { NormalSpinner } from '@/app/components/spinners';
 import {
   OrderStatusBadge,

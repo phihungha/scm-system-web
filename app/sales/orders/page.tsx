@@ -6,7 +6,7 @@ import {
 } from '@/app/components/status-indicators';
 import { OrderStatus } from '@/app/models/order';
 import { PaymentStatus } from '@/app/models/trans-order';
-import VndCurrencyFormat from '@/app/utils/currency-formats';
+import CurrencyFormat from '@/app/utils/currency-formats';
 import {
   Button,
   ButtonGroup,
@@ -55,8 +55,8 @@ function SalesOrderTableItem({ order }: { order: SalesOrder }) {
       <Td>
         <PaymentStatusBadge status={order.paymentStatus}></PaymentStatusBadge>
       </Td>
-      <Td>{VndCurrencyFormat.format(order.totalAmount)}</Td>
-      <Td>{VndCurrencyFormat.format(order.remainingAmount)}</Td>
+      <Td>{CurrencyFormat.format(order.totalAmount)}</Td>
+      <Td>{CurrencyFormat.format(order.remainingAmount)}</Td>
       <Td>
         <Link href={`/sales/orders/${order.id}`}>
           <Button variant="solid" colorScheme="blue">

@@ -1,9 +1,8 @@
 'use client';
 
 import { getProducts } from '@/app/api/product';
-import AutoCompleteItemPreview from '@/app/components/AutoCompleteItemPreview';
-import ItemEditCard from '@/app/components/ItemEditCard';
-import ItemsEditor from '@/app/components/ItemsEditor';
+import { AutoCompleteItemPreview } from '@/app/components/auto-complete';
+import { ItemEditCard, ItemsEditor } from '@/app/components/items-editor';
 import { SalesOrderItem } from '@/app/models/sales-order';
 import CurrencyFormat from '@/app/utils/currency-formats';
 import { Text } from '@chakra-ui/react';
