@@ -102,7 +102,11 @@ export default function SalesOrderDetailsPage({
         />
 
         <SectionText>Items</SectionText>
-        <SalesOrderItemsPanel items={items} onItemsChange={setItems} />
+        <SalesOrderItemsPanel
+          isDisabled={!order.isExecutionInfoUpdateAllowed}
+          items={items}
+          onItemsChange={setItems}
+        />
 
         <SectionText>Totals</SectionText>
         <SalesOrderTotalsPanel items={items} vatRate={order.vatRate} />
@@ -121,7 +125,7 @@ export default function SalesOrderDetailsPage({
         <SectionText>Progress</SectionText>
         <SalesOrderEventTimelinePanel
           events={events}
-          orderId={order.id}
+          order={order}
           onAdd={onAddEvent}
         />
 

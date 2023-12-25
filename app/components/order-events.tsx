@@ -1,303 +1,98 @@
 'use client';
 
+import { TransOrderEvent, TransOrderEventOption } from '../models/trans-order';
 import {
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  IconButton,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Select,
-  Stack,
-  Step,
-  StepIcon,
-  StepIndicator,
-  StepNumber,
-  StepSeparator,
-  StepStatus,
-  Stepper,
-  Text,
-  Textarea,
-} from '@chakra-ui/react';
-import { Field, Formik } from 'formik';
-import { useState } from 'react';
-import { FiEdit, FiPause, FiX } from 'react-icons/fi';
-import { object, string } from 'yup';
-import { dateToFullFormat } from '../utils/time-formats';
-import { ButtonSpinner } from './spinners';
+  EventAddDialog,
+  EventAddDialogResult,
+  EventAddDialogTypeOption,
+  EventDisplay,
+  EventUpdateData,
+} from './events';
 
-export interface OrderEventTimelineProps {
-  lastId: number;
-  children: React.ReactNode;
-}
-
-export function OrderEventTimeline(props: OrderEventTimelineProps) {
-  return (
-    <Stepper orientation="vertical" index={props.lastId} gap={0}>
-      {props.children}
-    </Stepper>
-  );
-}
-
-export interface OrderEventUpdateData {
-  location?: string;
-  message?: string;
-}
-
-export interface OrderEventDisplayProp {
-  type: string;
-  time: Date;
-  location?: string;
-  message?: string;
+export interface OrderEventTimelinePanelProps<TOrder, TEvent> {
+  order: TOrder;
+  events: TEvent[];
   isDisabled?: boolean;
-  isInterrupted?: boolean;
-  isEndedInError?: boolean;
-  isLocationEditDisabled?: boolean;
-  onChange: (input: OrderEventUpdateData) => void;
+  onAdd: (event: TEvent) => void;
 }
 
-export function OrderEventDisplay(props: OrderEventDisplayProp) {
-  const [editMode, setEditMode] = useState(false);
+export interface OrderEventDisplayProps<T> {
+  orderId: number;
+  initEvent: T;
+}
 
-  let eventTypeTextColor: string | undefined;
-  if (props.isInterrupted) {
-    eventTypeTextColor = 'orange';
-  } else if (props.isEndedInError) {
-    eventTypeTextColor = 'red';
-  }
+export interface TransOrderEventDisplayProps {
+  event: TransOrderEvent;
+  onChange: (input: EventUpdateData) => void;
+}
 
-  let indicatorIcon: JSX.Element;
-  if (props.isInterrupted) {
-    indicatorIcon = <FiPause />;
-  } else if (props.isEndedInError) {
-    indicatorIcon = <FiX />;
-  } else {
-    indicatorIcon = <StepIcon />;
-  }
+export function TransOrderEventDisplay(props: TransOrderEventDisplayProps) {
+  const event = props.event;
 
-  const info = (
-    <>
-      <Text>{props.location}</Text>
-      {props.message && (
-        <Text fontWeight="bold" overflowWrap="anywhere">
-          {props.message}
-        </Text>
-      )}
-    </>
-  );
+  const displayNames = {
+    Processing: 'Processing',
+    DeliveryStarted: 'Delivery started',
+    Left: 'Left',
+    Arrived: 'Arrived',
+    Interrupted: 'Interrupted',
+    Delivered: 'Delivered & Waiting to accept',
+    Completed: 'Completed',
+    PaymentDue: 'Payment due',
+    PaymentCompleted: 'Payment completed',
+    Canceled: 'Canceled',
+    Returned: 'Returned',
+  };
+  const typeDisplayName = displayNames[event.type];
 
-  const editor = (
-    <OrderEventEditor
-      {...props}
-      onEditCancel={() => setEditMode(false)}
-      location={props.location ?? ''}
-      onChange={(input) => {
-        setEditMode(false);
-        props.onChange(input);
-      }}
+  const isEndedInError = event.type === 'Canceled' || event.type === 'Returned';
+  const isInterrupted = event.type === 'Interrupted';
+
+  return (
+    <EventDisplay
+      type={typeDisplayName}
+      time={event.time}
+      location={event.location}
+      message={event.message}
+      isEndedInError={isEndedInError}
+      isInterrupted={isInterrupted}
+      isLocationEditDisabled={event.isAutomatic}
+      onChange={props.onChange}
     />
   );
-
-  return (
-    <Step>
-      <StepIndicator padding={0}>
-        <StepStatus
-          complete={indicatorIcon}
-          active={<StepNumber />}
-          incomplete={<StepNumber />}
-        />
-      </StepIndicator>
-
-      <Flex w={600} mb="5">
-        <Stack flexGrow={1} spacing={1}>
-          <Text color={eventTypeTextColor} fontWeight="bold" fontSize="lg">
-            {props.type}
-          </Text>
-          <Text color="gray.500">{dateToFullFormat(props.time)}</Text>
-          {editMode ? editor : info}
-        </Stack>
-
-        {(!props.isDisabled ?? true) && (
-          <IconButton
-            aria-label="Accept event edit"
-            onClick={() => setEditMode(!editMode)}
-            variant="contained"
-            colorScheme="blue"
-            fontSize="20px"
-            icon={editMode ? <FiX /> : <FiEdit />}
-          />
-        )}
-      </Flex>
-      <StepSeparator />
-    </Step>
-  );
 }
 
-interface OrderEventEditorProps {
-  location?: string;
-  message?: string;
-  isLocationEditDisabled?: boolean;
-  onChange: (input: OrderEventUpdateData) => void;
-  onEditCancel: () => void;
-}
-
-function OrderEventEditor(props: OrderEventEditorProps) {
-  const isLocationEditDisabled = props.isLocationEditDisabled;
-
-  const initialFormValues: OrderEventUpdateData = {
-    location: isLocationEditDisabled ? undefined : props.location,
-    message: props.message,
-  };
-
-  const validationWithLocationSchema = object({
-    location: string().required(),
-    message: string().nullable(),
-  });
-
-  const validationWithoutLocationSchema = object({
-    message: string().nullable(),
-  });
-
-  const formValidationSchema = isLocationEditDisabled
-    ? validationWithoutLocationSchema
-    : validationWithLocationSchema;
-
-  return (
-    <Formik
-      initialValues={initialFormValues}
-      validationSchema={formValidationSchema}
-      onSubmit={props.onChange}
-    >
-      {({ handleSubmit, errors, touched }) => (
-        <form method="POST" onSubmit={handleSubmit}>
-          <Stack spacing={3}>
-            {(!props.isLocationEditDisabled ?? true) && (
-              <FormControl isInvalid={!!errors.location && touched.location}>
-                <Field
-                  as={Input}
-                  id="location"
-                  name="location"
-                  placeholder="Enter location..."
-                />
-                <FormErrorMessage>{errors.location}</FormErrorMessage>
-              </FormControl>
-            )}
-
-            <FormControl isInvalid={!!errors.message && touched.message}>
-              <Field
-                as={Textarea}
-                id="message"
-                name="message"
-                placeholder="Enter an optional custom message..."
-              />
-              <FormErrorMessage>{errors.message}</FormErrorMessage>
-            </FormControl>
-
-            <Button alignSelf="end" type="submit" colorScheme="blue">
-              Edit
-            </Button>
-          </Stack>
-        </form>
-      )}
-    </Formik>
-  );
-}
-
-export interface OrderEventAddDialogTypeOption {
-  name: string;
-  displayName: string;
-}
-
-export interface OrderEventAddDialogResult {
-  type: string;
+export interface TransOrderEventAddDialogResult {
+  type: TransOrderEventOption;
   location: string;
   message?: string;
 }
 
-export interface OrderEventAddDialogProps {
-  typeOptions: OrderEventAddDialogTypeOption[];
-  onSubmit: (result: OrderEventAddDialogResult) => void;
-  defaultTypeOption: string;
-  onClose: () => void;
+export interface TransOrderEventAddDialogProps {
   display: boolean;
   isLoading?: boolean;
+  onSubmit: (result: TransOrderEventAddDialogResult) => void;
+  onClose: () => void;
 }
 
-export function OrderEventAddDialog(props: OrderEventAddDialogProps) {
-  const initialFormValues: OrderEventAddDialogResult = {
-    type: props.defaultTypeOption,
-    location: '',
-    message: undefined,
+export function TransOrderEventAddDialog(props: TransOrderEventAddDialogProps) {
+  const typeOptions: EventAddDialogTypeOption[] = [
+    { name: 'Left', displayName: 'Left' },
+    { name: 'Arrived', displayName: 'Arrived' },
+    { name: 'Interrupted', displayName: 'Interrupted' },
+  ];
+
+  const onSubmit = ({ type, ...params }: EventAddDialogResult) => {
+    props.onSubmit({ ...params, type: type as TransOrderEventOption });
   };
 
-  const formValidationSchema = object({
-    type: string().required(),
-    location: string().required(),
-    message: string().nullable(),
-  });
-
   return (
-    <Modal isOpen={props.display} onClose={props.onClose} size={'xl'}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Add an event for this order.</ModalHeader>
-        <ModalCloseButton />
-        <Formik
-          initialValues={initialFormValues}
-          validationSchema={formValidationSchema}
-          onSubmit={(i) => props.onSubmit(i)}
-        >
-          {({ handleSubmit, errors, touched }) => (
-            <form method="POST" onSubmit={handleSubmit}>
-              <ModalBody>
-                <Stack spacing={5}>
-                  <FormControl>
-                    <FormLabel>Type</FormLabel>
-                    <Field as={Select} name="type">
-                      {props.typeOptions.map((i) => (
-                        <option key={i.name} value={i.name}>
-                          {i.displayName}
-                        </option>
-                      ))}
-                    </Field>
-                  </FormControl>
-
-                  <FormControl
-                    isInvalid={!!errors.location && touched.location}
-                  >
-                    <FormLabel>Location</FormLabel>
-                    <Field as={Input} id="location" name="location" />
-                    <FormErrorMessage>{errors.location}</FormErrorMessage>
-                  </FormControl>
-
-                  <FormControl isInvalid={!!errors.message && touched.message}>
-                    <FormLabel>Message</FormLabel>
-                    <Field as={Textarea} id="message" name="message" />
-                    <FormErrorMessage>{errors.message}</FormErrorMessage>
-                  </FormControl>
-                </Stack>
-              </ModalBody>
-
-              <ModalFooter>
-                <Button mr={3} onClick={props.onClose}>
-                  Cancel
-                </Button>
-                <Button type="submit" colorScheme="blue">
-                  {props.isLoading ? <ButtonSpinner /> : 'Create'}
-                </Button>
-              </ModalFooter>
-            </form>
-          )}
-        </Formik>
-      </ModalContent>
-    </Modal>
+    <EventAddDialog
+      typeOptions={typeOptions}
+      defaultTypeOption="Left"
+      onSubmit={onSubmit}
+      isLoading={props.isLoading}
+      display={props.display}
+      onClose={props.onClose}
+    />
   );
 }

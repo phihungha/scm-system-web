@@ -2,31 +2,25 @@ import {
   createSalesOrderEvent,
   updateSalesOrderEvent,
 } from '@/app/api/sales-order';
+import { EventTimeline, EventUpdateData } from '@/app/components/events';
 import {
-  OrderEventTimeline,
-  OrderEventUpdateData,
-} from '@/app/components/order-events';
-import {
+  OrderEventDisplayProps,
+  OrderEventTimelinePanelProps,
   TransOrderEventAddDialog,
   TransOrderEventDisplay,
-} from '@/app/components/trans-order-events';
+} from '@/app/components/order-events';
+
+import { SalesOrder } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
 import { Button, Stack, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 
-export interface SalesOrderEventDisplay {
-  orderId: number;
-  events: TransOrderEvent[];
-  isDisabled?: boolean;
-  onAdd: (event: TransOrderEvent) => void;
-}
-
 export default function SalesOrderEventTimelinePanel(
-  props: SalesOrderEventDisplay,
+  props: OrderEventTimelinePanelProps<SalesOrder, TransOrderEvent>,
 ) {
   const events = props.events;
-  const orderId = props.orderId;
+  const orderId = props.order.id;
 
   const toast = useToast();
   const [displayAddDialog, setDisplayAddDialog] = useState(false);
@@ -49,7 +43,7 @@ export default function SalesOrderEventTimelinePanel(
 
   return (
     <Stack spacing={3}>
-      <OrderEventTimeline lastId={events.length - 1}>
+      <EventTimeline lastId={events.length - 1}>
         {events.map((event) => (
           <SalesOrderEventDisplay
             key={event.id}
@@ -57,21 +51,20 @@ export default function SalesOrderEventTimelinePanel(
             initEvent={event}
           />
         ))}
-      </OrderEventTimeline>
+      </EventTimeline>
 
       <Button
         width={200}
         colorScheme="blue"
         alignSelf="start"
+        isDisabled={!props.order.isExecuting}
         onClick={() => setDisplayAddDialog(true)}
       >
         Add event
       </Button>
 
       <TransOrderEventAddDialog
-        onSubmit={(result) =>
-          createEvent({ orderId: props.orderId, ...result })
-        }
+        onSubmit={(result) => createEvent({ orderId, ...result })}
         isLoading={isLoading}
         display={displayAddDialog}
         onClose={() => setDisplayAddDialog(false)}
@@ -80,22 +73,17 @@ export default function SalesOrderEventTimelinePanel(
   );
 }
 
-interface SalesOrderEventDisplayProps {
-  orderId: number;
-  initEvent: TransOrderEvent;
-}
-
 function SalesOrderEventDisplay({
   orderId,
   initEvent,
-}: SalesOrderEventDisplayProps) {
+}: OrderEventDisplayProps<TransOrderEvent>) {
   const [event, setEvent] = useState(initEvent);
 
   const { mutate: updateEvent } = useMutation(updateSalesOrderEvent, {
     onSuccess: setEvent,
   });
 
-  const onChange = (input: OrderEventUpdateData) => {
+  const onChange = (input: EventUpdateData) => {
     console.log(input);
     updateEvent({
       orderId: orderId,

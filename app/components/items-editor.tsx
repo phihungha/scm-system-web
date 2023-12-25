@@ -23,10 +23,17 @@ import {
 import { useState } from 'react';
 import { BsXLg } from 'react-icons/bs';
 
+export interface OrderItemsPanelProps<T> {
+  items: T[];
+  isDisabled?: boolean;
+  onItemsChange: (value: T[]) => void;
+}
+
 export type OnItemChangeFunc<T> = (item: T) => void;
 
 export interface ItemsEditorProps<T> {
   items: T[];
+  isDisabled?: boolean;
   onItemsChange: (value: T[]) => void;
   createNewItem: (id: number) => T;
   getItemId: (item: T) => number;
@@ -72,11 +79,17 @@ export function ItemsEditor<T>(props: ItemsEditorProps<T>) {
             placeholder="Enter name of the item to add..."
             h={50}
             variant="filled"
+            isDisabled={props.isDisabled}
           />
           <AutoCompleteList>{props.itemAddSelections}</AutoCompleteList>
         </AutoComplete>
 
-        <Button onClick={onItemAdd} colorScheme="blue" size="lg">
+        <Button
+          colorScheme="blue"
+          size="lg"
+          isDisabled={props.isDisabled}
+          onClick={onItemAdd}
+        >
           Add
         </Button>
       </Flex>
@@ -88,6 +101,13 @@ export function ItemsEditor<T>(props: ItemsEditorProps<T>) {
   );
 }
 
+export interface OrderItemEditCardProps<T> {
+  item: T;
+  isDisabled?: boolean;
+  onDelete: (item: T) => void;
+  onQuantityChange: (item: T) => void;
+}
+
 export interface ItemEditCardProps {
   id: number;
   quantity: number;
@@ -95,6 +115,7 @@ export interface ItemEditCardProps {
   unit: string;
   imageUrl?: string;
   children: React.ReactNode;
+  isDisabled?: boolean;
   onDelete: (id: number) => void;
   onQuantityChange: (id: number, quantity: number) => void;
 }
@@ -123,13 +144,14 @@ export function ItemEditCard(props: ItemEditCardProps) {
             <Text fontWeight="bold">Quantity:</Text>
             <Box>
               <NumberInput
+                isRequired={true}
+                min={1}
                 value={props.quantity}
+                isDisabled={props.isDisabled}
                 onChange={(_, value) =>
                   // Don't update if number box is empty.
                   value && props.onQuantityChange(props.id, value)
                 }
-                isRequired={true}
-                min={1}
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -147,6 +169,7 @@ export function ItemEditCard(props: ItemEditCardProps) {
 
       <div className="self-center p-5">
         <Button
+          isDisabled={props.isDisabled}
           onClick={() => props.onDelete(props.id)}
           variant="solid"
           colorScheme="white"

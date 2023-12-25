@@ -2,22 +2,23 @@
 
 import { getProducts } from '@/app/api/product';
 import { AutoCompleteItemPreview } from '@/app/components/auto-complete';
-import { ItemEditCard, ItemsEditor } from '@/app/components/items-editor';
+import {
+  ItemEditCard,
+  ItemsEditor,
+  OrderItemEditCardProps,
+  OrderItemsPanelProps,
+} from '@/app/components/items-editor';
 import { SalesOrderItem } from '@/app/models/sales-order';
 import CurrencyFormat from '@/app/utils/currency-formats';
 import { Text } from '@chakra-ui/react';
 import { AutoCompleteItem } from '@choc-ui/chakra-autocomplete';
 import { useQuery } from 'react-query';
 
-export interface SalesOrderItemsEditorProps {
-  items: SalesOrderItem[];
-  onItemsChange: (value: SalesOrderItem[]) => void;
-}
+export default function SalesOrderItemsPanel(
+  props: OrderItemsPanelProps<SalesOrderItem>,
+) {
+  const items = props.items;
 
-export default function SalesOrderItemsPanel({
-  items,
-  onItemsChange,
-}: SalesOrderItemsEditorProps) {
   const { data: products } = useQuery({
     queryKey: ['product'],
     queryFn: () => getProducts(),
@@ -62,16 +63,18 @@ export default function SalesOrderItemsPanel({
   return (
     <ItemsEditor
       items={items}
-      onItemsChange={onItemsChange}
-      createNewItem={createNewItem}
       getItemId={(i) => i.itemId}
       itemAddSelections={itemAddSelections}
+      isDisabled={props.isDisabled}
+      onItemsChange={props.onItemsChange}
+      createNewItem={createNewItem}
     >
       {(onQuantityChange, onDelete) =>
         items.map((item) => (
           <SalesOrderItemEditCard
             key={item.itemId}
             item={item}
+            isDisabled={props.isDisabled}
             onQuantityChange={onQuantityChange}
             onDelete={onDelete}
           />
@@ -81,13 +84,7 @@ export default function SalesOrderItemsPanel({
   );
 }
 
-interface SalesOrderItemEditCardProps {
-  item: SalesOrderItem;
-  onDelete: (item: SalesOrderItem) => void;
-  onQuantityChange: (item: SalesOrderItem) => void;
-}
-
-function SalesOrderItemEditCard(props: SalesOrderItemEditCardProps) {
+function SalesOrderItemEditCard(props: OrderItemEditCardProps<SalesOrderItem>) {
   const item = props.item;
   const product = props.item.product;
 
@@ -102,10 +99,11 @@ function SalesOrderItemEditCard(props: SalesOrderItemEditCardProps) {
     <ItemEditCard
       id={product.id}
       quantity={item.quantity}
-      onQuantityChange={(_, quantity) => onQuantityChange(quantity)}
       name={product.name}
       unit={item.unit}
       imageUrl={product.imageUrl}
+      isDisabled={props.isDisabled}
+      onQuantityChange={(_, quantity) => onQuantityChange(quantity)}
       onDelete={() => props.onDelete(item)}
     >
       <Text>Price: {CurrencyFormat.format(item.unitPrice)}</Text>

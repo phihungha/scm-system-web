@@ -53,6 +53,7 @@ export default function SalesOrderActionPanel({
       onSuccess: (resp: SalesOrder) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast);
+        setDisplayReturnDialog(false);
       },
     },
   );
@@ -63,6 +64,7 @@ export default function SalesOrderActionPanel({
       onSuccess: (resp: SalesOrder) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast);
+        setDisplayCancelDialog(false);
       },
     },
   );

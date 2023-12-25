@@ -37,19 +37,26 @@ export default function SalesOrderInfoPanel(props: SalesOrderInfoProps) {
 
   const order = props.order;
 
+  const facilitySelectComponent = facilities ? (
+    <AutoCompleteSelect
+      items={facilities}
+      selectedId={props.facility?.id}
+      placeholder="Production facility must be selected to start delivery..."
+      isDisabled={!order.isExecutionInfoUpdateAllowed}
+      onSelect={onFacilitySelect}
+    />
+  ) : (
+    <NormalSpinner />
+  );
+
   return (
     <Stack>
-      <Grid templateRows="repeat(12, 1fr)" templateColumns="300px 1fr" gap={3}>
+      <Grid templateRows="repeat(12, 1fr)" templateColumns="300px 1fr" gap={5}>
         <FormLabelText>Production Facility:</FormLabelText>
-        {facilities ? (
-          <AutoCompleteSelect
-            items={facilities}
-            selectedId={props.facility?.id}
-            placeholder="Production facility must be selected to start delivery..."
-            onSelect={onFacilitySelect}
-          />
+        {order.isExecutionInfoUpdateAllowed ? (
+          facilitySelectComponent
         ) : (
-          <NormalSpinner />
+          <FormValueText>{props.facility?.name}</FormValueText>
         )}
 
         <FormLabelText>From location:</FormLabelText>
@@ -59,10 +66,15 @@ export default function SalesOrderInfoPanel(props: SalesOrderInfoProps) {
         <FormValueText>{order.customer.name}</FormValueText>
 
         <FormLabelText>To location:</FormLabelText>
-        <Input
-          value={props.toLocation}
-          onChange={(e) => props.onToLocationChange(e.target.value)}
-        />
+        {order.isToLocationUpdateAllowed ? (
+          <Input
+            value={props.toLocation}
+            isDisabled={!order.isToLocationUpdateAllowed}
+            onChange={(e) => props.onToLocationChange(e.target.value)}
+          />
+        ) : (
+          <FormValueText>{props.toLocation}</FormValueText>
+        )}
 
         <FormLabelText>Status:</FormLabelText>
         <FormValueText>
@@ -91,7 +103,7 @@ export default function SalesOrderInfoPanel(props: SalesOrderInfoProps) {
         <FormValueText>
           {order.executionFinishTime
             ? dateToFullFormat(order.executionFinishTime)
-            : 'Will be available after order has finished delivery.'}
+            : 'Will be available if order has finished delivery.'}
         </FormValueText>
 
         <FormLabelText>End user:</FormLabelText>
