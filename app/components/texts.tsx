@@ -1,3 +1,5 @@
+'use client';
+
 import { Flex, Heading, HeadingProps, Text, TextProps } from '@chakra-ui/react';
 
 export function TitleText(props: HeadingProps) {

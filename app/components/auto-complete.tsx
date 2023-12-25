@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardBody, Heading, Image, Stack, Text } from '@chakra-ui/react';
 import {
   AutoComplete,

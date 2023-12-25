@@ -1,6 +1,9 @@
+'use client';
+
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Modal,
   ModalBody,
@@ -13,11 +16,14 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { object, string } from 'yup';
+import { ButtonSpinner } from './spinners';
+import { SubtitleText } from './texts';
 
 export interface ProblemDialogProps {
   title: string;
   description: string;
   onSubmit: (problem: string) => void;
+  isLoading?: boolean;
   display: boolean;
   onClose: () => void;
 }
@@ -38,30 +44,65 @@ export function ProblemDialog(props: ProblemDialogProps) {
         <ModalHeader>{props.title}</ModalHeader>
         <ModalCloseButton />
 
-        <ModalBody>
-          <Formik
-            initialValues={initialFormValues}
-            validationSchema={formValidationSchema}
-            onSubmit={(i) => props.onSubmit(i.problem)}
-          >
-            {({ handleSubmit, errors, touched }) => (
-              <form method="POST" onSubmit={handleSubmit}>
+        <Formik
+          initialValues={initialFormValues}
+          validationSchema={formValidationSchema}
+          onSubmit={(i) => props.onSubmit(i.problem)}
+        >
+          {({ handleSubmit, errors, touched }) => (
+            <form method="POST" onSubmit={handleSubmit}>
+              <ModalBody>
+                <SubtitleText mb={5}>{props.description}</SubtitleText>
                 <FormControl isInvalid={!!errors.problem && touched.problem}>
                   <FormLabel>Problem</FormLabel>
-                  <Field as={Textarea} id="problem" name="problem" />
+                  <Field
+                    as={Textarea}
+                    placeholder="Enter problems..."
+                    id="problem"
+                    name="problem"
+                  />
+                  <FormErrorMessage>{errors.problem}</FormErrorMessage>
                 </FormControl>
-              </form>
-            )}
-          </Formik>
-        </ModalBody>
-
-        <ModalFooter>
-          <Button type="submit" colorScheme="blue" mr={3}>
-            Confirm
-          </Button>
-          <Button onClick={props.onClose}>Cancel</Button>
-        </ModalFooter>
+              </ModalBody>
+              <ModalFooter>
+                <Button mr={3} onClick={props.onClose}>
+                  Cancel
+                </Button>
+                <Button type="submit" colorScheme="blue">
+                  {props.isLoading ? <ButtonSpinner /> : 'Confirm'}
+                </Button>
+              </ModalFooter>
+            </form>
+          )}
+        </Formik>
       </ModalContent>
     </Modal>
+  );
+}
+
+export interface OrderProblemDialogProps {
+  onSubmit: (problem: string) => void;
+  isLoading?: boolean;
+  display: boolean;
+  onClose: () => void;
+}
+
+export function OrderCancelDialog(props: OrderProblemDialogProps) {
+  return (
+    <ProblemDialog
+      title="Cancel order"
+      description="Cancel this order due to problems. This action cannot be undone!"
+      {...props}
+    />
+  );
+}
+
+export function OrderReturnDialog(props: OrderProblemDialogProps) {
+  return (
+    <ProblemDialog
+      title="Return order"
+      description="Return this order due to problems. This action cannot be undone!"
+      {...props}
+    />
   );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { Tab, TabList, Tabs } from '@chakra-ui/react';
 import Link from 'next/link';
 

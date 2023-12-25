@@ -1,3 +1,5 @@
+'use client';
+
 import { AbsoluteCenter, Spinner } from '@chakra-ui/react';
 
 export function ButtonSpinner() {

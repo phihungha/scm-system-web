@@ -1,3 +1,5 @@
+'use client';
+
 import { TransOrderEvent, TransOrderEventOption } from '../models/trans-order';
 import {
   OrderEventAddDialog,
