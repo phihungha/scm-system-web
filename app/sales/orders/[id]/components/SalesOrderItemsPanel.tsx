@@ -8,9 +8,10 @@ import {
   OrderItemEditCardProps,
   OrderItemsPanelProps,
 } from '@/app/components/items-editor';
+import { SectionText } from '@/app/components/texts';
 import { SalesOrderItem } from '@/app/models/sales-order';
 import CurrencyFormat from '@/app/utils/currency-formats';
-import { Text } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
 import { AutoCompleteItem } from '@choc-ui/chakra-autocomplete';
 import { useQuery } from 'react-query';
 
@@ -61,26 +62,30 @@ export default function SalesOrderItemsPanel(
     ));
 
   return (
-    <ItemsEditor
-      items={items}
-      getItemId={(i) => i.itemId}
-      itemAddSelections={itemAddSelections}
-      isDisabled={props.isDisabled}
-      onItemsChange={props.onItemsChange}
-      createNewItem={createNewItem}
-    >
-      {(onQuantityChange, onDelete) =>
-        items.map((item) => (
-          <SalesOrderItemEditCard
-            key={item.itemId}
-            item={item}
-            isDisabled={props.isDisabled}
-            onQuantityChange={onQuantityChange}
-            onDelete={onDelete}
-          />
-        ))
-      }
-    </ItemsEditor>
+    <Stack spacing={5}>
+      <SectionText>Items</SectionText>
+
+      <ItemsEditor
+        items={items}
+        getItemId={(i) => i.itemId}
+        itemAddSelections={itemAddSelections}
+        isDisabled={props.isDisabled}
+        onItemsChange={props.onItemsChange}
+        createNewItem={createNewItem}
+      >
+        {(onQuantityChange, onDelete) =>
+          items.map((item) => (
+            <SalesOrderItemEditCard
+              key={item.itemId}
+              item={item}
+              isDisabled={props.isDisabled}
+              onQuantityChange={onQuantityChange}
+              onDelete={onDelete}
+            />
+          ))
+        }
+      </ItemsEditor>
+    </Stack>
   );
 }
 

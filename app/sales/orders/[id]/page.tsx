@@ -2,7 +2,7 @@
 import { getSalesOrder, updateSalesOrder } from '@/app/api/sales-order';
 import { ActionButton } from '@/app/components/buttons';
 import { LoadingPage } from '@/app/components/spinners';
-import { SectionText, SubtitleText, TitleText } from '@/app/components/texts';
+import { SubtitleText, TitleText } from '@/app/components/texts';
 import { ProductionFacility } from '@/app/models/production-facility';
 import { SalesOrderItem } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
@@ -102,19 +102,16 @@ export default function SalesOrderDetailsPage({
           onToLocationChange={setToLocation}
         />
 
-        <SectionText>Items</SectionText>
         <SalesOrderItemsPanel
           isDisabled={!order.isExecutionInfoUpdateAllowed}
           items={items}
           onItemsChange={setItems}
         />
 
-        <SectionText>Totals</SectionText>
         <SalesOrderTotalsPanel items={items} vatRate={order.vatRate} />
 
         <SalesOrderPaymentPanel order={order} />
 
-        <SectionText>Progress</SectionText>
         <SalesOrderEventTimelinePanel
           events={events}
           order={order}

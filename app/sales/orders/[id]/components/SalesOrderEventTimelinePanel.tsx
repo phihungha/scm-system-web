@@ -9,6 +9,7 @@ import {
   TransOrderEventAddDialog,
   TransOrderEventDisplay,
 } from '@/app/components/order-events';
+import { SectionText } from '@/app/components/texts';
 
 import { SalesOrder } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
@@ -42,7 +43,9 @@ export default function SalesOrderEventTimelinePanel(
   );
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={5}>
+      <SectionText>Progress</SectionText>
+
       <EventTimeline lastId={events.length - 1}>
         {events.map((event) => (
           <SalesOrderEventDisplay
