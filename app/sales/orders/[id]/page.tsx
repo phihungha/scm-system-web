@@ -8,19 +8,13 @@ import {
 import CancelSalesDialog from '@/app/components/CancelSalesDialog';
 import CompletePaymentDialog from '@/app/components/CompletePaymentDialog';
 import { ActionButton } from '@/app/components/buttons';
-import { NormalSpinner } from '@/app/components/spinners';
+import { LoadingPage } from '@/app/components/spinners';
 import { SectionText, SubtitleText, TitleText } from '@/app/components/texts';
 import { ProductionFacility } from '@/app/models/production-facility';
 import { SalesOrder, SalesOrderItem } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
 import SalesOrderTotalsPanel from '@/app/sales/orders/components/SalesOrderTotalsPanel';
-import {
-  AbsoluteCenter,
-  Button,
-  Stack,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
+import { Button, Stack, Text, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -119,11 +113,7 @@ export default function SalesOrderDetailsPage({
   const [returnDialog, SetReturnDialog] = useState(false);
 
   if (order === undefined) {
-    return (
-      <AbsoluteCenter>
-        <NormalSpinner />
-      </AbsoluteCenter>
-    );
+    return <LoadingPage />;
   }
 
   return (

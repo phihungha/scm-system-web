@@ -1,4 +1,4 @@
-import { Spinner } from '@chakra-ui/react';
+import { AbsoluteCenter, Spinner } from '@chakra-ui/react';
 
 export function ButtonSpinner() {
   return <Spinner color="white" />;
@@ -6,4 +6,12 @@ export function ButtonSpinner() {
 
 export function NormalSpinner() {
   return <Spinner color="blue" />;
+}
+
+export function LoadingPage() {
+  return (
+    <AbsoluteCenter>
+      <NormalSpinner />
+    </AbsoluteCenter>
+  );
 }
