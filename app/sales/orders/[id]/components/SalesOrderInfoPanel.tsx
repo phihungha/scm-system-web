@@ -21,7 +21,7 @@ export interface SalesOrderInfoProps {
   onToLocationChange: (i: string) => void;
 }
 
-export default function SalesOrderInfo(props: SalesOrderInfoProps) {
+export default function SalesOrderInfoPanel(props: SalesOrderInfoProps) {
   const { data: facilities } = useQuery({
     queryKey: ['facilities'],
     queryFn: () => getProductionFacilities(),

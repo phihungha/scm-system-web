@@ -22,7 +22,9 @@ export interface SalesOrderEventDisplay {
   onAdd: (event: TransOrderEvent) => void;
 }
 
-export default function SalesOrderEventTimeline(props: SalesOrderEventDisplay) {
+export default function SalesOrderEventTimelinePanel(
+  props: SalesOrderEventDisplay,
+) {
   const events = props.events;
   const orderId = props.orderId;
 

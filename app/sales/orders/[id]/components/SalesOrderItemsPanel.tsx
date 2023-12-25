@@ -14,7 +14,7 @@ export interface SalesOrderItemsEditorProps {
   onItemsChange: (value: SalesOrderItem[]) => void;
 }
 
-export default function SalesOrderItemsEditor({
+export default function SalesOrderItemsPanel({
   items,
   onItemsChange,
 }: SalesOrderItemsEditorProps) {

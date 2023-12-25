@@ -13,7 +13,7 @@ import { SectionText, SubtitleText, TitleText } from '@/app/components/texts';
 import { ProductionFacility } from '@/app/models/production-facility';
 import { SalesOrder, SalesOrderItem } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
-import SalesOrderTotalsDisplay from '@/app/sales/orders/components/SalesOrderTotalsDisplay';
+import SalesOrderTotalsPanel from '@/app/sales/orders/components/SalesOrderTotalsPanel';
 import {
   AbsoluteCenter,
   Button,
@@ -25,9 +25,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import ReturnSalesDialog from './components/ReturnSalesDialog';
-import SalesOrderEventTimeline from './components/SalesOrderEventTimeline';
-import SalesOrderInfo from './components/SalesOrderInfo';
-import SalesOrderItemsEditor from './components/SalesOrderItemsEditor';
+import SalesOrderEventTimelinePanel from './components/SalesOrderEventTimelinePanel';
+import SalesOrderInfoPanel from './components/SalesOrderInfoPanel';
+import SalesOrderItemsPanel from './components/SalesOrderItemsPanel';
 
 interface SalesOrderDetailsPageProps {
   params: {
@@ -136,7 +136,7 @@ export default function SalesOrderDetailsPage({
           </SubtitleText>
         </Stack>
 
-        <SalesOrderInfo
+        <SalesOrderInfoPanel
           order={order}
           facility={facility}
           onFacilitySelect={setFacility}
@@ -145,13 +145,13 @@ export default function SalesOrderDetailsPage({
         />
 
         <SectionText>Items</SectionText>
-        <SalesOrderItemsEditor items={items} onItemsChange={setItems} />
+        <SalesOrderItemsPanel items={items} onItemsChange={setItems} />
 
         <SectionText>Totals</SectionText>
-        <SalesOrderTotalsDisplay items={items} vatRate={order.vatRate} />
+        <SalesOrderTotalsPanel items={items} vatRate={order.vatRate} />
 
         <SectionText>Progress</SectionText>
-        <SalesOrderEventTimeline
+        <SalesOrderEventTimelinePanel
           events={events}
           orderId={order.id}
           onAdd={onAddEvent}

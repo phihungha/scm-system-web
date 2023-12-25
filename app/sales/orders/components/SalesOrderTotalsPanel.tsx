@@ -11,7 +11,7 @@ export interface SalesOrderTotalsDisplayProps {
   vatRate: number;
 }
 
-export default function SalesOrderTotalsDisplay(
+export default function SalesOrderTotalsPanel(
   props: SalesOrderTotalsDisplayProps,
 ) {
   const vatRate = props.vatRate;
