@@ -7,6 +7,7 @@ import { ProductionFacility } from '@/app/models/production-facility';
 import { SalesOrderItem } from '@/app/models/sales-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
 import SalesOrderTotalsPanel from '@/app/sales/orders/components/SalesOrderTotalsPanel';
+import { DetailsPageProps } from '@/app/types/page-props';
 import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Box, Flex, Stack, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -18,15 +19,7 @@ import SalesOrderEventTimelinePanel from './components/SalesOrderEventTimelinePa
 import SalesOrderInfoPanel from './components/SalesOrderInfoPanel';
 import SalesOrderPaymentPanel from './components/SalesOrderPaymentPanel';
 
-interface SalesOrderDetailsPageProps {
-  params: {
-    id: number;
-  };
-}
-
-export default function SalesOrderDetailsPage({
-  params,
-}: SalesOrderDetailsPageProps) {
+export default function SalesOrderDetailsPage({ params }: DetailsPageProps) {
   const orderId = params.id;
 
   const queryClient = useQueryClient();
@@ -69,7 +62,7 @@ export default function SalesOrderDetailsPage({
     {
       onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
-        showSuccessToast(toast);
+        showSuccessToast(toast, { title: 'Update succeed!' });
       },
     },
   );

@@ -8,10 +8,10 @@ import { Supply } from './supply';
 export interface Product extends CreateUpdateTime, SoftDeletable {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   unit: string;
   price: number;
-  imageUrl: string;
+  imageUrl?: string;
   hasImage: boolean;
   miscCost: number;
   netWeight: number;
@@ -41,7 +41,7 @@ export interface ProductCreateParams extends SoftDeletableParams {
   price: number;
   netWeight: number;
   unit: string;
-  description: string;
+  description?: string;
   miscCost: number;
   supplyCostItems: SupplyCostItemParams[];
 }
