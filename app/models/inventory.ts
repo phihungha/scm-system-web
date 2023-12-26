@@ -37,3 +37,8 @@ export interface WarehouseSupplyItemEvent extends WarehouseItemEvent {
   productionOrderId?: number;
   purchaseOrderId?: number;
 }
+
+export interface InventoryOrderQueryParams {
+  id?: number;
+  all?: boolean;
+}

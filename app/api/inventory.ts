@@ -1,5 +1,9 @@
 import { SimpleItemQueryParams } from '../models/general';
-import { WarehouseProductItem, WarehouseSupplyItem } from '../models/inventory';
+import {
+  InventoryOrderQueryParams,
+  WarehouseProductItem,
+  WarehouseSupplyItem,
+} from '../models/inventory';
 import { ProductionOrder } from '../models/production-order';
 import { PurchaseOrder } from '../models/purchase-order';
 import { SalesOrder } from '../models/sales-order';
@@ -47,7 +51,7 @@ export async function getWarehouseSupplyItems(
 
 export async function getSalesOrdersToIssue(
   facilityId: number,
-  params?: SimpleItemQueryParams,
+  params?: InventoryOrderQueryParams,
 ) {
   const response = await apiClient.get<SalesOrder[]>(
     `Inventory/${facilityId}/SalesOrdersToIssue`,
@@ -60,7 +64,7 @@ export async function getSalesOrdersToIssue(
 
 export async function getProductionOrdersToIssue(
   facilityId: number,
-  params?: SimpleItemQueryParams,
+  params?: InventoryOrderQueryParams,
 ) {
   const response = await apiClient.get<ProductionOrder[]>(
     `Inventory/${facilityId}/ProductionOrdersToIssue`,
@@ -73,7 +77,7 @@ export async function getProductionOrdersToIssue(
 
 export async function getProductionOrdersToReceive(
   facilityId: number,
-  params?: SimpleItemQueryParams,
+  params?: InventoryOrderQueryParams,
 ) {
   const response = await apiClient.get<ProductionOrder[]>(
     `Inventory/${facilityId}/ProductionOrdersToReceive`,
@@ -86,7 +90,7 @@ export async function getProductionOrdersToReceive(
 
 export async function getPurchaseOrdersToReceive(
   facilityId: number,
-  params?: SimpleItemQueryParams,
+  params?: InventoryOrderQueryParams,
 ) {
   const response = await apiClient.get<PurchaseOrder[]>(
     `Inventory/${facilityId}/PurchaseOrdersToReceive`,
