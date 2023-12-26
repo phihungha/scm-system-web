@@ -101,9 +101,7 @@ export default function ProductsIssueDetailsPage(props: DetailsPageProps) {
         </ActionButtonSection>
 
         <Flex justify="end" mt={5} gap={5}>
-          <Link
-            href={`/inventory/${order.productionFacilityId}/SalesOrdersToIssue`}
-          >
+          <Link href={`/inventory/products-issue`}>
             <ActionButton size="lg">Close</ActionButton>
           </Link>
         </Flex>
