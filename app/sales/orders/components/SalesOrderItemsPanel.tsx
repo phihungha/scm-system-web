@@ -4,8 +4,10 @@ import { getProducts } from '@/app/api/product';
 import { AutoCompleteItemPreview } from '@/app/components/auto-complete';
 import {
   ItemEditCard,
-  ItemsEditor,
   OrderItemEditCardProps,
+} from '@/app/components/item-cards';
+import {
+  ItemsEditor,
   OrderItemsPanelProps,
 } from '@/app/components/items-editor';
 import { SectionText } from '@/app/components/texts';
