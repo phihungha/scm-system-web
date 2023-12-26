@@ -1,7 +1,9 @@
 'use client';
 
 import { getProductionFacilities } from '@/app/api/production-facility';
+import SimpleItemSearchPanel from '@/app/components/SimpleItemSearchPanel';
 import { LoadingPage } from '@/app/components/spinners';
+import { SimpleItemQueryParams } from '@/app/models/general';
 import { InventoryOrderQueryParams } from '@/app/models/inventory';
 import {
   Checkbox,
@@ -12,6 +14,7 @@ import {
   InputRightAddon,
   Select,
   Stack,
+  Text,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
@@ -24,7 +27,7 @@ export interface InventoryOrderSearchPanelProps {
   setQueryParams: (params: InventoryOrderQueryParams) => void;
 }
 
-export default function InventoryOrderSearchPanel(
+export function InventoryOrderSearchPanel(
   props: InventoryOrderSearchPanelProps,
 ) {
   const queryParams = props.queryParams;
@@ -55,6 +58,21 @@ export default function InventoryOrderSearchPanel(
 
   return (
     <Stack spacing={5}>
+      <HStack spacing={5} alignItems="center">
+        <Text>Production facility:</Text>
+        <Select
+          w={330}
+          value={facilityId}
+          onChange={(e) => setFacilityId(+e.target.value)}
+        >
+          {facilities.map((i) => (
+            <option key={i.id} value={i.id}>
+              {i.name}
+            </option>
+          ))}
+        </Select>
+      </HStack>
+
       <HStack spacing={3}>
         <InputGroup>
           <Input
@@ -78,7 +96,49 @@ export default function InventoryOrderSearchPanel(
             />
           </InputRightAddon>
         </InputGroup>
+      </HStack>
 
+      <Checkbox
+        isChecked={queryParams.all}
+        onChange={() =>
+          setQueryParams({ ...queryParams, all: !queryParams.all })
+        }
+      >
+        Display completed
+      </Checkbox>
+    </Stack>
+  );
+}
+
+export interface WarehouseItemSearchPanelProps {
+  facilityId: number;
+  setFacilityId: (facilityId: number) => void;
+  queryParams: SimpleItemQueryParams;
+  onQueryParamsChange: (params: SimpleItemQueryParams) => void;
+}
+
+export function WarehouseItemSearchPanel(props: WarehouseItemSearchPanelProps) {
+  const facilityId = props.facilityId;
+  const setFacilityId = props.setFacilityId;
+
+  const { data: facilities } = useQuery({
+    queryKey: ['ProductionFacilities'],
+    queryFn: () => getProductionFacilities(),
+    onSuccess: (resp) => {
+      if (resp.length > 0) {
+        setFacilityId(resp[0].id);
+      }
+    },
+  });
+
+  if (facilities === undefined) {
+    return <LoadingPage />;
+  }
+
+  return (
+    <Stack spacing={5}>
+      <HStack spacing={5} alignItems="center">
+        <Text>Production facility:</Text>
         <Select
           w={330}
           value={facilityId}
@@ -92,14 +152,10 @@ export default function InventoryOrderSearchPanel(
         </Select>
       </HStack>
 
-      <Checkbox
-        isChecked={queryParams.all}
-        onChange={() =>
-          setQueryParams({ ...queryParams, all: !queryParams.all })
-        }
-      >
-        Display completed
-      </Checkbox>
+      <SimpleItemSearchPanel
+        queryParams={props.queryParams}
+        onQueryParamsChange={props.onQueryParamsChange}
+      />
     </Stack>
   );
 }

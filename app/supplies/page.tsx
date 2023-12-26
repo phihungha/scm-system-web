@@ -79,7 +79,7 @@ export default function SuppliesPage() {
     <Stack spacing={5}>
       <SimpleItemSearchPanel
         queryParams={queryParams}
-        setQueryParams={setQueryParams}
+        onQueryParamsChange={setQueryParams}
       />
 
       <Flex justifyContent="right">

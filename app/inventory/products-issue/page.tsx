@@ -18,7 +18,7 @@ import {
 import Link from 'next/link';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import InventoryOrderSearchPanel from '../components/search-panels';
+import { InventoryOrderSearchPanel } from '../components/search-panels';
 import { InventoryIssueStatusBadge } from '../components/status-indicators';
 
 function SalesOrderTableItem({ item }: { item: SalesOrder }) {
