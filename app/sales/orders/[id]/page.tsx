@@ -380,7 +380,7 @@ export default function SalesOrderDetailsPage({ params }: DetailsPageProps) {
             isDisabled={!order.isAcceptAllowed}
             onClick={() => setDisplayReturnDialog(true)}
           >
-            Mark order as returned due to problems by the customer.
+            Mark order as returned by the customer due to problems.
           </ActionButtonRow>
         </ActionButtonSection>
 
