@@ -11,7 +11,7 @@ import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
 import AppQueryClientProvider from './components/AppQueryClientProvider';
 import HeaderBar from './components/HeaderBar';
-import Sidebar from './components/SideBar';
+import Sidebar from './components/nav';
 import './globals.css';
 import { RootLayoutProps } from './types/layout-props';
 

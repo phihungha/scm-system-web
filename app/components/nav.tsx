@@ -6,6 +6,9 @@ import {
   CloseButton,
   Flex,
   Icon,
+  Tab,
+  TabList,
+  Tabs,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -99,5 +102,34 @@ export default function Sidebar({ onClose, ...rest }: SidebarProps) {
         </NavItem>
       ))}
     </Box>
+  );
+}
+
+export interface NavTabsProps {
+  items: NavTabProps[];
+}
+
+export function NavTabs({ items }: NavTabsProps) {
+  return (
+    <Tabs>
+      <TabList>
+        {items.map((item) => (
+          <NavTab key={item.url} url={item.url} name={item.name} />
+        ))}
+      </TabList>
+    </Tabs>
+  );
+}
+
+interface NavTabProps {
+  url: string;
+  name: string;
+}
+
+function NavTab({ url, name }: NavTabProps) {
+  return (
+    <Link href={url}>
+      <Tab>{name}</Tab>
+    </Link>
   );
 }
