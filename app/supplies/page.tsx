@@ -41,7 +41,7 @@ function SupplyTableItem({ item }: { item: Supply }) {
   );
 }
 
-function SupplyTable({ items }: { items: Supply[] | undefined }) {
+function SupplyTable({ items }: { items?: Supply[] }) {
   return (
     <TableContainer>
       <Table>
