@@ -39,6 +39,7 @@ export default function SupplyForm(props: SupplyFormProps) {
     queryFn: () => getVendors(),
   });
 
+  // Các giá trị ban đầu của form.
   const initialFormValues = {
     vendorId: item?.vendorId,
     expirationMonth: item?.expirationMonth ?? 12,
@@ -49,6 +50,7 @@ export default function SupplyForm(props: SupplyFormProps) {
     isActive: item?.isActive ?? true,
   };
 
+  // Validation rules.
   const formValidationSchema = object({
     vendorId: number().label('Vendor').required(),
     expirationMonth: number().label('Expiration month').required().min(1),
