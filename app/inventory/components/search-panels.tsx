@@ -112,21 +112,21 @@ export function InventoryOrderSearchPanel(
 
 export interface WarehouseItemSearchPanelProps {
   facilityId: number;
-  setFacilityId: (facilityId: number) => void;
+  onFacilityIdChange: (facilityId: number) => void;
   queryParams: SimpleItemQueryParams;
   onQueryParamsChange: (params: SimpleItemQueryParams) => void;
 }
 
 export function WarehouseItemSearchPanel(props: WarehouseItemSearchPanelProps) {
   const facilityId = props.facilityId;
-  const setFacilityId = props.setFacilityId;
+  const onFacilityIdChange = props.onFacilityIdChange;
 
   const { data: facilities } = useQuery({
     queryKey: ['ProductionFacilities'],
     queryFn: () => getProductionFacilities(),
     onSuccess: (resp) => {
       if (resp.length > 0) {
-        setFacilityId(resp[0].id);
+        onFacilityIdChange(resp[0].id);
       }
     },
   });
@@ -142,7 +142,7 @@ export function WarehouseItemSearchPanel(props: WarehouseItemSearchPanelProps) {
         <Select
           w={330}
           value={facilityId}
-          onChange={(e) => setFacilityId(+e.target.value)}
+          onChange={(e) => onFacilityIdChange(+e.target.value)}
         >
           {facilities.map((i) => (
             <option key={i.id} value={i.id}>
