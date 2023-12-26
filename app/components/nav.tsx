@@ -67,7 +67,7 @@ const navbarItems = [
   { href: '/purchases/orders', name: 'Purchases', icon: FiDownload },
   { href: '/production/orders', name: 'Production', icon: FiCpu },
   { href: '/sales/orders', name: 'Sales', icon: FiUpload },
-  { href: '/inventory/stock', name: 'Inventory', icon: FiGrid },
+  { href: '/inventory/productStock', name: 'Inventory', icon: FiGrid },
   { href: '/reports/sales', name: 'Reports', icon: FiBarChart },
   { href: '/products', name: 'Products', icon: FiBox },
   { href: '/supplies', name: 'Supplies', icon: FiDroplet },

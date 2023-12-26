@@ -1,3 +1,5 @@
+'use client';
+
 import { OrderItemEditCardProps } from '@/app/components/item-cards';
 import {
   BigTotalValueRow,
@@ -13,7 +15,6 @@ import {
   CardBody,
   Flex,
   Image,
-  Input,
   InputGroup,
   InputRightAddon,
   NumberDecrementStepper,
@@ -57,18 +58,22 @@ export default function PurchaseOrderDetailsPage() {
                 value={CurrencyFormat.format(discountSubtotal).toString()}
               />
 
-              <Flex justify="space-between">
+              <Flex justify="space-between" align="center">
                 <Text fontSize="lg" fontWeight={'bold'}>
                   Additional discount
                 </Text>
-                <InputGroup>
-                  <Input
-                    as={Input}
-                    placeholder="Enter additional discount amount..."
+                <InputGroup w={250}>
+                  <NumberInput
                     id="additional-discount"
                     name="additional-discount"
-                    onChange={(e) => setAdditionalDiscount(+e.target.value)}
-                  />
+                    allowMouseWheel
+                    min={0}
+                    step={10000}
+                    value={additionalDiscount}
+                    onChange={(_, value) => setAdditionalDiscount(value)}
+                  >
+                    <NumberInputField />
+                  </NumberInput>
                   <InputRightAddon>{currencySymbol}</InputRightAddon>
                 </InputGroup>
               </Flex>
