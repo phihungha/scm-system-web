@@ -47,6 +47,8 @@ function StockTableItem({ item, onChange }: StockTableItemProps) {
         <NumberInput
           id={`quantity-${item.productId}`}
           name={`quantity-${item.productId}`}
+          allowMouseWheel
+          step={50}
           isRequired={true}
           min={1}
           value={item.quantity}
