@@ -19,8 +19,8 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { number, object, string } from 'yup';
+import { DialogProps } from '../types/dialogs';
 import { currencySymbol } from '../utils/currency-formats';
-import { DialogProps } from './dialogs';
 import { SubtitleText } from './texts';
 
 export interface PaymentCompleteDialogProps extends DialogProps {

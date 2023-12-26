@@ -2,7 +2,6 @@ import {
   createProductionOrderEvent,
   updateProductionOrderEvent,
 } from '@/app/api/production-order';
-import { DialogProps } from '@/app/components/dialogs';
 import {
   EventAddDialog,
   EventAddDialogResult,
@@ -21,6 +20,7 @@ import {
   ProductionOrderEvent,
   ProductionOrderEventOption,
 } from '@/app/models/production-order';
+import { DialogProps } from '@/app/types/dialogs';
 import { DetailsPageProps } from '@/app/types/page-props';
 import { Button, Stack, useToast } from '@chakra-ui/react';
 import { useState } from 'react';

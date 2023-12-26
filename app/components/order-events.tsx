@@ -1,7 +1,7 @@
 'use client';
 
 import { TransOrderEvent, TransOrderEventOption } from '../models/trans-order';
-import { DialogProps } from './dialogs';
+import { DialogProps } from '../types/dialogs';
 import {
   EventAddDialog,
   EventAddDialogResult,

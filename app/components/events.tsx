@@ -31,8 +31,8 @@ import { Field, Formik } from 'formik';
 import { useState } from 'react';
 import { FiEdit, FiPause, FiX } from 'react-icons/fi';
 import { object, string } from 'yup';
+import { DialogProps } from '../types/dialogs';
 import { dateToFullFormat } from '../utils/time-formats';
-import { DialogProps } from './dialogs';
 
 export interface EventTimelineProps {
   lastId: number;
