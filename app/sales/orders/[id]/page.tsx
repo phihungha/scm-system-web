@@ -201,11 +201,13 @@ export default function SalesOrderDetailsPage({ params }: DetailsPageProps) {
   // Info
   const facilitySelectComponent = facilities ? (
     <AutoCompleteSelect
+      id="facility"
+      name="facility"
       items={facilities}
-      selectedId={facility?.id}
+      value={facility?.id}
       placeholder="Production facility must be selected to start delivery..."
       isDisabled={!order.isExecutionInfoUpdateAllowed}
-      onSelect={onFacilitySelect}
+      onChange={onFacilitySelect}
     />
   ) : (
     <NormalSpinner />
@@ -261,6 +263,8 @@ export default function SalesOrderDetailsPage({ params }: DetailsPageProps) {
             <FormLabelText>To location:</FormLabelText>
             {order.isToLocationUpdateAllowed ? (
               <Input
+                id="toLocation"
+                name="toLocation"
                 value={toLocation}
                 isDisabled={!order.isToLocationUpdateAllowed}
                 onChange={(e) => setToLocation(e.target.value)}

@@ -32,6 +32,8 @@ export interface OrderItemsPanelProps<T> {
 export type OnItemChangeFunc<T> = (item: T) => void;
 
 export interface ItemsEditorProps<T> {
+  name?: string;
+  id?: string;
   items: T[];
   isDisabled?: boolean;
   onItemsChange: (value: T[]) => void;
@@ -76,6 +78,8 @@ export function ItemsEditor<T>(props: ItemsEditorProps<T>) {
       <Flex align="center" gap={3}>
         <AutoComplete openOnFocus onChange={(id: string) => setNewItemId(+id)}>
           <AutoCompleteInput
+            id={props.id}
+            name={props.name}
             placeholder="Enter name of the item to add..."
             h={50}
             variant="filled"
@@ -144,6 +148,8 @@ export function ItemEditCard(props: ItemEditCardProps) {
             <Text fontWeight="bold">Quantity:</Text>
             <Box>
               <NumberInput
+                id={`item-quantity-${props.id}`}
+                name={`item-quantity-${props.id}`}
                 isRequired={true}
                 min={1}
                 value={props.quantity}

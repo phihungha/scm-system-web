@@ -72,9 +72,9 @@ export default function SupplyForm(props: SupplyFormProps) {
               {vendors ? (
                 <AutoCompleteSelect
                   items={vendors}
-                  selectedId={values.vendorId}
+                  value={values.vendorId}
                   placeholder="Select a vendor..."
-                  onSelect={(i) => setFieldValue('vendorId', i)}
+                  onChange={(i) => setFieldValue('vendorId', i)}
                 />
               ) : (
                 <NormalSpinner />
@@ -87,13 +87,7 @@ export default function SupplyForm(props: SupplyFormProps) {
               {/* Thay tên field tương ứng */}
               <FormLabel htmlFor="name">Name</FormLabel>
               {/* Thay id và name thành property tương ứng */}
-              <Field
-                autocomplete
-                as={Input}
-                id="name"
-                name="name"
-                variant="filled"
-              />
+              <Field as={Input} id="name" name="name" variant="filled" />
               {/* Thay errors.name thành property tương ứng */}
               <FormErrorMessage>{errors.name}</FormErrorMessage>
             </FormControl>

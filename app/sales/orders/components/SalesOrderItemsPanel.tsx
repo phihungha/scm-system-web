@@ -66,6 +66,8 @@ export default function SalesOrderItemsPanel(
       <SectionText>Items</SectionText>
 
       <ItemsEditor
+        id="items"
+        name="items"
         items={items}
         getItemId={(i) => i.itemId}
         itemAddSelections={itemAddSelections}

@@ -22,10 +22,13 @@ export interface ActionButtonRowProps extends ButtonProps {
   buttonText: string;
 }
 
-export function ActionButtonRow(props: ActionButtonRowProps) {
+export function ActionButtonRow({
+  buttonText,
+  ...props
+}: ActionButtonRowProps) {
   return (
     <HStack spacing={6} alignItems="center">
-      <ActionButton {...props}>{props.buttonText}</ActionButton>
+      <ActionButton {...props}>{buttonText}</ActionButton>
       <Text>{props.children}</Text>
     </HStack>
   );
