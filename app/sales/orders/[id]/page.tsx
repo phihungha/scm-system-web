@@ -9,7 +9,7 @@ import {
   OrderEventDisplayProps,
   OrderEventTimelinePanelProps,
   TransOrderEventAddDialog,
-  TransOrderEventDisplay,
+  TransOrderEventCard,
 } from '@/app/components/order-events';
 
 import { getProductionFacilities } from '@/app/api/production-facility';
@@ -504,5 +504,5 @@ function SalesOrderEventDisplay({
     });
   };
 
-  return <TransOrderEventDisplay event={event} onChange={onChange} />;
+  return <TransOrderEventCard event={event} onChange={onChange} />;
 }

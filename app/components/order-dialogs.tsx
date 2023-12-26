@@ -181,3 +181,13 @@ export function OrderReturnDialog(props: OrderProblemDialogProps) {
     />
   );
 }
+
+export function OrderRejectDialog(props: OrderProblemDialogProps) {
+  return (
+    <ProblemDialog
+      title="Reject order"
+      description="Reject this order. This action cannot be undone!"
+      {...props}
+    />
+  );
+}

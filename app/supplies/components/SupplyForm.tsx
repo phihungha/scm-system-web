@@ -5,6 +5,7 @@ import { AutoCompleteSelect } from '@/app/components/auto-complete';
 import { ActionButton } from '@/app/components/buttons';
 import { NormalSpinner } from '@/app/components/spinners';
 import { Supply, SupplyCreateParams } from '@/app/models/supply';
+import { currencySymbol } from '@/app/utils/currency-formats';
 import {
   Flex,
   FormControl,
@@ -12,6 +13,8 @@ import {
   FormLabel,
   HStack,
   Input,
+  InputGroup,
+  InputRightAddon,
   Link,
   Stack,
   Text,
@@ -36,6 +39,7 @@ export default function SupplyForm(props: SupplyFormProps) {
     queryFn: () => getVendors(),
   });
 
+  // Các giá trị ban đầu của form.
   const initialFormValues = {
     vendorId: item?.vendorId,
     expirationMonth: item?.expirationMonth ?? 12,
@@ -46,6 +50,7 @@ export default function SupplyForm(props: SupplyFormProps) {
     isActive: item?.isActive ?? true,
   };
 
+  // Validation rules.
   const formValidationSchema = object({
     vendorId: number().label('Vendor').required(),
     expirationMonth: number().label('Expiration month').required().min(1),
@@ -94,7 +99,10 @@ export default function SupplyForm(props: SupplyFormProps) {
 
             <FormControl isInvalid={!!errors.price && touched.price}>
               <FormLabel htmlFor="price">Price</FormLabel>
-              <Field as={Input} id="price" name="price" variant="filled" />
+              <InputGroup>
+                <Field as={Input} id="price" name="price" variant="filled" />
+                <InputRightAddon>{currencySymbol}</InputRightAddon>
+              </InputGroup>
               <FormErrorMessage>{errors.price}</FormErrorMessage>
             </FormControl>
 
