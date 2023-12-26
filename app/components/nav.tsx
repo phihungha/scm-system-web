@@ -24,6 +24,7 @@ import {
   FiHome,
   FiSettings,
   FiUpload,
+  FiUser,
 } from 'react-icons/fi';
 
 interface NavItemProps {
@@ -70,6 +71,7 @@ const navbarItems = [
   { href: '/reports/sales', name: 'Reports', icon: FiBarChart },
   { href: '/products', name: 'Products', icon: FiBox },
   { href: '/supplies', name: 'Supplies', icon: FiDroplet },
+  { href: '/users', name: 'Users', icon: FiUser },
   { href: '/settings', name: 'Settings', icon: FiSettings },
 ];
 

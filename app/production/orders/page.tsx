@@ -1,3 +1,3 @@
-export function ProductionOrdersPage() {
+export default function ProductionOrdersPage() {
   return <></>;
 }
