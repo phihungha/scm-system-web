@@ -330,6 +330,9 @@ export default function SalesOrderDetailsPage({ params }: DetailsPageProps) {
           remainingAmount={order.remainingAmount}
           isLoading={isPaymentCompleteLoading}
           isDisabled={!order.isPaymentCompleteAllowed}
+          display={displayCompletePaymentDialog}
+          onOpen={() => setDisplayCompletePaymentDialog(true)}
+          onClose={() => setDisplayCompletePaymentDialog(false)}
           onPay={(payAmount) => completePayment({ id: orderId, payAmount })}
         />
 
