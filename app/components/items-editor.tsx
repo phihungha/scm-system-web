@@ -26,7 +26,7 @@ export interface ItemsEditorProps<T> {
   getItemId: (item: T) => number;
   itemAddSelections: React.ReactNode;
   children: (
-    onQuantityChange: OnItemChangeFunc<T>,
+    onChange: OnItemChangeFunc<T>,
     onDelete: OnItemChangeFunc<T>,
   ) => React.ReactNode[];
 }

@@ -48,7 +48,7 @@ export interface OrderItemEditCardProps<T> {
   item: T;
   isDisabled?: boolean;
   onDelete: (item: T) => void;
-  onQuantityChange: (item: T) => void;
+  onChange: (item: T) => void;
 }
 
 export interface ItemEditCardProps {
@@ -60,7 +60,7 @@ export interface ItemEditCardProps {
   children: React.ReactNode;
   isDisabled?: boolean;
   onDelete: (id: number) => void;
-  onQuantityChange: (id: number, quantity: number) => void;
+  onChange: (id: number, quantity: number) => void;
 }
 
 export function ItemEditCard(props: ItemEditCardProps) {
@@ -95,7 +95,7 @@ export function ItemEditCard(props: ItemEditCardProps) {
                 isDisabled={props.isDisabled}
                 onChange={(_, value) =>
                   // Don't update if number box is empty.
-                  value && props.onQuantityChange(props.id, value)
+                  value && props.onChange(props.id, value)
                 }
               >
                 <NumberInputField />
