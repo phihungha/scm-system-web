@@ -65,11 +65,11 @@ function SalesOrderTable({ items }: { items: SalesOrder[] | undefined }) {
 }
 
 export default function ProductsIssuePage() {
+  const [facilityId, setFacilityId] = useState(0);
   const [queryParams, setQueryParams] = useState<InventoryOrderQueryParams>({
     id: undefined,
     all: false,
   });
-  const [facilityId, setFacilityId] = useState(0);
 
   const { data: items } = useQuery({
     queryKey: ['SalesOrdersToIssue', facilityId, queryParams],

@@ -18,7 +18,7 @@ import {
 import Link from 'next/link';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import InventoryOrderSearchPanel from '../components/search-panels';
+import { InventoryOrderSearchPanel } from '../components/search-panels';
 import { InventoryReceiveStatusBadge } from '../components/status-indicators';
 
 function ProductionOrderTableItem({ item }: { item: ProductionOrder }) {
@@ -69,11 +69,11 @@ function ProductionOrderTable({
 }
 
 export default function ProductsReceivePage() {
+  const [facilityId, setFacilityId] = useState(0);
   const [queryParams, setQueryParams] = useState<InventoryOrderQueryParams>({
     id: undefined,
     all: false,
   });
-  const [facilityId, setFacilityId] = useState(0);
 
   const { data: items } = useQuery({
     queryKey: ['ProductionOrdersToReceive', facilityId, queryParams],
