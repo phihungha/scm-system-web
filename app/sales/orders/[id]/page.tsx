@@ -129,7 +129,6 @@ export default function SalesOrderDetailsPage({ params }: DetailsPageProps) {
     });
 
   // Actions
-
   const [displayCancelDialog, setDisplayCancelDialog] = useState(false);
   const [displayReturnDialog, setDisplayReturnDialog] = useState(false);
 
@@ -241,82 +240,79 @@ export default function SalesOrderDetailsPage({ params }: DetailsPageProps) {
         </Stack>
 
         {/* Information */}
-        <Stack>
-          <Grid
-            templateRows="repeat(12, 1fr)"
-            templateColumns="300px 1fr"
-            gap={5}
-          >
-            <FormLabelText>Production Facility:</FormLabelText>
-            {order.isExecutionInfoUpdateAllowed ? (
-              facilitySelectComponent
-            ) : (
-              <FormValueText>{facility?.name}</FormValueText>
-            )}
+        <Grid
+          templateRows="repeat(12, 1fr)"
+          templateColumns="300px 1fr"
+          gap={5}
+        >
+          <FormLabelText>Production Facility:</FormLabelText>
+          {order.isExecutionInfoUpdateAllowed ? (
+            facilitySelectComponent
+          ) : (
+            <FormValueText>{facility?.name}</FormValueText>
+          )}
 
-            <FormLabelText>From location:</FormLabelText>
-            <FormValueText>{facility?.location ?? 'N/A'}</FormValueText>
+          <FormLabelText>From location:</FormLabelText>
+          <FormValueText>{facility?.location ?? 'N/A'}</FormValueText>
 
-            <FormLabelText>Customer:</FormLabelText>
-            <FormValueText>{order.customer.name}</FormValueText>
+          <FormLabelText>Customer:</FormLabelText>
+          <FormValueText>{order.customer.name}</FormValueText>
 
-            <FormLabelText>To location:</FormLabelText>
-            {order.isToLocationUpdateAllowed ? (
-              <Input
-                id="toLocation"
-                name="toLocation"
-                value={toLocation}
-                isDisabled={!order.isToLocationUpdateAllowed}
-                onChange={(e) => setToLocation(e.target.value)}
-              />
-            ) : (
-              <FormValueText>{toLocation}</FormValueText>
-            )}
+          <FormLabelText>To location:</FormLabelText>
+          {order.isToLocationUpdateAllowed ? (
+            <Input
+              id="toLocation"
+              name="toLocation"
+              value={toLocation}
+              isDisabled={!order.isToLocationUpdateAllowed}
+              onChange={(e) => setToLocation(e.target.value)}
+            />
+          ) : (
+            <FormValueText>{toLocation}</FormValueText>
+          )}
 
-            <FormLabelText>Status:</FormLabelText>
-            <FormValueText>
-              <OrderStatusBadge status={order.status} />
-            </FormValueText>
+          <FormLabelText>Status:</FormLabelText>
+          <FormValueText>
+            <OrderStatusBadge status={order.status} />
+          </FormValueText>
 
-            <FormLabelText>Payment status:</FormLabelText>
-            <FormValueText>
-              <PaymentStatusBadge status={order.paymentStatus} />
-            </FormValueText>
+          <FormLabelText>Payment status:</FormLabelText>
+          <FormValueText>
+            <PaymentStatusBadge status={order.paymentStatus} />
+          </FormValueText>
 
-            <FormLabelText>Create user:</FormLabelText>
-            <FormValueText>{order.createUser.name}</FormValueText>
+          <FormLabelText>Create user:</FormLabelText>
+          <FormValueText>{order.createUser.name}</FormValueText>
 
-            <FormLabelText>Create time:</FormLabelText>
-            <FormValueText>{dateToFullFormat(order.createTime)}</FormValueText>
+          <FormLabelText>Create time:</FormLabelText>
+          <FormValueText>{dateToFullFormat(order.createTime)}</FormValueText>
 
-            <FormLabelText>Update time:</FormLabelText>
-            <FormValueText>
-              {order.updateTime
-                ? dateToFullFormat(order.updateTime)
-                : 'Will be available after order has been updated.'}
-            </FormValueText>
+          <FormLabelText>Update time:</FormLabelText>
+          <FormValueText>
+            {order.updateTime
+              ? dateToFullFormat(order.updateTime)
+              : 'Will be available after order has been updated.'}
+          </FormValueText>
 
-            <FormLabelText>Delivery time:</FormLabelText>
-            <FormValueText>
-              {order.executionFinishTime
-                ? dateToFullFormat(order.executionFinishTime)
-                : 'Will be available if order has finished delivery.'}
-            </FormValueText>
+          <FormLabelText>Delivery time:</FormLabelText>
+          <FormValueText>
+            {order.executionFinishTime
+              ? dateToFullFormat(order.executionFinishTime)
+              : 'Will be available if order has finished delivery.'}
+          </FormValueText>
 
-            <FormLabelText>End user:</FormLabelText>
-            <FormValueText>
-              {order.endUser?.name ??
-                'Will be available after order has ended.'}
-            </FormValueText>
+          <FormLabelText>End user:</FormLabelText>
+          <FormValueText>
+            {order.endUser?.name ?? 'Will be available after order has ended.'}
+          </FormValueText>
 
-            <FormLabelText>End time:</FormLabelText>
-            <FormValueText>
-              {order.endTime
-                ? dateToFullFormat(order.endTime)
-                : 'Will be available after order has ended.'}
-            </FormValueText>
-          </Grid>
-        </Stack>
+          <FormLabelText>End time:</FormLabelText>
+          <FormValueText>
+            {order.endTime
+              ? dateToFullFormat(order.endTime)
+              : 'Will be available after order has ended.'}
+          </FormValueText>
+        </Grid>
 
         {/* Items */}
         <SalesOrderItemsPanel

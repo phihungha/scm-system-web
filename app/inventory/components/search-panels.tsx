@@ -1,3 +1,5 @@
+'use client';
+
 import { getProductionFacilities } from '@/app/api/production-facility';
 import { LoadingPage } from '@/app/components/spinners';
 import { InventoryOrderQueryParams } from '@/app/models/inventory';

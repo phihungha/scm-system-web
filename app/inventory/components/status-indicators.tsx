@@ -1,3 +1,5 @@
+'use client';
+
 import { OrderStatus } from '@/app/models/order';
 import { Badge } from '@chakra-ui/react';
 
