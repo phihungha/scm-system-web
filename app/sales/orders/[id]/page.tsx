@@ -356,6 +356,7 @@ export default function SalesOrderDetailsPage({ params }: DetailsPageProps) {
 
         <ActionButtonSection>
           <SectionText>Customer acceptance</SectionText>
+
           <ActionButtonRow
             colorScheme="green"
             buttonText="Complete"

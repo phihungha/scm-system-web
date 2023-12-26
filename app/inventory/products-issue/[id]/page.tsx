@@ -41,7 +41,7 @@ export default function ProductsIssueDetailsPage(props: DetailsPageProps) {
       onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast, {
-          title: 'Products issued from this facility!',
+          title: 'Products has been issued from this facility!',
         });
       },
     },
