@@ -64,7 +64,7 @@ export interface EventDisplayProp {
   onChange: (input: EventUpdateData) => void;
 }
 
-export function EventDisplay(props: EventDisplayProp) {
+export function EventCard(props: EventDisplayProp) {
   const [editMode, setEditMode] = useState(false);
 
   let eventTypeTextColor: string | undefined;
