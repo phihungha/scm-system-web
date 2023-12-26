@@ -9,7 +9,7 @@ export interface WarehouseItem extends CreateUpdateTime {
   productionFacilityId: number;
   quantity: number;
   unit: string;
-  unitValue: string;
+  unitValue: number;
 }
 
 export interface WarehouseProductItem extends WarehouseItem {
@@ -36,6 +36,16 @@ export interface WarehouseProductItemEvent extends WarehouseItemEvent {
 export interface WarehouseSupplyItemEvent extends WarehouseItemEvent {
   productionOrderId?: number;
   purchaseOrderId?: number;
+}
+
+export interface WarehouseItemUpdateParams {
+  id: number;
+  quantity: number;
+}
+
+export interface StockUpdateParams {
+  facilityId: number;
+  items: WarehouseItemUpdateParams[];
 }
 
 export interface InventoryOrderQueryParams {

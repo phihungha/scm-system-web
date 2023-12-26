@@ -1,6 +1,7 @@
 import { SimpleItemQueryParams } from '../models/general';
 import {
   InventoryOrderQueryParams,
+  StockUpdateParams,
   WarehouseProductItem,
   WarehouseSupplyItem,
 } from '../models/inventory';
@@ -9,7 +10,7 @@ import { PurchaseOrder } from '../models/purchase-order';
 import { SalesOrder } from '../models/sales-order';
 import apiClient from './api-client';
 
-export async function getWarehouseProductItems(
+export async function getProductStock(
   facilityId: number,
   params?: SimpleItemQueryParams,
 ) {
@@ -29,14 +30,18 @@ export async function getWarehouseProductItem(facilityId: number, id: number) {
   return response.data;
 }
 
-export async function getWarehouseSupplyItem(facilityId: number, id: number) {
-  const response = await apiClient.get<WarehouseSupplyItem>(
-    `Inventory/${facilityId}/Supplies/${id}`,
+export async function updateProductStock({
+  facilityId,
+  ...params
+}: StockUpdateParams) {
+  const response = await apiClient.patch<WarehouseProductItem[]>(
+    `Inventory/${facilityId}/Products`,
+    params,
   );
   return response.data;
 }
 
-export async function getWarehouseSupplyItems(
+export async function getSupplyStock(
   facilityId: number,
   params?: SimpleItemQueryParams,
 ) {
@@ -45,6 +50,13 @@ export async function getWarehouseSupplyItems(
     {
       params,
     },
+  );
+  return response.data;
+}
+
+export async function getWarehouseSupplyItem(facilityId: number, id: number) {
+  const response = await apiClient.get<WarehouseSupplyItem>(
+    `Inventory/${facilityId}/Supplies/${id}`,
   );
   return response.data;
 }
