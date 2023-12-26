@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { number, object, string } from 'yup';
-import { DialogProps } from '../types/dialogs';
+import { DialogProps } from '../types/dialog-props';
 import { currencySymbol } from '../utils/currency-formats';
 import { SubtitleText } from './texts';
 

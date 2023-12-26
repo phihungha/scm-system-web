@@ -41,7 +41,7 @@ function SupplyTableItem({ item }: { item: Supply }) {
   );
 }
 
-function SupplyTable({ items }: { items: Supply[] | undefined }) {
+function SupplyTable({ items }: { items?: Supply[] }) {
   return (
     <TableContainer>
       <Table>
@@ -79,7 +79,7 @@ export default function SuppliesPage() {
     <Stack spacing={5}>
       <SimpleItemSearchPanel
         queryParams={queryParams}
-        setQueryParams={setQueryParams}
+        onQueryParamsChange={setQueryParams}
       />
 
       <Flex justifyContent="right">

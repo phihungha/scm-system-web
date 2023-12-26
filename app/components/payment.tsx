@@ -1,5 +1,4 @@
 import { Flex, Stack, Text } from '@chakra-ui/react';
-import { useState } from 'react';
 import { PaymentStatus } from '../models/trans-order';
 import CurrencyFormat from '../utils/currency-formats';
 import { ActionButton } from './buttons';
@@ -11,13 +10,13 @@ export interface PaymentPanelProps {
   remainingAmount: number;
   isLoading?: boolean;
   isDisabled?: boolean;
+  display: boolean;
+  onOpen: () => void;
+  onClose: () => void;
   onPay: (payAmount: number) => void;
 }
 
 export function PaymentPanel(props: PaymentPanelProps) {
-  const [displayCompletePaymentDialog, setDisplayCompletePaymentDialog] =
-    useState(false);
-
   let description = '';
   switch (props.status) {
     case 'Pending':
@@ -54,15 +53,15 @@ export function PaymentPanel(props: PaymentPanelProps) {
       </Flex>
 
       <PaymentCompleteDialog
-        display={displayCompletePaymentDialog}
-        onClose={() => setDisplayCompletePaymentDialog(false)}
+        display={props.display}
+        onClose={() => props.onClose()}
         isLoading={props.isLoading}
         onSubmit={props.onPay}
       />
       <ActionButton
         colorScheme="blue"
         isDisabled={props.isDisabled}
-        onClick={() => setDisplayCompletePaymentDialog(true)}
+        onClick={() => props.onOpen()}
       >
         Complete payment
       </ActionButton>

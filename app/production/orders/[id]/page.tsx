@@ -20,7 +20,7 @@ import {
   ProductionOrderEvent,
   ProductionOrderEventOption,
 } from '@/app/models/production-order';
-import { DialogProps } from '@/app/types/dialogs';
+import { DialogProps } from '@/app/types/dialog-props';
 import { DetailsPageProps } from '@/app/types/page-props';
 import { Button, Stack, useToast } from '@chakra-ui/react';
 import { useState } from 'react';

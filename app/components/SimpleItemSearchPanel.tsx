@@ -19,12 +19,12 @@ import {
 
 export interface SimpleItemSearchPanelProps {
   queryParams: SimpleItemQueryParams;
-  setQueryParams: (params: SimpleItemQueryParams) => void;
+  onQueryParamsChange: (params: SimpleItemQueryParams) => void;
 }
 
 export default function SimpleItemSearchPanel({
   queryParams,
-  setQueryParams,
+  onQueryParamsChange,
 }: SimpleItemSearchPanelProps) {
   const [searchTerm, setSearchTerm] = useState(queryParams.searchTerm);
   const [searchCriteria, setSearchCriteria] = useState(
@@ -32,7 +32,7 @@ export default function SimpleItemSearchPanel({
   );
 
   const onSearchClick = () =>
-    setQueryParams({
+    onQueryParamsChange({
       ...queryParams,
       searchTerm,
       searchCriteria: searchCriteria as SimpleItemSearchCriteria,
@@ -75,7 +75,7 @@ export default function SimpleItemSearchPanel({
       <Checkbox
         isChecked={queryParams.all}
         onChange={() =>
-          setQueryParams({ ...queryParams, all: !queryParams.all })
+          onQueryParamsChange({ ...queryParams, all: !queryParams.all })
         }
       >
         Display inactive

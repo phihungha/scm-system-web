@@ -67,11 +67,7 @@ function SalesOrderTableItem({ item }: { item: SalesOrder }) {
   );
 }
 
-function SalesOrderTable({
-  items: items,
-}: {
-  items: SalesOrder[] | undefined;
-}) {
+function SalesOrderTable({ items: items }: { items?: SalesOrder[] }) {
   return (
     <TableContainer>
       <Table>
