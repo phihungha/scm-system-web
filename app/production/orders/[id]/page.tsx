@@ -1,179 +1,126 @@
+'use client';
 import {
-  createProductionOrderEvent,
-  updateProductionOrderEvent,
+  getProductionOrder,
+  updateProductionOrder,
 } from '@/app/api/production-order';
+import { ActionButton } from '@/app/components/buttons';
+import { LoadingPage } from '@/app/components/spinners';
+import { SubtitleText, TitleText } from '@/app/components/texts';
 import {
-  EventAddDialog,
-  EventAddDialogResult,
-  EventAddDialogTypeOption,
-  EventCard,
-  EventTimeline,
-  EventUpdateData,
-} from '@/app/components/events';
-import {
-  OrderEventDisplayProps,
-  OrderEventTimelinePanelProps,
-} from '@/app/components/order-events';
-import { SectionText } from '@/app/components/texts';
-import {
-  ProductionOrder,
   ProductionOrderEvent,
-  ProductionOrderEventOption,
+  ProductionOrderItem,
+  ProductionSupplyUsageItem,
 } from '@/app/models/production-order';
-import { DialogProps } from '@/app/types/dialog-props';
 import { DetailsPageProps } from '@/app/types/page-props';
-import { Button, Stack, useToast } from '@chakra-ui/react';
+import { showSuccessToast } from '@/app/utils/toast-messages';
+import { Box, Flex, Stack, useToast } from '@chakra-ui/react';
+import Link from 'next/link';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import ProductionOrderItemsPanel from '../components/ProductionOrderItemsPanel';
+import ProductionOrderTotalsPanel from '../components/ProductionOrderTotalsPanel';
+import ProductionSupplyUsageItemsPanel from '../components/SupplyUsageItemCard';
+import ProductionOrderActionPanel from './components/ProductionOrderActionPanel';
+import ProductionOrderEventTimelinePanel from './components/ProductionOrderEventTimelinePanel';
+import ProductionOrderInfoPanel from './components/ProductionOrderInfoPanel';
 
 export default function ProductionOrderDetailsPage({
   params,
 }: DetailsPageProps) {
-  return <></>;
-}
+  const orderId = params.id;
 
-function ProductionOrderEventTimelinePanel(
-  props: OrderEventTimelinePanelProps<ProductionOrder, ProductionOrderEvent>,
-) {
-  const events = props.events;
-  const orderId = props.order.id;
-
+  const queryClient = useQueryClient();
   const toast = useToast();
-  const [displayAddDialog, setDisplayAddDialog] = useState(false);
+  const [items, setItems] = useState<ProductionOrderItem[]>([]);
+  const [supplyItems, setSupplyItems] = useState<ProductionSupplyUsageItem[]>(
+    [],
+  );
+  const [events, setEvents] = useState<ProductionOrderEvent[]>([]);
 
-  const { mutate: createEvent, isLoading } = useMutation(
-    createProductionOrderEvent,
+  const queryKey = ['productionOrder', orderId];
+
+  const { data: order, refetch } = useQuery({
+    queryKey,
+    queryFn: () => getProductionOrder(orderId),
+    onSuccess: (resp) => {
+      if (resp.events) {
+        setEvents(resp.events);
+      }
+      if (resp.items) {
+        setItems(resp.items);
+      }
+      if (resp.supplyUsageItems) {
+        setSupplyItems(resp.supplyUsageItems);
+      }
+    },
+  });
+
+  const { mutate: updateOrder, isLoading } = useMutation(
+    () =>
+      updateProductionOrder({
+        id: orderId,
+        items: order?.isExecutionInfoUpdateAllowed ? items : undefined,
+      }),
     {
       onSuccess: (resp) => {
-        props.onAdd(resp);
-        toast({
-          title: 'Event created!',
-          description: 'A new event has been added.',
-          duration: 2000,
-          status: 'success',
-        });
-        setDisplayAddDialog(false);
+        queryClient.setQueryData(queryKey, resp);
+        showSuccessToast(toast, { title: 'Update succeed!' });
       },
     },
   );
 
-  return (
-    <Stack spacing={5}>
-      <SectionText>Progress</SectionText>
-
-      <EventTimeline lastId={events.length - 1}>
-        {events.map((event) => (
-          <ProductionOrderEventCard
-            key={event.id}
-            orderId={orderId}
-            initEvent={event}
-          />
-        ))}
-      </EventTimeline>
-
-      <Button
-        width={200}
-        colorScheme="blue"
-        alignSelf="start"
-        isDisabled={!props.order.isExecuting}
-        onClick={() => setDisplayAddDialog(true)}
-      >
-        Add event
-      </Button>
-
-      <TransOrderEventAddDialog
-        onSubmit={(result) => createEvent({ orderId, ...result })}
-        isLoading={isLoading}
-        display={displayAddDialog}
-        onClose={() => setDisplayAddDialog(false)}
-      />
-    </Stack>
-  );
-}
-
-function ProductionOrderEventCard({
-  orderId,
-  initEvent,
-}: OrderEventDisplayProps<ProductionOrderEvent>) {
-  const [event, setEvent] = useState(initEvent);
-
-  const { mutate: updateEvent } = useMutation(updateProductionOrderEvent, {
-    onSuccess: setEvent,
-  });
-
-  const onChange = (input: EventUpdateData) => {
-    console.log(input);
-    updateEvent({
-      orderId: orderId,
-      id: event.id,
-      location: input.location,
-      message: input.message,
-    });
+  const onAddEvent = (event: ProductionOrderEvent) => {
+    setEvents([...events, event]);
+    refetch();
   };
 
-  const displayNames = {
-    PendingApproval: 'Pending approval',
-    Approved: 'Approved',
-    Rejected: 'Rejected',
-    Producing: 'Production started',
-    StageDone: 'Stage finished',
-    Interrupted: 'Interrupted',
-    Produced: 'Production finished & Waiting to accept',
-    Completed: 'Completed',
-    Canceled: 'Canceled',
-    Unaccepted: 'Denied & Returned',
-  };
+  const isUpdateALlowed = items.length > 0;
 
-  const typeDisplayName = displayNames[event.type];
-
-  const isEndedInError =
-    event.type === 'Canceled' ||
-    event.type === 'Interrupted' ||
-    event.type === 'Rejected';
-  const isInterrupted = event.type === 'Interrupted';
+  if (order === undefined) {
+    return <LoadingPage />;
+  }
 
   return (
-    <EventCard
-      type={typeDisplayName}
-      time={event.time}
-      location={event.location}
-      message={event.message}
-      isEndedInError={isEndedInError}
-      isInterrupted={isInterrupted}
-      isLocationEditDisabled={event.isAutomatic}
-      onChange={onChange}
-    />
-  );
-}
+    <Box p={5}>
+      <Stack spacing={10}>
+        <Stack spacing={5}>
+          <TitleText>Production order #{order.id}</TitleText>
+          <SubtitleText>
+            Manage and view the details of this production order.
+          </SubtitleText>
+        </Stack>
 
-interface ProductionOrderEventAddDialogResult {
-  type: ProductionOrderEventOption;
-  location: string;
-  message?: string;
-}
+        <ProductionOrderInfoPanel order={order} />
+        <ProductionOrderItemsPanel
+          isDisabled={!order.isExecutionInfoUpdateAllowed}
+          items={items}
+          onItemsChange={setItems}
+        />
+        <ProductionSupplyUsageItemsPanel props={supplyItems} />
+        <ProductionOrderTotalsPanel items={items} />
+        <ProductionOrderEventTimelinePanel
+          events={events}
+          order={order}
+          onAdd={onAddEvent}
+        />
+        <ProductionOrderActionPanel order={order} />
 
-interface ProductionOrderEventAddDialogProps extends DialogProps {
-  onSubmit: (result: ProductionOrderEventAddDialogResult) => void;
-}
+        <Flex justify="end" mt={5} gap={5}>
+          <Link href="/production/orders">
+            <ActionButton size="lg">Close</ActionButton>
+          </Link>
 
-function TransOrderEventAddDialog(props: ProductionOrderEventAddDialogProps) {
-  const typeOptions: EventAddDialogTypeOption[] = [
-    { name: 'StageDone', displayName: 'Stage finished' },
-    { name: 'Interrupted', displayName: 'Interrupted' },
-  ];
-
-  const onSubmit = ({ type, ...params }: EventAddDialogResult) => {
-    props.onSubmit({ ...params, type: type as ProductionOrderEventOption });
-  };
-
-  return (
-    <EventAddDialog
-      typeOptions={typeOptions}
-      defaultTypeOption="Left"
-      onSubmit={onSubmit}
-      isLoading={props.isLoading}
-      display={props.display}
-      onClose={props.onClose}
-    />
+          <ActionButton
+            size="lg"
+            colorScheme="blue"
+            isDisabled={isUpdateALlowed}
+            isLoading={isLoading}
+            onClick={() => updateOrder()}
+          >
+            Update
+          </ActionButton>
+        </Flex>
+      </Stack>
+    </Box>
   );
 }

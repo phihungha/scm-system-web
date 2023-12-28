@@ -41,6 +41,17 @@ export async function updateProductStock({
   return response.data;
 }
 
+export async function updateSupplyStock({
+  facilityId,
+  ...params
+}: StockUpdateParams) {
+  const response = await apiClient.patch<WarehouseSupplyItem[]>(
+    `Inventory/${facilityId}/Supplies`,
+    params,
+  );
+  return response.data;
+}
+
 export async function getSupplyStock(
   facilityId: number,
   params?: SimpleItemQueryParams,

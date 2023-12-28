@@ -3,6 +3,7 @@
 import { Badge } from '@chakra-ui/react';
 import { ApprovalStatus } from '../models/general';
 import { OrderStatus } from '../models/order';
+import { PurchaseRequisitionStatus } from '../models/purchase-requisition';
 import { PaymentStatus } from '../models/trans-order';
 
 export function OrderStatusBadge({ status }: { status: OrderStatus }) {
@@ -45,6 +46,24 @@ export function ApprovalStatusBadge({ status }: { status: ApprovalStatus }) {
   };
   const displayOption = displayOptions[status];
 
+  return (
+    <Badge colorScheme={displayOption.color}>{displayOption.displayName}</Badge>
+  );
+}
+
+export function RequisitionStatusBadge({
+  status,
+}: {
+  status: PurchaseRequisitionStatus;
+}) {
+  const displayOptions = {
+    Completed: { color: 'green', displayName: 'Completed' },
+    Canceled: { color: 'red', displayName: 'Canceled' },
+    Processing: { color: 'yellow', displayName: 'Processing' },
+    Purchasing: { color: 'cyan', displayName: 'Purchasing' },
+    Delayed: { color: 'purple', displayName: 'Delayed' },
+  };
+  const displayOption = displayOptions[status];
   return (
     <Badge colorScheme={displayOption.color}>{displayOption.displayName}</Badge>
   );

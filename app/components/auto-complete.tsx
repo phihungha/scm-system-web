@@ -32,13 +32,13 @@ export function AutoCompleteSelect(props: AutoCompleteSelectProps) {
     <AutoComplete
       openOnFocus
       onChange={(value: string) => props.onChange(+value)}
+      value={selectedItemName}
     >
       <AutoCompleteInput
         id={props.id}
         name={props.name}
         placeholder={props.placeholder}
         variant="filled"
-        value={selectedItemName}
         isDisabled={props.isDisabled}
       />
       <AutoCompleteList>

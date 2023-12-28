@@ -64,7 +64,7 @@ function NavItem({ href, icon, children }: NavItemProps) {
 
 const navbarItems = [
   { href: '/', name: 'Home', icon: FiHome },
-  { href: '/purchases/orders', name: 'Purchases', icon: FiDownload },
+  { href: '/purchases/requisitions', name: 'Purchases', icon: FiDownload },
   { href: '/production/orders', name: 'Production', icon: FiCpu },
   { href: '/sales/orders', name: 'Sales', icon: FiUpload },
   { href: '/inventory/product-stock', name: 'Inventory', icon: FiGrid },
