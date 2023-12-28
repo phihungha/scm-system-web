@@ -42,14 +42,17 @@ export default function SuppliesReceiveDetailsPage(props: DetailsPageProps) {
   });
 
   const { mutate: completeOrder, isLoading: isReceiveOrderLoading } =
-    useMutation(() => completePurchaseOrder({id: orderId, hasInvoice: false }), {
-      onSuccess: (resp) => {
-        queryClient.setQueryData(queryKey, resp);
-        showSuccessToast(toast, {
-          title: 'Supplies has been received and order is completed!',
-        });
+    useMutation(
+      () => completePurchaseOrder({ id: orderId, hasInvoice: false }),
+      {
+        onSuccess: (resp) => {
+          queryClient.setQueryData(queryKey, resp);
+          showSuccessToast(toast, {
+            title: 'Supplies has been received and order is completed!',
+          });
+        },
       },
-    });
+    );
 
   const [displayReturnDialog, setDisplayReturnDialog] = useState(false);
 
