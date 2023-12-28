@@ -40,7 +40,7 @@ export default function VendorForm(props: VendorFormProps) {
     description: string().label('Description').required(),
     defaultLocation: string().label('Default location').required(),
     email: string().label('Email').required().email(),
-    phoneNumber: number().label('Phone number'),
+    phoneNumber: number().label('Phone number').required(),
     contactPerson: string().label('Contact person').required(),
     isActive: boolean().label('Is active'),
   });

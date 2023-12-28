@@ -42,7 +42,7 @@ export default function SupplyForm(props: FacilitiesFormProps) {
     description: string().label('Description').required(),
     location: string().label('Location').required(),
     email: string().label('Email').required().email(),
-    phoneNumber: number().label('PhoneNumber'),
+    phoneNumber: number().label('PhoneNumber').required(),
     isActive: boolean().label('Is active'),
   });
 
