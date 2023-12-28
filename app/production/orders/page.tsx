@@ -227,7 +227,7 @@ export default function SalesOrdersPage() {
   const [queryParams, setQueryParams] = useState<ProductionOrderQueryParams>({
     searchTerm: '',
     searchCriteria: 'Id',
-    status: ['Processing', 'Executing', 'WaitingAcceptance', 'Completed'],
+    status: ['Processing', 'Executing', 'WaitingAcceptance'],
     approvalStatus: ['Approved', 'PendingApproval'],
   });
 

@@ -55,7 +55,7 @@ export default function PurchaseRequisitionDetailsPage({
 
   const queryKey = ['purchaseRequisition', orderId];
 
-  const { data: order, refetch } = useQuery({
+  const { data: order } = useQuery({
     queryKey,
     queryFn: () => getPurchaseRequisition(orderId),
     onSuccess: (resp) => {
@@ -68,19 +68,20 @@ export default function PurchaseRequisitionDetailsPage({
 
   // Info
 
-  const { mutate: createOrder, isLoading } = useMutation(
-    (purchaseItems: PurchaseOrderItemParams[]) =>
-      createPurchaseOrder({
-        items: purchaseItems,
-        purchaseRequisitionId: orderId,
-      }),
-    {
-      onSuccess: (resp) => {
-        showSuccessToast(toast, { title: 'Order successfully created!' });
-        router.replace(`purchases/orders/${resp.id}`);
+  const { mutate: createOrder, isLoading: isCreatePurchaseOrderLoading } =
+    useMutation(
+      (purchaseItems: PurchaseOrderItemParams[]) =>
+        createPurchaseOrder({
+          items: purchaseItems,
+          purchaseRequisitionId: orderId,
+        }),
+      {
+        onSuccess: (resp) => {
+          showSuccessToast(toast, { title: 'Order successfully created!' });
+          router.replace(`/purchases/orders/${resp.id}`);
+        },
       },
-    },
-  );
+    );
 
   const { mutate: approveOrder, isLoading: isApproveLoading } = useMutation(
     () => approvePurchaseRequisition(orderId),
@@ -96,7 +97,7 @@ export default function PurchaseRequisitionDetailsPage({
     () =>
       updatePurchaseRequisition({
         id: orderId,
-        items: order?.isExecutionInfoUpdateAllowed ? items : undefined,
+        items: order?.isInfoUpdateAllowed ? items : undefined,
       }),
     {
       onSuccess: (resp) => {
@@ -160,7 +161,7 @@ export default function PurchaseRequisitionDetailsPage({
 
         {/* Information */}
         <Grid
-          templateRows="repeat(12, 1fr)"
+          templateRows="repeat(10, 1fr)"
           templateColumns="300px 1fr"
           gap={5}
         >
@@ -223,20 +224,19 @@ export default function PurchaseRequisitionDetailsPage({
         <ActionButtonSection>
           <SectionText>Approval</SectionText>
           <ActionButtonRow
-            colorScheme="blue"
+            colorScheme="green"
             buttonText="Approved"
             isLoading={isApproveLoading}
             isDisabled={!order.isApprovalAllowed}
             onClick={() => approveOrder()}
           >
-            Mark the approval status of this requisition as approved.
+            Approve this requisition for order creation.
           </ActionButtonRow>
-        </ActionButtonSection>
 
-        <ActionButtonSection>
           <ActionButtonRow
-            colorScheme="green"
+            colorScheme="red"
             buttonText="Reject"
+            isDisabled={!order.isApprovalAllowed}
             onClick={() => setDisplayRejectDialog(true)}
           >
             Reject the purchase requisition. This action cannot be undone!
@@ -253,9 +253,10 @@ export default function PurchaseRequisitionDetailsPage({
         <ActionButtonSection>
           <SectionText>Create</SectionText>
           <ActionButtonRow
-            colorScheme="red"
+            colorScheme="blue"
             buttonText="Create"
-            isDisabled="isPurchaseOrderCreateAllowed"
+            isLoading={isCreatePurchaseOrderLoading}
+            isDisabled={!order.isPurchaseOrderCreateAllowed}
             onClick={() => onCreate(items)}
           >
             Create Purchase Order

@@ -227,7 +227,7 @@ export default function PurchaseRequisitionsPage() {
     useState<PurchaseRequisitionQueryParams>({
       searchTerm: '',
       searchCriteria: 'Id',
-      status: ['Processing', 'Delayed', 'Canceled', 'Completed'],
+      status: ['Processing', 'Purchasing', 'Delayed'],
       approvalStatus: ['Approved', 'PendingApproval'],
     });
 

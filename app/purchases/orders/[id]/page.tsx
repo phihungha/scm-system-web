@@ -95,7 +95,7 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
   });
 
   const createNewItem = (id: number): PurchaseOrderItem => {
-    const item = items?.find((i) => i.id === id);
+    const item = items?.find((i) => i.itemId === id);
 
     if (!item) {
       throw new Error('Product ID not found.');
@@ -105,7 +105,7 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
   };
   const alreadyAddedItemIds = new Set(items.map((i) => i.itemId));
   const itemAddSelections = items
-    ?.filter(({ id }) => !alreadyAddedItemIds.has(id))
+    ?.filter(({ itemId }) => !alreadyAddedItemIds.has(itemId))
     .map((item) => (
       <AutoCompleteItem
         key={item.itemId}
@@ -277,6 +277,7 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
             }
           </ItemsEditor>
         </Stack>
+
         <Stack spacing={5}>
           <SectionText>Totals</SectionText>
           <Stack spacing={5} divider={<StackDivider borderColor="black.600" />}>
@@ -302,7 +303,7 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
                     min={0}
                     step={10000}
                     value={additionalDiscount}
-                    onDisabled={!order.isDiscountUpdateAllowed}
+                    isDisabled={!order.isDiscountUpdateAllowed}
                     onChange={(_, value) => setAdditionalDiscount(value)}
                   >
                     <NumberInputField />
@@ -436,8 +437,10 @@ function PurchaseOrderItemEditCard(
               <NumberInput
                 id={`item-discount-${item.itemId}`}
                 name={`item-discount-${item.itemId}`}
+                allowMouseWheel
+                step={10000}
                 isRequired={true}
-                min={1}
+                min={0}
                 value={item.discount}
                 isDisabled={props.isDisabled}
                 onChange={(_, value) =>

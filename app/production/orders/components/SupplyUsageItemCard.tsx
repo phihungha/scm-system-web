@@ -44,8 +44,9 @@ function ProductionSupplyUsageItemCard({
       name={supply.name}
       imageUrl={supply.imageUrl}
     >
-      <Text>Quantity: {item.quantity}</Text>
-      <Text>Unit: {item.unit}</Text>
+      <Text>
+        Quantity: {item.quantity} {item.unit}
+      </Text>
       <Text>Cost: {CurrencyFormat.format(item.unitCost)}</Text>
       <Text>Total Cost: {CurrencyFormat.format(item.totalCost)}</Text>
     </ItemDisplayCard>

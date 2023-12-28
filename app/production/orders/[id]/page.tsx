@@ -37,7 +37,7 @@ export default function ProductionOrderDetailsPage({
   );
   const [events, setEvents] = useState<ProductionOrderEvent[]>([]);
 
-  const queryKey = ['salesOrder', orderId];
+  const queryKey = ['productionOrder', orderId];
 
   const { data: order, refetch } = useQuery({
     queryKey,
@@ -91,21 +91,18 @@ export default function ProductionOrderDetailsPage({
         </Stack>
 
         <ProductionOrderInfoPanel order={order} />
-        <ProductionSupplyUsageItemsPanel props={supplyItems} />
         <ProductionOrderItemsPanel
           isDisabled={!order.isExecutionInfoUpdateAllowed}
           items={items}
           onItemsChange={setItems}
         />
-
+        <ProductionSupplyUsageItemsPanel props={supplyItems} />
         <ProductionOrderTotalsPanel items={items} />
-
         <ProductionOrderEventTimelinePanel
           events={events}
           order={order}
           onAdd={onAddEvent}
         />
-
         <ProductionOrderActionPanel order={order} />
 
         <Flex justify="end" mt={5} gap={5}>
@@ -116,6 +113,7 @@ export default function ProductionOrderDetailsPage({
           <ActionButton
             size="lg"
             colorScheme="blue"
+            isDisabled={isUpdateALlowed}
             isLoading={isLoading}
             onClick={() => updateOrder()}
           >

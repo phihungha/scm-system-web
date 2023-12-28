@@ -1,6 +1,7 @@
 import {
   approveProductionOrder,
   cancelProductionOrder,
+  finishProductionOrder,
   rejectProductionOrder,
 } from '@/app/api/production-order';
 import { ActionButtonRow, ActionButtonSection } from '@/app/components/buttons';
@@ -61,6 +62,16 @@ export default function ProductionOrderActionPanel({
     },
   );
 
+  const { mutate: finishOrder, isLoading: isFinishOrderLoading } = useMutation(
+    () => finishProductionOrder(orderId),
+    {
+      onSuccess: (resp) => {
+        queryClient.setQueryData(queryKey, resp);
+        showSuccessToast(toast);
+      },
+    },
+  );
+
   return (
     <>
       <ActionButtonSection>
@@ -86,6 +97,19 @@ export default function ProductionOrderActionPanel({
           onClick={() => setDisplayRejectDialog(true)}
         >
           Reject the order. This action cannot be undone!
+        </ActionButtonRow>
+      </ActionButtonSection>
+
+      <ActionButtonSection>
+        <SectionText>Production</SectionText>
+        <ActionButtonRow
+          isDisabled={!order.isExecutionFinishAllowed}
+          colorScheme="blue"
+          buttonText="Finish production"
+          isLoading={isFinishOrderLoading}
+          onClick={() => finishOrder()}
+        >
+          Mark production as finished.
         </ActionButtonRow>
       </ActionButtonSection>
 

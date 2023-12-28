@@ -31,7 +31,7 @@ function ProductionOrderTableItem({ item }: { item: ProductionOrder }) {
         <InventoryIssueStatusBadge status={item.status} />
       </Td>
       <Td>
-        <Link href={`/inventory/products-issue/${item.id}`}>
+        <Link href={`/inventory/supplies-issue/${item.id}`}>
           <Button variant="solid" colorScheme="blue">
             Issue
           </Button>
