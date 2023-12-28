@@ -41,7 +41,7 @@ export interface UserCreateParams extends SoftDeletableParams {
 }
 
 export interface UserUpdateParams extends SoftDeletableParams {
-  id: number;
+  id: string;
   address: string;
   imageName?: string;
   dateOfBirth: Date;
@@ -57,6 +57,7 @@ export interface UserUpdateParams extends SoftDeletableParams {
 }
 
 export interface UserPasswordUpdateParams {
+  id: string;
   oldPassword: string;
   newPassword: string;
 }

@@ -1,5 +1,10 @@
-import { SimpleItemQueryParams } from '../models/general';
-import { User, UserCreateParams, UserUpdateParams } from '../models/user';
+import { SimpleItemQueryParams, UploadInfo } from '../models/general';
+import {
+  User,
+  UserCreateParams,
+  UserPasswordUpdateParams,
+  UserUpdateParams,
+} from '../models/user';
 import apiClient from './api-client';
 
 export async function getUsers(params?: SimpleItemQueryParams) {
@@ -20,4 +25,16 @@ export async function createUser(params: UserCreateParams) {
 export async function updateUser({ id, ...params }: UserUpdateParams) {
   const response = await apiClient.patch<User>(`Users/${id}`, params);
   return response.data;
+}
+
+export async function updatePassword({
+  id,
+  ...params
+}: UserPasswordUpdateParams) {
+  const response = await apiClient.put<User>(`Users/${id}`, params);
+  return response.data;
+}
+
+export async function getUserImageUploadInfo() {
+  await apiClient.put<UploadInfo>(`Users/ImageUploadUrl`);
 }
