@@ -1,11 +1,17 @@
 'use client';
 
-import { getPurchaseRequisitions } from '@/app/api/purchase-requisition';
+import { getProductionOrders } from '@/app/api/production-order';
 import {
   ApprovalStatusBadge,
-  RequisitionStatusBadge,
+  OrderStatusBadge,
 } from '@/app/components/status-indicators';
 import { ApprovalStatus } from '@/app/models/general';
+import { OrderStatus } from '@/app/models/order';
+import {
+  ProductionOrder,
+  ProductionOrderQueryParams,
+  ProductionOrderSearchCriteria,
+} from '@/app/models/production-order';
 import CurrencyFormat from '@/app/utils/currency-formats';
 import {
   Button,
@@ -34,29 +40,24 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { FiPlus, FiSearch } from 'react-icons/fi';
 import { useQuery } from 'react-query';
-import {
-  PurchaseRequisition,
-  PurchaseRequisitionCriteria,
-  PurchaseRequisitionQueryParams,
-  PurchaseRequisitionStatus,
-} from '../../models/purchase-requisition';
 
-function PurchaseRequisitionTableItem({ item }: { item: PurchaseRequisition }) {
+function ProductionOrderTableItem({ item }: { item: ProductionOrder }) {
   return (
     <Tr>
       <Td>{item.id}</Td>
-      <Td>{item.vendor?.name ?? '<None>'}</Td>
       <Td>{item.productionFacility?.name ?? '<None>'}</Td>
       <Td>{item.createUser.name}</Td>
       <Td>
-        <RequisitionStatusBadge status={item.status}></RequisitionStatusBadge>
+        <OrderStatusBadge status={item.status}></OrderStatusBadge>
       </Td>
       <Td>
         <ApprovalStatusBadge status={item.approvalStatus}></ApprovalStatusBadge>
       </Td>
-      <Td>{CurrencyFormat.format(item.totalAmount)}</Td>
+      <Td>{CurrencyFormat.format(item.totalCost)}</Td>
+      <Td>{CurrencyFormat.format(item.totalProfit)}</Td>
+      <Td>{CurrencyFormat.format(item.totalValue)}</Td>
       <Td>
-        <Link href={`/purchases/requisitions/${item.id}`}>
+        <Link href={`/productions/orders/${item.id}`}>
           <Button variant="solid" colorScheme="blue">
             View
           </Button>
@@ -66,10 +67,10 @@ function PurchaseRequisitionTableItem({ item }: { item: PurchaseRequisition }) {
   );
 }
 
-function PurchaseRequisitionTable({
+function ProductionOrderTable({
   items: items,
 }: {
-  items?: PurchaseRequisition[];
+  items: ProductionOrder[] | undefined;
 }) {
   return (
     <TableContainer>
@@ -77,18 +78,19 @@ function PurchaseRequisitionTable({
         <Thead>
           <Tr>
             <Th>ID</Th>
-            <Th>Vendor</Th>
             <Th>Facility</Th>
             <Th>Create User</Th>
             <Th>Status</Th>
             <Th>Approval status</Th>
-            <Th>Total</Th>
+            <Th>Total Cost</Th>
+            <Th>Total Profit</Th>
+            <Th>Total Value</Th>
             <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
           {items?.map((item) => (
-            <PurchaseRequisitionTableItem key={item.id} item={item} />
+            <ProductionOrderTableItem key={item.id} item={item} />
           ))}
         </Tbody>
       </Table>
@@ -96,15 +98,15 @@ function PurchaseRequisitionTable({
   );
 }
 
-interface PurchaseRequisitionSearchPanelProps {
-  queryParams: PurchaseRequisitionQueryParams;
-  setQueryParams: (params: PurchaseRequisitionQueryParams) => void;
+interface ProductionOrderSearchPanelProps {
+  queryParams: ProductionOrderQueryParams;
+  setQueryParams: (params: ProductionOrderQueryParams) => void;
 }
 
-function RequisitionSearchPanel({
+function ProductionOrderSearchPanel({
   queryParams,
   setQueryParams,
-}: PurchaseRequisitionSearchPanelProps) {
+}: ProductionOrderSearchPanelProps) {
   const [searchTerm, setSearchTerm] = useState(queryParams.searchTerm);
   const [searchCriteria, setSearchCriteria] = useState(
     queryParams.searchCriteria as string,
@@ -114,16 +116,13 @@ function RequisitionSearchPanel({
     setQueryParams({
       ...queryParams,
       searchTerm,
-      searchCriteria: searchCriteria as PurchaseRequisitionCriteria,
+      searchCriteria: searchCriteria as ProductionOrderSearchCriteria,
     });
 
   const onStatusFiltersChange = (input: (string | number)[]) =>
-    setQueryParams({
-      ...queryParams,
-      status: input as PurchaseRequisitionStatus[],
-    });
+    setQueryParams({ ...queryParams, status: input as OrderStatus[] });
 
-  const onPaymentStatusFiltersChange = (input: (string | number)[]) =>
+  const onApprovalStatusFiltersChange = (input: (string | number)[]) =>
     setQueryParams({
       ...queryParams,
       approvalStatus: input as ApprovalStatus[],
@@ -159,7 +158,6 @@ function RequisitionSearchPanel({
           onChange={(e) => setSearchCriteria(e.target.value)}
         >
           <option value="Id">ID</option>
-          <option value="VendorName">Vendor Name</option>
           <option value="CreateUserName">Create user name</option>
           <option value="ProductionFacilityName">
             Production facility name
@@ -178,19 +176,22 @@ function RequisitionSearchPanel({
           >
             <Flex gap={4} wrap="wrap">
               <Checkbox value="Processing">
-                <RequisitionStatusBadge status="Processing" />
+                <OrderStatusBadge status="Processing" />
               </Checkbox>
-              <Checkbox value="Purchasing">
-                <RequisitionStatusBadge status="Purchasing" />
+              <Checkbox value="Executing">
+                <OrderStatusBadge status="Executing" />
               </Checkbox>
-              <Checkbox value="Delayed">
-                <RequisitionStatusBadge status="Delayed" />
+              <Checkbox value="WaitingAcceptance">
+                <OrderStatusBadge status="WaitingAcceptance" />
               </Checkbox>
               <Checkbox value="Completed">
-                <RequisitionStatusBadge status="Completed" />
+                <OrderStatusBadge status="Completed" />
               </Checkbox>
               <Checkbox value="Canceled">
-                <RequisitionStatusBadge status="Canceled" />
+                <OrderStatusBadge status="Canceled" />
+              </Checkbox>
+              <Checkbox value="Returned">
+                <OrderStatusBadge status="Returned" />
               </Checkbox>
             </Flex>
           </CheckboxGroup>
@@ -202,17 +203,17 @@ function RequisitionSearchPanel({
         <GridItem>
           <CheckboxGroup
             value={queryParams.approvalStatus}
-            onChange={onPaymentStatusFiltersChange}
+            onChange={onApprovalStatusFiltersChange}
           >
             <Flex gap={4} wrap="wrap">
               <Checkbox value="Approved">
                 <ApprovalStatusBadge status="Approved" />
               </Checkbox>
-              <Checkbox value="Rejected">
-                <ApprovalStatusBadge status="Rejected" />
-              </Checkbox>
               <Checkbox value="PendingApproval">
                 <ApprovalStatusBadge status="PendingApproval" />
+              </Checkbox>
+              <Checkbox value="Rejected">
+                <ApprovalStatusBadge status="Rejected" />
               </Checkbox>
             </Flex>
           </CheckboxGroup>
@@ -222,36 +223,35 @@ function RequisitionSearchPanel({
   );
 }
 
-export default function PurchaseRequisitionsPage() {
-  const [queryParams, setQueryParams] =
-    useState<PurchaseRequisitionQueryParams>({
-      searchTerm: '',
-      searchCriteria: 'Id',
-      status: ['Processing', 'Delayed', 'Canceled', 'Completed'],
-      approvalStatus: ['Approved', 'PendingApproval'],
-    });
+export default function SalesOrdersPage() {
+  const [queryParams, setQueryParams] = useState<ProductionOrderQueryParams>({
+    searchTerm: '',
+    searchCriteria: 'Id',
+    status: ['Processing', 'Executing', 'WaitingAcceptance', 'Completed'],
+    approvalStatus: ['Approved', 'PendingApproval'],
+  });
 
   const { data: items } = useQuery({
-    queryKey: ['purchaseRequisition', queryParams],
-    queryFn: () => getPurchaseRequisitions(queryParams),
+    queryKey: ['ProductionOrders', queryParams],
+    queryFn: () => getProductionOrders(queryParams),
   });
 
   return (
     <Stack spacing={5}>
-      <RequisitionSearchPanel
+      <ProductionOrderSearchPanel
         queryParams={queryParams}
         setQueryParams={setQueryParams}
       />
 
       <Flex justifyContent="right">
-        <Link href="/purchases/requisitions/create">
+        <Link href="/production/orders/create">
           <Button variant="solid" colorScheme="blue" leftIcon={<FiPlus />}>
             Create
           </Button>
         </Link>
       </Flex>
 
-      <PurchaseRequisitionTable items={items} />
+      <ProductionOrderTable items={items} />
     </Stack>
   );
 }

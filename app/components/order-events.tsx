@@ -1,5 +1,6 @@
 'use client';
 
+import { ProductionOrderEventOption } from '../models/production-order';
 import { TransOrderEvent, TransOrderEventOption } from '../models/trans-order';
 import { DialogProps } from '../types/dialog-props';
 import {
@@ -64,6 +65,12 @@ export function TransOrderEventCard(props: TransOrderEventCardProps) {
 
 export interface TransOrderEventAddDialogResult {
   type: TransOrderEventOption;
+  location: string;
+  message?: string;
+}
+
+export interface ProductionOrderEventAddDialogResult {
+  type: ProductionOrderEventOption;
   location: string;
   message?: string;
 }
