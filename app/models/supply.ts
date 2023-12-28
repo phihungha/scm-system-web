@@ -7,6 +7,7 @@ import { Vendor } from './vendor';
 
 export interface Supply extends CreateUpdateTime, SoftDeletable {
   imageUrl?: string;
+  imageName?: string;
   vendor: Vendor;
   vendorId: number;
   expirationMonth: number;
@@ -20,6 +21,7 @@ export interface Supply extends CreateUpdateTime, SoftDeletable {
 export interface SupplyCreateParams extends SoftDeletableParams {
   vendorId: number;
   expirationMonth: number;
+  imageName?: string;
   name: string;
   price: number;
   unit: string;
