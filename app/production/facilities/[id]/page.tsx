@@ -19,7 +19,7 @@ export default function FacilitiesDetailsPage({ params }: DetailsPageProps) {
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const queryKey = ['ProductionFacilities', itemId];
+  const queryKey = ['productionFacilities', itemId];
 
   const { data: item } = useQuery({
     queryKey,

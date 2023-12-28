@@ -16,7 +16,7 @@ export default function VendorDetailPage({ params }: DetailsPageProps) {
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const queryKey = ['Vendors', itemId];
+  const queryKey = ['vendors', itemId];
 
   const { data: item } = useQuery({
     queryKey,

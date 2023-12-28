@@ -70,7 +70,7 @@ export default function ProductionFacilitiesPage() {
   });
 
   const { data: items } = useQuery({
-    queryKey: ['ProductionFacilities', queryParams],
+    queryKey: ['productionFacilities', queryParams],
     queryFn: () => getProductionFacilities(queryParams),
   });
 
