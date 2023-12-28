@@ -57,7 +57,7 @@ function ProductionOrderTableItem({ item }: { item: ProductionOrder }) {
       <Td>{CurrencyFormat.format(item.totalProfit)}</Td>
       <Td>{CurrencyFormat.format(item.totalValue)}</Td>
       <Td>
-        <Link href={`/productions/orders/${item.id}`}>
+        <Link href={`/production/orders/${item.id}`}>
           <Button variant="solid" colorScheme="blue">
             View
           </Button>

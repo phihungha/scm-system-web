@@ -1,11 +1,10 @@
 'use client';
 
 import {
-  completeProductionOrder,
-  getProductionOrder,
-  returnProductionOrder,
-} from '@/app/api/production-order';
-import { completePurchaseOrder, getPurchaseOrder, returnPurchaseOrder } from '@/app/api/purchase-order';
+  completePurchaseOrder,
+  getPurchaseOrder,
+  returnPurchaseOrder,
+} from '@/app/api/purchase-order';
 import {
   ActionButton,
   ActionButtonRow,
@@ -20,7 +19,6 @@ import {
   SubtitleText,
   TitleText,
 } from '@/app/components/texts';
-import { ProductionOrderItem } from '@/app/models/production-order';
 import { PurchaseOrderItem } from '@/app/models/purchase-order';
 import { DetailsPageProps } from '@/app/types/page-props';
 import { showSuccessToast } from '@/app/utils/toast-messages';

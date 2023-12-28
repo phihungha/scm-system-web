@@ -58,7 +58,7 @@ export default function SalesOrderCreatePage() {
         )}
 
         <Flex justify="end" mt={5} gap={5}>
-          <Link href="/sales/orders">
+          <Link href="/production/orders">
             <ActionButton size="lg">Close</ActionButton>
           </Link>
 

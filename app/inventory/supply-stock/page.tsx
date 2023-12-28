@@ -1,10 +1,9 @@
 'use client';
-import { getProductStock, getSupplyStock, updateProductStock } from '@/app/api/inventory';
+import { getSupplyStock, updateSupplyStock } from '@/app/api/inventory';
 import { ActionButton } from '@/app/components/buttons';
 import { SimpleItemQueryParams } from '@/app/models/general';
 import {
   WarehouseItemUpdateParams,
-  WarehouseProductItem,
   WarehouseSupplyItem,
 } from '@/app/models/inventory';
 import CurrencyFormat from '@/app/utils/currency-formats';
@@ -33,20 +32,20 @@ import { useMutation, useQuery } from 'react-query';
 import { WarehouseItemSearchPanel } from '../components/search-panels';
 
 interface StockTableItemProps {
-  item: WarehouseProductItem;
+  item: WarehouseSupplyItem;
   onChange: (input: WarehouseItemUpdateParams) => void;
 }
 
 function StockTableItem({ item, onChange }: StockTableItemProps) {
   return (
     <Tr>
-      <Td>{item.productId}</Td>
-      <Td>{item.product.name}</Td>
+      <Td>{item.supplyId}</Td>
+      <Td>{item.supply.name}</Td>
 
       <Td>
         <NumberInput
-          id={`quantity-${item.productId}`}
-          name={`quantity-${item.productId}`}
+          id={`quantity-${item.supplyId}`}
+          name={`quantity-${item.supplyId}`}
           allowMouseWheel
           step={50}
           isRequired={true}
@@ -54,7 +53,7 @@ function StockTableItem({ item, onChange }: StockTableItemProps) {
           value={item.quantity}
           onChange={(_, value) =>
             // Don't update if number box is empty.
-            value && onChange({ id: item.productId, quantity: value })
+            value && onChange({ id: item.supplyId, quantity: value })
           }
         >
           <NumberInputField />
@@ -70,7 +69,7 @@ function StockTableItem({ item, onChange }: StockTableItemProps) {
 
       <Td>
         <Link
-          href={`/product-stock/${item.productionFacilityId}/${item.productId}`}
+          href={`/supply-stock/${item.productionFacilityId}/${item.supplyId}`}
         >
           <Button variant="solid" colorScheme="blue">
             View
@@ -82,7 +81,7 @@ function StockTableItem({ item, onChange }: StockTableItemProps) {
 }
 
 interface StockTableProps {
-  items?: WarehouseProductItem[];
+  items?: WarehouseSupplyItem[];
   onChange: (item: WarehouseItemUpdateParams) => void;
 }
 
@@ -103,7 +102,7 @@ function StockTable({ items, onChange }: StockTableProps) {
         <Tbody>
           {items?.map((item) => (
             <StockTableItem
-              key={item.productId}
+              key={item.supplyId}
               item={item}
               onChange={onChange}
             />
@@ -147,7 +146,7 @@ export default function SupplyStockPage() {
   };
 
   const { mutate: updateStock, isLoading } = useMutation(
-    () => updateProductStock({ facilityId, items: itemsToUpdate }),
+    () => updateSupplyStock({ facilityId, items: itemsToUpdate }),
     {
       onSuccess: () => {
         showSuccessToast(toast, { title: 'Stock updated!' });

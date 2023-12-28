@@ -1,15 +1,34 @@
 'use client';
-import { LoadingPage } from '@/app/components/spinners';
-import { AutoCompleteItem } from '@choc-ui/chakra-autocomplete';
+import {
+  cancelPurchaseOrder,
+  createPurchaseOrderEvent,
+  finishPurchaseOrder,
+  getPurchaseOrder,
+  startPurchaseOrder,
+  updatePurchaseOrder,
+  updatePurchaseOrderEvent,
+} from '@/app/api/purchase-order';
 import { AutoCompleteItemPreview } from '@/app/components/auto-complete';
-import { cancelPurchaseOrder, createPurchaseOrderEvent, finishPurchaseOrder, getPurchaseOrder, startPurchaseOrder, updatePurchaseOrder, updatePurchaseOrderEvent } from '@/app/api/purchase-order';
+import {
+  ActionButton,
+  ActionButtonRow,
+  ActionButtonSection,
+} from '@/app/components/buttons';
+import { EventTimeline, EventUpdateData } from '@/app/components/events';
 import { OrderItemEditCardProps } from '@/app/components/item-cards';
 import { ItemsEditor } from '@/app/components/items-editor';
+import { OrderCancelDialog } from '@/app/components/order-dialogs';
+import {
+  OrderEventDisplayProps,
+  OrderEventTimelinePanelProps,
+  TransOrderEventAddDialog,
+  TransOrderEventCard,
+} from '@/app/components/order-events';
+import { LoadingPage } from '@/app/components/spinners';
 import {
   OrderStatusBadge,
   PaymentStatusBadge,
 } from '@/app/components/status-indicators';
-import Link from 'next/link';
 import {
   BigTotalValueRow,
   FormLabelText,
@@ -19,14 +38,16 @@ import {
   SubtitleText,
   TitleText,
 } from '@/app/components/texts';
-import { PurchaseOrderItem, PurchaseOrder } from '@/app/models/purchase-order';
+import { PurchaseOrder, PurchaseOrderItem } from '@/app/models/purchase-order';
 import { TransOrderEvent } from '@/app/models/trans-order';
 import { DetailsPageProps } from '@/app/types/page-props';
 import CurrencyFormat, { currencySymbol } from '@/app/utils/currency-formats';
 import { toPercentage } from '@/app/utils/percentage-formats';
 import { dateToFullFormat } from '@/app/utils/time-formats';
+import { showSuccessToast } from '@/app/utils/toast-messages';
 import {
   Box,
+  Button,
   Card,
   CardBody,
   Flex,
@@ -44,16 +65,11 @@ import {
   StackDivider,
   Text,
   useToast,
-  Button
 } from '@chakra-ui/react';
+import { AutoCompleteItem } from '@choc-ui/chakra-autocomplete';
+import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { OrderEventDisplayProps, OrderEventTimelinePanelProps, TransOrderEventAddDialog, TransOrderEventCard } from '@/app/components/order-events';
-import { EventTimeline, EventUpdateData } from '@/app/components/events';
-import { ActionButtonSection, ActionButtonRow, ActionButton } from '@/app/components/buttons';
-import { showSuccessToast } from '@/app/utils/toast-messages';
-import { OrderCancelDialog } from '@/app/components/order-dialogs';
-import { updateProductionOrder } from '@/app/api/production-order';
 
 export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
   const orderId = params.id;
@@ -105,60 +121,58 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
       </AutoCompleteItem>
     ));
 
-    const onAddEvent = (event: TransOrderEvent) => {
-      setEvents([...events, event]);
-      refetch();
-    };
-    const [displayCancelDialog, setDisplayCancelDialog] = useState(false);
-    const {
-      mutate: startOrderDelivery,
-      isLoading: isStartOrderDeliveryLoading,
-    } = useMutation(() => startPurchaseOrder(orderId), {
+  const onAddEvent = (event: TransOrderEvent) => {
+    setEvents([...events, event]);
+    refetch();
+  };
+  const [displayCancelDialog, setDisplayCancelDialog] = useState(false);
+  const { mutate: startOrderDelivery, isLoading: isStartOrderDeliveryLoading } =
+    useMutation(() => startPurchaseOrder(orderId), {
       onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast);
       },
     });
 
-    const {
-      mutate: finishOrderDelivery,
-      isLoading: isFinishOrderDeliveryLoading,
-    } = useMutation(() => finishPurchaseOrder(orderId), {
+  const {
+    mutate: finishOrderDelivery,
+    isLoading: isFinishOrderDeliveryLoading,
+  } = useMutation(() => finishPurchaseOrder(orderId), {
+    onSuccess: (resp) => {
+      queryClient.setQueryData(queryKey, resp);
+      showSuccessToast(toast);
+    },
+  });
+
+  const { mutate: cancelOrder, isLoading: isCancelOrderLoading } = useMutation(
+    cancelPurchaseOrder,
+    {
       onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast);
+        setDisplayCancelDialog(false);
       },
-    });
+    },
+  );
 
-    const { mutate: cancelOrder, isLoading: isCancelOrderLoading } = useMutation(
-      cancelPurchaseOrder,
-      {
-        onSuccess: (resp) => {
-          queryClient.setQueryData(queryKey, resp);
-          showSuccessToast(toast);
-          setDisplayCancelDialog(false);
-        },
+  const { mutate: updateOrder, isLoading: isUpdateLoading } = useMutation(
+    () =>
+      updatePurchaseOrder({
+        id: orderId,
+        items: items,
+        fromLocation: fromLocation,
+        additionalDiscount: additionalDiscount,
+      }),
+    {
+      onSuccess: (resp) => {
+        queryClient.setQueryData(queryKey, resp);
+        showSuccessToast(toast, { title: 'Update succeed!' });
       },
-    );
-
-    const { mutate: updateOrder, isLoading: isUpdateLoading } = useMutation(
-      () =>
-        updatePurchaseOrder({
-          id: orderId,
-          items: items,
-          fromLocation: fromLocation,
-          additionalDiscount: additionalDiscount    
-        }),
-      {
-        onSuccess: (resp) => {
-          queryClient.setQueryData(queryKey, resp);
-          showSuccessToast(toast, { title: 'Update succeed!' });
-        },
-      },
-    );
-    if (order === undefined) {
-      return <LoadingPage />;
-    }
+    },
+  );
+  if (order === undefined) {
+    return <LoadingPage />;
+  }
   const subTotal = items.reduce((sum, item) => sum + item.totalPrice, 0);
   const discountSubtotal = items.reduce((sum, item) => sum + item.discount, 0);
 
@@ -184,12 +198,12 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
           >
             <FormLabelText>From location:</FormLabelText>
 
-              <Input
-                id="fromLocation"
-                name="fromLocation"
-                value={fromLocation}
-                onChange={(e) => setFromLocation(e.target.value)}
-              />
+            <Input
+              id="fromLocation"
+              name="fromLocation"
+              value={fromLocation}
+              onChange={(e) => setFromLocation(e.target.value)}
+            />
             <FormLabelText>To Location:</FormLabelText>
             <FormValueText>{order.toLocation}</FormValueText>
             <FormLabelText>Facility:</FormLabelText>
@@ -231,33 +245,37 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
                 ? dateToFullFormat(order.endTime)
                 : 'Will be available after order has ended.'}
             </FormValueText>
+
+            <FormLabelText>Problem:</FormLabelText>
+            <FormValueText>
+              {order.problem ? order.problem : 'N/A'}
+            </FormValueText>
           </Grid>
         </Stack>
         <Stack spacing={5}>
           <SectionText>Items</SectionText>
-      <ItemsEditor
-        id="items"
-        name="items"
-        items={items}
-        getItemId={(i) => i.itemId}
-        itemAddSelections={itemAddSelections}
-        isDisabled={true}
-        onItemsChange={setItems}
-        createNewItem={createNewItem}
-      >
-        {(onDiscountChange, onDelete) =>
-        items.map((item) => (
-          <PurchaseOrderItemEditCard
-            key={item.itemId}
-            item={item}
-            isDisabled={!order.isDiscountUpdateAllowed}
-            onChange={onDiscountChange}
-            onDelete={onDelete}
-          />
-        ))
-        }
-      </ItemsEditor>
-
+          <ItemsEditor
+            id="items"
+            name="items"
+            items={items}
+            getItemId={(i) => i.itemId}
+            itemAddSelections={itemAddSelections}
+            isDisabled={true}
+            onItemsChange={setItems}
+            createNewItem={createNewItem}
+          >
+            {(onDiscountChange, onDelete) =>
+              items.map((item) => (
+                <PurchaseOrderItemEditCard
+                  key={item.itemId}
+                  item={item}
+                  isDisabled={!order.isDiscountUpdateAllowed}
+                  onChange={onDiscountChange}
+                  onDelete={onDelete}
+                />
+              ))
+            }
+          </ItemsEditor>
         </Stack>
         <Stack spacing={5}>
           <SectionText>Totals</SectionText>
@@ -317,7 +335,7 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
           order={order}
           onAdd={onAddEvent}
         />
-         <ActionButtonSection>
+        <ActionButtonSection>
           <SectionText>Delivery</SectionText>
           <ActionButtonRow
             colorScheme="blue"
@@ -434,7 +452,6 @@ function PurchaseOrderItemEditCard(
                 </NumberInputStepper>
               </NumberInput>
             </Box>
-            
           </Stack>
           <Text>Unit: {item.unit}</Text>
           <Text>Price: {CurrencyFormat.format(item.unitPrice)}</Text>

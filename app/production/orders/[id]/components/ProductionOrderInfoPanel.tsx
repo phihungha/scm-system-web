@@ -60,6 +60,9 @@ export default function ProductionOrderInfoPanel(
             ? dateToFullFormat(order.endTime)
             : 'Will be available after order has ended.'}
         </FormValueText>
+
+        <FormLabelText>Problem:</FormLabelText>
+        <FormValueText>{order.problem ? order.problem : 'N/A'}</FormValueText>
       </Grid>
     </Stack>
   );

@@ -109,7 +109,7 @@ export default function ProductionOrderDetailsPage({
         <ProductionOrderActionPanel order={order} />
 
         <Flex justify="end" mt={5} gap={5}>
-          <Link href="/productions/orders">
+          <Link href="/production/orders">
             <ActionButton size="lg">Close</ActionButton>
           </Link>
 
