@@ -5,23 +5,13 @@ import { LoadingPage } from '@/app/components/spinners';
 import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Box, Stack, useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import CustomerForm from '../settings/component/form';
+import SettingsForm from '../settings/component/form';
 
-interface CustomerDetailsPageProps {
-  params: {
-    id: number;
-  };
-}
-
-export default function CustomerDetailsPage({
-  params,
-}: CustomerDetailsPageProps) {
-  const itemId = params.id;
-
+export default function SettingsPage() {
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const queryKey = ['config', itemId];
+  const queryKey = ['config'];
 
   const { data: item } = useQuery({
     queryKey,
@@ -42,7 +32,7 @@ export default function CustomerDetailsPage({
   return (
     <Box p={5}>
       <Stack spacing={10}>
-        <CustomerForm
+        <SettingsForm
           item={item}
           isLoading={isLoading}
           onSubmit={(input) => updateItem(input)}

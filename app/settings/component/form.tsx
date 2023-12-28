@@ -8,29 +8,27 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightAddon,
   Link,
   Stack,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { number, object } from 'yup';
 
-export interface VendorFormProps {
-  item?: Config;
+export interface SettingsFormProps {
+  item: Config;
   isLoading?: boolean;
   onSubmit: (input: ConfigParams) => void;
 }
 
-export default function VendorForm(props: VendorFormProps) {
+export default function SettingsForm(props: SettingsFormProps) {
   const item = props.item;
 
-  // Load các vendor để chọn trong combobox. Bỏ đoạn này đi nếu ko có combobox.
-
-  // Các giá trị ban đầu của form.
   const initialFormValues = {
-    vatRate: item?.vatRate ?? 0,
+    vatRate: item.vatRate * 100,
   };
 
-  // Validation rules.
   const formValidationSchema = object({
     vatRate: number().label('vatRate'),
   });
@@ -44,13 +42,17 @@ export default function VendorForm(props: VendorFormProps) {
       {({ handleSubmit, errors, touched, values, setFieldValue }) => (
         <form method="POST" onSubmit={handleSubmit}>
           <Stack spacing={5}>
-            {/* Thay errors.name và touched.name thành property tương ứng */}
             <FormControl isInvalid={!!errors.vatRate && touched.vatRate}>
-              {/* Thay tên field tương ứng */}
               <FormLabel htmlFor="vatRate">vatRate</FormLabel>
-              {/* Thay id và name thành property tương ứng */}
-              <Field as={Input} id="vatRate" name="vatRate" variant="filled" />
-              {/* Thay errors.name thành property tương ứng */}
+              <InputGroup>
+                <Field
+                  as={Input}
+                  id="vatRate"
+                  name="vatRate"
+                  variant="filled"
+                />
+                <InputRightAddon>%</InputRightAddon>
+              </InputGroup>
               <FormErrorMessage>{errors.vatRate}</FormErrorMessage>
             </FormControl>
 
