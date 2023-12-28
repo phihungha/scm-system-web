@@ -44,3 +44,8 @@ export interface SimpleItemQueryParams {
   searchCriteria?: SimpleItemSearchCriteria;
   all?: boolean;
 }
+
+export interface UploadInfo {
+  uploadUrl: string;
+  name: string;
+}

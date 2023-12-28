@@ -3,6 +3,7 @@
 import { getSupplies } from '@/app/api/supply';
 import { AutoCompleteItemPreview } from '@/app/components/auto-complete';
 import { ActionButton } from '@/app/components/buttons';
+import ImageSelector from '@/app/components/image-selector';
 import {
   ItemEditCard,
   OrderItemEditCardProps,
@@ -44,6 +45,8 @@ import { array, boolean, number, object, string } from 'yup';
 export interface ProductFormProps {
   item?: Product;
   isLoading?: boolean;
+  imageFile?: File | null;
+  onImageFileSelected: (file?: File | null) => void;
   onSubmit: (input: ProductCreateParams) => void;
 }
 
@@ -79,134 +82,144 @@ export default function ProductForm(props: ProductFormProps) {
     <Formik
       initialValues={initialFormValues}
       validationSchema={formValidationSchema}
-      onSubmit={(input) =>
-        props.onSubmit({ ...input, supplyCostItems: input.supplyCostItems })
-      }
+      onSubmit={props.onSubmit}
     >
       {({ handleSubmit, errors, touched, values, setFieldValue }) => (
         <form method="POST" onSubmit={handleSubmit}>
-          <Stack spacing={5}>
-            <FormControl isInvalid={!!errors.name && touched.name}>
-              <FormLabel htmlFor="name">Name</FormLabel>
-              <Field as={Input} id="name" name="name" variant="filled" />
-              <FormErrorMessage>{errors.name}</FormErrorMessage>
-            </FormControl>
+          <Flex gap={45}>
+            <ImageSelector
+              size={250}
+              url={item?.imageUrl}
+              name={item?.imageName}
+              file={props.imageFile}
+              onSelect={props.onImageFileSelected}
+            />
 
-            <FormControl isInvalid={!!errors.price && touched.price}>
-              <FormLabel htmlFor="price">Price</FormLabel>
-              <InputGroup>
-                <Field as={Input} id="price" name="price" variant="filled" />
-                <InputRightAddon>{currencySymbol}</InputRightAddon>
-              </InputGroup>
-              <FormErrorMessage>{errors.price}</FormErrorMessage>
-            </FormControl>
+            <Stack flex={1} spacing={5}>
+              <FormControl isInvalid={!!errors.name && touched.name}>
+                <FormLabel htmlFor="name">Name</FormLabel>
+                <Field as={Input} id="name" name="name" variant="filled" />
+                <FormErrorMessage>{errors.name}</FormErrorMessage>
+              </FormControl>
 
-            <FormControl isInvalid={!!errors.netWeight && touched.netWeight}>
-              <FormLabel htmlFor="netWeight">Net weight</FormLabel>
-              <InputGroup>
+              <FormControl isInvalid={!!errors.price && touched.price}>
+                <FormLabel htmlFor="price">Price</FormLabel>
+                <InputGroup>
+                  <Field as={Input} id="price" name="price" variant="filled" />
+                  <InputRightAddon>{currencySymbol}</InputRightAddon>
+                </InputGroup>
+                <FormErrorMessage>{errors.price}</FormErrorMessage>
+              </FormControl>
+
+              <FormControl isInvalid={!!errors.netWeight && touched.netWeight}>
+                <FormLabel htmlFor="netWeight">Net weight</FormLabel>
+                <InputGroup>
+                  <Field
+                    as={Input}
+                    id="netWeight"
+                    name="netWeight"
+                    variant="filled"
+                  />
+                  <InputRightAddon>Kg</InputRightAddon>
+                </InputGroup>
+                <FormErrorMessage>{errors.netWeight}</FormErrorMessage>
+              </FormControl>
+
+              <FormControl isInvalid={values.supplyCostItems.length < 1}>
+                <FormLabel htmlFor="supplyCosts">Supply cost items:</FormLabel>
+                <SupplyCostItemsPanel
+                  items={values.supplyCostItems}
+                  onItemsChange={(i) => setFieldValue('supplyCostItems', i)}
+                />
+                <FormErrorMessage>
+                  {values.supplyCostItems.length < 1 &&
+                    'A product must consume supplies to produce'}
+                </FormErrorMessage>
+              </FormControl>
+
+              <FormControl isInvalid={!!errors.miscCost && touched.miscCost}>
+                <FormLabel htmlFor="miscCost">Miscellaneous cost</FormLabel>
+                <InputGroup>
+                  <Field
+                    as={Input}
+                    id="miscCost"
+                    name="miscCost"
+                    variant="filled"
+                  />
+                  <InputRightAddon>{currencySymbol}</InputRightAddon>
+                </InputGroup>
+                <FormErrorMessage>{errors.miscCost}</FormErrorMessage>
+              </FormControl>
+
+              <FormControl isInvalid={!!errors.unit && touched.unit}>
+                <FormLabel htmlFor="unit">Unit</FormLabel>
+                <Field as={Input} id="unit" name="unit" variant="filled" />
+                <FormErrorMessage>{errors.unit}</FormErrorMessage>
+              </FormControl>
+
+              <FormControl
+                isInvalid={!!errors.expirationMonth && touched.expirationMonth}
+              >
+                <FormLabel htmlFor="expirationMonth">
+                  Expiration month
+                </FormLabel>
+                <NumberInput
+                  id="expirationMonth"
+                  name="expirationMonth"
+                  allowMouseWheel
+                  min={1}
+                  value={values.expirationMonth}
+                  onChange={(_, value) =>
+                    // Don't update if number box is empty.
+                    value && setFieldValue('expirationMonth', value)
+                  }
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+                <FormErrorMessage>{errors.expirationMonth}</FormErrorMessage>
+              </FormControl>
+
+              <FormControl
+                isInvalid={!!errors.description && touched.description}
+              >
+                <FormLabel htmlFor="description">Description</FormLabel>
                 <Field
-                  as={Input}
-                  id="netWeight"
-                  name="netWeight"
+                  as={Textarea}
+                  height="250"
+                  id="description"
+                  name="description"
                   variant="filled"
                 />
-                <InputRightAddon>Kg</InputRightAddon>
-              </InputGroup>
-              <FormErrorMessage>{errors.netWeight}</FormErrorMessage>
-            </FormControl>
+                <FormErrorMessage>{errors.description}</FormErrorMessage>
+              </FormControl>
 
-            <FormControl isInvalid={values.supplyCostItems.length < 1}>
-              <FormLabel htmlFor="supplyCosts">Supply cost items:</FormLabel>
-              <SupplyCostItemsPanel
-                items={values.supplyCostItems}
-                onItemsChange={(i) => setFieldValue('supplyCostItems', i)}
-              />
-              <FormErrorMessage>
-                {values.supplyCostItems.length < 1 &&
-                  'A product must consume supplies to produce'}
-              </FormErrorMessage>
-            </FormControl>
+              <FormControl>
+                <HStack spacing={2}>
+                  <Field type="checkbox" id="isActive" name="isActive" />
+                  <Text>Active</Text>
+                </HStack>
+              </FormControl>
 
-            <FormControl isInvalid={!!errors.miscCost && touched.miscCost}>
-              <FormLabel htmlFor="miscCost">Miscellaneous cost</FormLabel>
-              <InputGroup>
-                <Field
-                  as={Input}
-                  id="miscCost"
-                  name="miscCost"
-                  variant="filled"
-                />
-                <InputRightAddon>{currencySymbol}</InputRightAddon>
-              </InputGroup>
-              <FormErrorMessage>{errors.miscCost}</FormErrorMessage>
-            </FormControl>
+              <Flex justify="end" mt={5} gap={5}>
+                <Link href="/products">
+                  <ActionButton size="lg">Close</ActionButton>
+                </Link>
 
-            <FormControl isInvalid={!!errors.unit && touched.unit}>
-              <FormLabel htmlFor="unit">Unit</FormLabel>
-              <Field as={Input} id="unit" name="unit" variant="filled" />
-              <FormErrorMessage>{errors.unit}</FormErrorMessage>
-            </FormControl>
-
-            <FormControl
-              isInvalid={!!errors.expirationMonth && touched.expirationMonth}
-            >
-              <FormLabel htmlFor="expirationMonth">Expiration month</FormLabel>
-              <NumberInput
-                id="expirationMonth"
-                name="expirationMonth"
-                allowMouseWheel
-                min={1}
-                value={values.expirationMonth}
-                onChange={(_, value) =>
-                  // Don't update if number box is empty.
-                  value && setFieldValue('expirationMonth', value)
-                }
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-              <FormErrorMessage>{errors.expirationMonth}</FormErrorMessage>
-            </FormControl>
-
-            <FormControl
-              isInvalid={!!errors.description && touched.description}
-            >
-              <FormLabel htmlFor="description">Description</FormLabel>
-              <Field
-                as={Textarea}
-                height="250"
-                id="description"
-                name="description"
-                variant="filled"
-              />
-              <FormErrorMessage>{errors.description}</FormErrorMessage>
-            </FormControl>
-
-            <FormControl>
-              <HStack spacing={2}>
-                <Field type="checkbox" id="isActive" name="isActive" />
-                <Text>Active</Text>
-              </HStack>
-            </FormControl>
-
-            <Flex justify="end" mt={5} gap={5}>
-              <Link href="/products">
-                <ActionButton size="lg">Close</ActionButton>
-              </Link>
-
-              <ActionButton
-                type="submit"
-                size="lg"
-                colorScheme="blue"
-                isLoading={props.isLoading}
-              >
-                Save
-              </ActionButton>
-            </Flex>
-          </Stack>
+                <ActionButton
+                  type="submit"
+                  size="lg"
+                  colorScheme="blue"
+                  isLoading={props.isLoading}
+                >
+                  Save
+                </ActionButton>
+              </Flex>
+            </Stack>
+          </Flex>
         </form>
       )}
     </Formik>
@@ -238,10 +251,10 @@ function SupplyCostItemsPanel(props: OrderItemsPanelProps<SupplyCostItem>) {
     };
   };
 
-  const alreadyAddedItemIds = new Set(items.map((i) => i.supplyId));
+  const addedItemIds = new Set(items.map((i) => i.supplyId));
 
   const itemAddSelections = supplies
-    ?.filter(({ id }) => !alreadyAddedItemIds.has(id))
+    ?.filter(({ id }) => !addedItemIds.has(id))
     .map((supply) => (
       <AutoCompleteItem
         key={supply.id}
