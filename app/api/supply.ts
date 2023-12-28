@@ -1,4 +1,4 @@
-import { SimpleItemQueryParams } from '../models/general';
+import { SimpleItemQueryParams, UploadInfo } from '../models/general';
 import {
   Supply,
   SupplyCreateParams,
@@ -23,5 +23,10 @@ export async function createSupply(params: SupplyCreateParams) {
 
 export async function updateSupply({ id, ...params }: SupplyUpdateParams) {
   const response = await apiClient.patch<Supply>(`Supplies/${id}`, params);
+  return response.data;
+}
+
+export async function getSupplyImageUploadInfo() {
+  const response = await apiClient.get<UploadInfo>(`Supplies/ImageUploadUrl`);
   return response.data;
 }

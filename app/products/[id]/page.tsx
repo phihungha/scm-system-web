@@ -40,8 +40,8 @@ export default function ProductDetailsPage({ params }: DetailsPageProps) {
     },
   );
 
-  const [isImageUploading, setIsImageUploading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null | undefined>();
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const onSubmit = async (input: ProductCreateParams) => {
     let imageName = input.imageName;
