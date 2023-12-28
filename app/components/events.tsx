@@ -31,8 +31,8 @@ import { Field, Formik } from 'formik';
 import { useState } from 'react';
 import { FiEdit, FiPause, FiX } from 'react-icons/fi';
 import { object, string } from 'yup';
+import { DialogProps } from '../types/dialog-props';
 import { dateToFullFormat } from '../utils/time-formats';
-import { DialogProps } from './dialogs';
 
 export interface EventTimelineProps {
   lastId: number;
@@ -64,7 +64,7 @@ export interface EventDisplayProp {
   onChange: (input: EventUpdateData) => void;
 }
 
-export function EventDisplay(props: EventDisplayProp) {
+export function EventCard(props: EventDisplayProp) {
   const [editMode, setEditMode] = useState(false);
 
   let eventTypeTextColor: string | undefined;

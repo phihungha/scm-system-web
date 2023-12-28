@@ -1,9 +1,9 @@
-import { ApprovalStatus } from './general';
-import { OrderItemParams, OrderQueryParams, OrderUpdateParams } from './order';
+import { OrderQueryParams, OrderUpdateParams } from './order';
 import { ProductionFacility } from './production-facility';
 import { PurchaseRequisitionCriteria } from './purchase-requisition';
 import { Supply } from './supply';
 import {
+  PaymentStatus,
   TransOrder,
   TransOrderEvent,
   TransOrderItem,
@@ -13,6 +13,8 @@ import { Vendor } from './vendor';
 
 export interface PurchaseOrderItem extends TransOrderItem {
   supply: Supply;
+  discount: number;
+  netPrice: number;
 }
 
 export interface PurchaseOrder extends TransOrder {
@@ -33,15 +35,20 @@ export interface PurchaseOrder extends TransOrder {
 }
 
 export interface PurchaseOrderCreateParams {
+  items: PurchaseOrderItemParams[];
   additionalDiscount?: number;
-  items: OrderItemParams[];
   fromLocation?: string;
   purchaseRequisitionId: number;
 }
 
+export interface PurchaseOrderItemParams {
+  discount: number;
+  itemId: number;
+}
+
 export interface PurchaseOrderUpdateParams extends OrderUpdateParams {
   additionalDiscount?: number;
-  items?: OrderItemParams[];
+  items?: PurchaseOrderItemParams[];
   fromLocation?: string;
 }
 
@@ -58,5 +65,5 @@ export type PurchaseOrderSearchCriteria = PurchaseRequisitionCriteria;
 
 export interface PurchaseOrderQueryParams extends OrderQueryParams {
   searchCriteria?: PurchaseOrderSearchCriteria;
-  approvalStatus?: ApprovalStatus[];
+  paymentStatus?: PaymentStatus[];
 }

@@ -1,11 +1,13 @@
 'use client';
 
+import { ProductionOrderEventOption } from '../models/production-order';
 import { TransOrderEvent, TransOrderEventOption } from '../models/trans-order';
+import { DialogProps } from '../types/dialog-props';
 import {
   EventAddDialog,
   EventAddDialogResult,
   EventAddDialogTypeOption,
-  EventDisplay,
+  EventCard,
   EventUpdateData,
 } from './events';
 
@@ -21,12 +23,12 @@ export interface OrderEventDisplayProps<T> {
   initEvent: T;
 }
 
-export interface TransOrderEventDisplayProps {
+export interface TransOrderEventCardProps {
   event: TransOrderEvent;
   onChange: (input: EventUpdateData) => void;
 }
 
-export function TransOrderEventDisplay(props: TransOrderEventDisplayProps) {
+export function TransOrderEventCard(props: TransOrderEventCardProps) {
   const event = props.event;
 
   const displayNames = {
@@ -48,7 +50,7 @@ export function TransOrderEventDisplay(props: TransOrderEventDisplayProps) {
   const isInterrupted = event.type === 'Interrupted';
 
   return (
-    <EventDisplay
+    <EventCard
       type={typeDisplayName}
       time={event.time}
       location={event.location}
@@ -67,11 +69,14 @@ export interface TransOrderEventAddDialogResult {
   message?: string;
 }
 
-export interface TransOrderEventAddDialogProps {
-  display: boolean;
-  isLoading?: boolean;
+export interface ProductionOrderEventAddDialogResult {
+  type: ProductionOrderEventOption;
+  location: string;
+  message?: string;
+}
+
+export interface TransOrderEventAddDialogProps extends DialogProps {
   onSubmit: (result: TransOrderEventAddDialogResult) => void;
-  onClose: () => void;
 }
 
 export function TransOrderEventAddDialog(props: TransOrderEventAddDialogProps) {

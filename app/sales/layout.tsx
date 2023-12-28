@@ -1,5 +1,5 @@
 import { Stack } from '@chakra-ui/react';
-import { NavTabs } from '../components/NavTabs';
+import { NavTabs } from '../components/nav';
 
 const navTabItems = [
   { url: '/sales/orders', name: 'Orders' },

@@ -4,8 +4,10 @@ import { getProducts } from '@/app/api/product';
 import { AutoCompleteItemPreview } from '@/app/components/auto-complete';
 import {
   ItemEditCard,
-  ItemsEditor,
   OrderItemEditCardProps,
+} from '@/app/components/item-cards';
+import {
+  ItemsEditor,
   OrderItemsPanelProps,
 } from '@/app/components/items-editor';
 import { SectionText } from '@/app/components/texts';
@@ -66,6 +68,8 @@ export default function SalesOrderItemsPanel(
       <SectionText>Items</SectionText>
 
       <ItemsEditor
+        id="items"
+        name="items"
         items={items}
         getItemId={(i) => i.itemId}
         itemAddSelections={itemAddSelections}
@@ -79,7 +83,7 @@ export default function SalesOrderItemsPanel(
               key={item.itemId}
               item={item}
               isDisabled={props.isDisabled}
-              onQuantityChange={onQuantityChange}
+              onChange={onQuantityChange}
               onDelete={onDelete}
             />
           ))
@@ -94,10 +98,10 @@ function SalesOrderItemEditCard(props: OrderItemEditCardProps<SalesOrderItem>) {
   const product = props.item.product;
 
   const onQuantityChange = (quantity: number) =>
-    props.onQuantityChange({
+    props.onChange({
       ...item,
       quantity,
-      totalPrice: quantity * product.price,
+      totalPrice: quantity * item.unitPrice,
     });
 
   return (
@@ -108,7 +112,7 @@ function SalesOrderItemEditCard(props: OrderItemEditCardProps<SalesOrderItem>) {
       unit={item.unit}
       imageUrl={product.imageUrl}
       isDisabled={props.isDisabled}
-      onQuantityChange={(_, quantity) => onQuantityChange(quantity)}
+      onChange={(_, quantity) => onQuantityChange(quantity)}
       onDelete={() => props.onDelete(item)}
     >
       <Text>Price: {CurrencyFormat.format(item.unitPrice)}</Text>

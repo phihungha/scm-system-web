@@ -1,24 +1,24 @@
 import {
-  createSalesOrderEvent,
-  updateSalesOrderEvent,
-} from '@/app/api/sales-order';
+  createProductionOrderEvent,
+  updateProductionOrderEvent,
+} from '@/app/api/production-order';
 import { EventTimeline, EventUpdateData } from '@/app/components/events';
 import {
   OrderEventDisplayProps,
   OrderEventTimelinePanelProps,
-  TransOrderEventAddDialog,
-  TransOrderEventDisplay,
 } from '@/app/components/order-events';
 import { SectionText } from '@/app/components/texts';
-
-import { SalesOrder } from '@/app/models/sales-order';
-import { TransOrderEvent } from '@/app/models/trans-order';
+import {
+  ProductionOrder,
+  ProductionOrderEvent,
+} from '@/app/models/production-order';
 import { Button, Stack, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-
-export default function SalesOrderEventTimelinePanel(
-  props: OrderEventTimelinePanelProps<SalesOrder, TransOrderEvent>,
+import { ProductionOrderEventCard } from './ProductionEventCard';
+import { ProductionOrderEventAddDialog } from './ProductionOrderEventAddDialog';
+export default function ProductionOrderEventTimelinePanel(
+  props: OrderEventTimelinePanelProps<ProductionOrder, ProductionOrderEvent>,
 ) {
   const events = props.events;
   const orderId = props.order.id;
@@ -27,7 +27,7 @@ export default function SalesOrderEventTimelinePanel(
   const [displayAddDialog, setDisplayAddDialog] = useState(false);
 
   const { mutate: createEvent, isLoading } = useMutation(
-    createSalesOrderEvent,
+    createProductionOrderEvent,
     {
       onSuccess: (resp) => {
         props.onAdd(resp);
@@ -48,7 +48,7 @@ export default function SalesOrderEventTimelinePanel(
 
       <EventTimeline lastId={events.length - 1}>
         {events.map((event) => (
-          <SalesOrderEventDisplay
+          <ProductionOrderEventDisplay
             key={event.id}
             orderId={orderId}
             initEvent={event}
@@ -66,7 +66,7 @@ export default function SalesOrderEventTimelinePanel(
         Add event
       </Button>
 
-      <TransOrderEventAddDialog
+      <ProductionOrderEventAddDialog
         onSubmit={(result) => createEvent({ orderId, ...result })}
         isLoading={isLoading}
         display={displayAddDialog}
@@ -76,13 +76,13 @@ export default function SalesOrderEventTimelinePanel(
   );
 }
 
-function SalesOrderEventDisplay({
+function ProductionOrderEventDisplay({
   orderId,
   initEvent,
-}: OrderEventDisplayProps<TransOrderEvent>) {
+}: OrderEventDisplayProps<ProductionOrderEvent>) {
   const [event, setEvent] = useState(initEvent);
 
-  const { mutate: updateEvent } = useMutation(updateSalesOrderEvent, {
+  const { mutate: updateEvent } = useMutation(updateProductionOrderEvent, {
     onSuccess: setEvent,
   });
 
@@ -96,5 +96,5 @@ function SalesOrderEventDisplay({
     });
   };
 
-  return <TransOrderEventDisplay event={event} onChange={onChange} />;
+  return <ProductionOrderEventCard event={event} onChange={onChange} />;
 }

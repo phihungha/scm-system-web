@@ -99,10 +99,12 @@ export default function SalesOrderCreatePage() {
           <FormLabelText>Production Facility:</FormLabelText>
           {facilities ? (
             <AutoCompleteSelect
+              id="facility"
+              name="facility"
               items={facilities}
-              selectedId={facility?.id}
+              value={facility?.id}
               placeholder="Production facility must be selected to start delivery..."
-              onSelect={onFacilitySelect}
+              onChange={onFacilitySelect}
             />
           ) : (
             <NormalSpinner />
@@ -114,10 +116,12 @@ export default function SalesOrderCreatePage() {
           <FormLabelText>Customer:</FormLabelText>
           {customers ? (
             <AutoCompleteSelect
+              id="customer"
+              name="customer"
               items={customers}
-              selectedId={customer?.id}
+              value={customer?.id}
               placeholder="Customer must be selected..."
-              onSelect={onCustomerSelect}
+              onChange={onCustomerSelect}
             />
           ) : (
             <NormalSpinner />
@@ -125,6 +129,8 @@ export default function SalesOrderCreatePage() {
 
           <FormLabelText>To location:</FormLabelText>
           <Input
+            id="toLocation"
+            name="toLocation"
             value={toLocation}
             onChange={(e) => setToLocation(e.target.value)}
           />

@@ -9,7 +9,6 @@ import { PaymentStatus } from '@/app/models/trans-order';
 import CurrencyFormat from '@/app/utils/currency-formats';
 import {
   Button,
-  ButtonGroup,
   Checkbox,
   CheckboxGroup,
   Flex,
@@ -42,23 +41,23 @@ import {
   SalesOrderSearchCriteria,
 } from '../../models/sales-order';
 
-function SalesOrderTableItem({ order }: { order: SalesOrder }) {
+function SalesOrderTableItem({ item }: { item: SalesOrder }) {
   return (
     <Tr>
-      <Td>{order.id}</Td>
-      <Td>{order.customer.name}</Td>
-      <Td>{order.productionFacility?.name ?? '<None>'}</Td>
-      <Td>{order.createUser.name}</Td>
+      <Td>{item.id}</Td>
+      <Td>{item.customer.name}</Td>
+      <Td>{item.productionFacility?.name ?? '<None>'}</Td>
+      <Td>{item.createUser.name}</Td>
       <Td>
-        <OrderStatusBadge status={order.status}></OrderStatusBadge>
+        <OrderStatusBadge status={item.status}></OrderStatusBadge>
       </Td>
       <Td>
-        <PaymentStatusBadge status={order.paymentStatus}></PaymentStatusBadge>
+        <PaymentStatusBadge status={item.paymentStatus}></PaymentStatusBadge>
       </Td>
-      <Td>{CurrencyFormat.format(order.totalAmount)}</Td>
-      <Td>{CurrencyFormat.format(order.remainingAmount)}</Td>
+      <Td>{CurrencyFormat.format(item.totalAmount)}</Td>
+      <Td>{CurrencyFormat.format(item.remainingAmount)}</Td>
       <Td>
-        <Link href={`/sales/orders/${order.id}`}>
+        <Link href={`/sales/orders/${item.id}`}>
           <Button variant="solid" colorScheme="blue">
             View
           </Button>
@@ -68,7 +67,7 @@ function SalesOrderTableItem({ order }: { order: SalesOrder }) {
   );
 }
 
-function SalesOrderTable({ orders }: { orders: SalesOrder[] | undefined }) {
+function SalesOrderTable({ items: items }: { items?: SalesOrder[] }) {
   return (
     <TableContainer>
       <Table>
@@ -86,8 +85,8 @@ function SalesOrderTable({ orders }: { orders: SalesOrder[] | undefined }) {
           </Tr>
         </Thead>
         <Tbody>
-          {orders?.map((order) => (
-            <SalesOrderTableItem key={order.id} order={order} />
+          {items?.map((item) => (
+            <SalesOrderTableItem key={item.id} item={item} />
           ))}
         </Tbody>
       </Table>
@@ -229,29 +228,27 @@ export default function SalesOrdersPage() {
     paymentStatus: ['Pending', 'Due'],
   });
 
-  const { data: orders } = useQuery({
+  const { data: items } = useQuery({
     queryKey: ['salesOrders', queryParams],
     queryFn: () => getSalesOrders(queryParams),
   });
 
   return (
-    <Stack spacing={10}>
+    <Stack spacing={5}>
       <SalesOrderSearchPanel
         queryParams={queryParams}
         setQueryParams={setQueryParams}
       />
 
       <Flex justifyContent="right">
-        <ButtonGroup size="md" isAttached variant="outline">
-          <Link href="/sales/orders/create">
-            <Button variant="solid" colorScheme="blue" leftIcon={<FiPlus />}>
-              Create
-            </Button>
-          </Link>
-        </ButtonGroup>
+        <Link href="/sales/orders/create">
+          <Button variant="solid" colorScheme="blue" leftIcon={<FiPlus />}>
+            Create
+          </Button>
+        </Link>
       </Flex>
 
-      <SalesOrderTable orders={orders} />
+      <SalesOrderTable items={items} />
     </Stack>
   );
 }

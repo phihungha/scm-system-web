@@ -19,8 +19,8 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { number, object, string } from 'yup';
+import { DialogProps } from '../types/dialog-props';
 import { currencySymbol } from '../utils/currency-formats';
-import { DialogProps } from './dialogs';
 import { SubtitleText } from './texts';
 
 export interface PaymentCompleteDialogProps extends DialogProps {
@@ -177,6 +177,16 @@ export function OrderReturnDialog(props: OrderProblemDialogProps) {
     <ProblemDialog
       title="Return order"
       description="Return this order due to problems. This action cannot be undone!"
+      {...props}
+    />
+  );
+}
+
+export function OrderRejectDialog(props: OrderProblemDialogProps) {
+  return (
+    <ProblemDialog
+      title="Reject order"
+      description="Reject this order. This action cannot be undone!"
       {...props}
     />
   );

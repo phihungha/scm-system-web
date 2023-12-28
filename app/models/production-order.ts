@@ -1,5 +1,5 @@
 import { OrderEvent, OrderEventCreateParams } from './event';
-import { ApprovalInfo } from './general';
+import { ApprovalInfo, ApprovalStatus } from './general';
 import {
   Order,
   OrderItem,
@@ -39,7 +39,7 @@ export interface ProductionOrderEventCreateParams
 export interface ProductionSupplyUsageItem {
   quantity: number;
   supply: Supply;
-  supplyId: string;
+  supplyId: number;
   totalCost: number;
   unit: string;
   unitCost: number;
@@ -78,4 +78,5 @@ export type ProductionOrderSearchCriteria = OrderSearchCriteria;
 
 export interface ProductionOrderQueryParams extends OrderQueryParams {
   searchCriteria?: ProductionOrderSearchCriteria;
+  approvalStatus?: ApprovalStatus[];
 }

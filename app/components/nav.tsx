@@ -6,6 +6,9 @@ import {
   CloseButton,
   Flex,
   Icon,
+  Tab,
+  TabList,
+  Tabs,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -16,9 +19,12 @@ import {
   FiBox,
   FiCpu,
   FiDownload,
+  FiDroplet,
+  FiGrid,
   FiHome,
   FiSettings,
   FiUpload,
+  FiUser,
 } from 'react-icons/fi';
 
 interface NavItemProps {
@@ -58,11 +64,14 @@ function NavItem({ href, icon, children }: NavItemProps) {
 
 const navbarItems = [
   { href: '/', name: 'Home', icon: FiHome },
-  { href: '/purchases/orders', name: 'Purchases', icon: FiDownload },
+  { href: '/purchases/requisitions', name: 'Purchases', icon: FiDownload },
   { href: '/production/orders', name: 'Production', icon: FiCpu },
   { href: '/sales/orders', name: 'Sales', icon: FiUpload },
-  { href: '/inventory/stock', name: 'Inventory', icon: FiBox },
+  { href: '/inventory/product-stock', name: 'Inventory', icon: FiGrid },
   { href: '/reports/sales', name: 'Reports', icon: FiBarChart },
+  { href: '/products', name: 'Products', icon: FiBox },
+  { href: '/supplies', name: 'Supplies', icon: FiDroplet },
+  { href: '/users', name: 'Users', icon: FiUser },
   { href: '/settings', name: 'Settings', icon: FiSettings },
 ];
 
@@ -95,5 +104,34 @@ export default function Sidebar({ onClose, ...rest }: SidebarProps) {
         </NavItem>
       ))}
     </Box>
+  );
+}
+
+export interface NavTabsProps {
+  items: NavTabProps[];
+}
+
+export function NavTabs({ items }: NavTabsProps) {
+  return (
+    <Tabs>
+      <TabList>
+        {items.map((item) => (
+          <NavTab key={item.url} url={item.url} name={item.name} />
+        ))}
+      </TabList>
+    </Tabs>
+  );
+}
+
+interface NavTabProps {
+  url: string;
+  name: string;
+}
+
+function NavTab({ url, name }: NavTabProps) {
+  return (
+    <Link href={url}>
+      <Tab>{name}</Tab>
+    </Link>
   );
 }

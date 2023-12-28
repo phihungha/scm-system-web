@@ -15,24 +15,27 @@ export interface AutoCompleteSelectItem {
 }
 
 export interface AutoCompleteSelectProps {
+  id?: string;
+  name?: string;
   items: AutoCompleteSelectItem[];
-  selectedId?: number;
   placeholder?: string;
   isDisabled?: boolean;
-  onSelect: (id: number) => void;
+  value?: number;
+  onChange: (id: number) => void;
 }
 
 export function AutoCompleteSelect(props: AutoCompleteSelectProps) {
-  // Bug lạ: value của AutoComplete gây lỗi Ke is not iterable khi để selectedId vào.
-  const selectedItem = props.items.find((i) => i.name);
+  const selectedItemName = props.items.find((i) => i.id === props.value)?.name;
 
   return (
     <AutoComplete
       openOnFocus
-      defaultValues={[selectedItem?.name]}
-      onChange={(value: string) => props.onSelect(+value)}
+      onChange={(value: string) => props.onChange(+value)}
+      value={selectedItemName}
     >
       <AutoCompleteInput
+        id={props.id}
+        name={props.name}
         placeholder={props.placeholder}
         variant="filled"
         isDisabled={props.isDisabled}
