@@ -37,6 +37,9 @@ function UserMenu() {
       router.replace('/sign-in');
     },
   });
+  const handleItemClick = () => {
+    router.push('/settings');
+  };
 
   return (
     <MenuList
@@ -44,7 +47,7 @@ function UserMenu() {
       borderColor={useColorModeValue('gray.200', 'gray.700')}
     >
       <MenuItem>Profile</MenuItem>
-      <MenuItem>Settings</MenuItem>
+      <MenuItem onClick={handleItemClick}>Settings</MenuItem>
       <MenuDivider />
       <MenuItem onClick={() => reqSignOut()}>Sign out</MenuItem>
     </MenuList>
