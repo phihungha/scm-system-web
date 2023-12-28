@@ -70,7 +70,12 @@ export default function ImageSelector(props: ImageSelectorProps) {
         onChange={(e) => onFileSelect(e.target.files)}
       />
 
-      <Image fallbackSrc={fallbackImageUrl} src={imageUrl} />
+      <Image
+        boxSize={props.size}
+        objectFit="contain"
+        fallbackSrc={fallbackImageUrl}
+        src={imageUrl}
+      />
 
       <Flex gap={2}>
         {negativeButton}
