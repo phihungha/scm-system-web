@@ -1,5 +1,5 @@
 'use client';
-
+import { createPurchaseOrder } from '@/app/api/purchase-order';
 import {
   approvePurchaseRequisition,
   cancelPurchaseRequisition,
@@ -29,12 +29,14 @@ import {
   TitleText,
 } from '@/app/components/texts';
 import { ProductionFacility } from '@/app/models/production-facility';
+import { PurchaseOrderItemParams } from '@/app/models/purchase-order';
 import { PurchaseRequisitionItem } from '@/app/models/purchase-requisition';
 import { DetailsPageProps } from '@/app/types/page-props';
 import { dateToFullFormat } from '@/app/utils/time-formats';
 import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Box, Flex, Grid, Stack, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import PurchaseRequisitionItemsPanel from '../components/PurchaseRequisitionItemsPanel';
@@ -44,7 +46,7 @@ export default function PurchaseRequisitionDetailsPage({
   params,
 }: DetailsPageProps) {
   const orderId = params.id;
-
+  const router = useRouter();
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -65,6 +67,20 @@ export default function PurchaseRequisitionDetailsPage({
   });
 
   // Info
+
+  const { mutate: createOrder, isLoading } = useMutation(
+    (purchaseItems: PurchaseOrderItemParams[]) =>
+      createPurchaseOrder({
+        items: purchaseItems,
+        purchaseRequisitionId: orderId,
+      }),
+    {
+      onSuccess: (resp) => {
+        showSuccessToast(toast, { title: 'Order successfully created!' });
+        router.replace(`purchases/orders/${resp.id}`);
+      },
+    },
+  );
 
   const { mutate: approveOrder, isLoading: isApproveLoading } = useMutation(
     () => approvePurchaseRequisition(orderId),
@@ -120,6 +136,16 @@ export default function PurchaseRequisitionDetailsPage({
 
   if (order === undefined) {
     return <LoadingPage />;
+  }
+  function onCreate(items: PurchaseRequisitionItem[]) {
+    const newList: PurchaseOrderItemParams[] = [];
+    items.forEach((item) => {
+      newList.push({
+        itemId: item.supply.id,
+        discount: 0,
+      });
+    });
+    createOrder(newList);
   }
 
   return (
@@ -182,7 +208,7 @@ export default function PurchaseRequisitionDetailsPage({
 
         {/* Items */}
         <PurchaseRequisitionItemsPanel
-          isDisabled={!order.isExecutionInfoUpdateAllowed}
+          isDisabled={!order.isInfoUpdateAllowed}
           items={items}
           onItemsChange={setItems}
         />
@@ -197,6 +223,7 @@ export default function PurchaseRequisitionDetailsPage({
             colorScheme="blue"
             buttonText="Approved"
             isLoading={isApproveLoading}
+            isDisabled={!order.isApprovalAllowed}
             onClick={() => approveOrder()}
           >
             Mark the approval status of this requisition as approved.
@@ -221,6 +248,18 @@ export default function PurchaseRequisitionDetailsPage({
         </ActionButtonSection>
 
         <ActionButtonSection>
+          <SectionText>Create</SectionText>
+          <ActionButtonRow
+            colorScheme="red"
+            buttonText="Create"
+            isDisabled="isPurchaseOrderCreateAllowed"
+            onClick={() => onCreate(items)}
+          >
+            Create Purchase Order
+          </ActionButtonRow>
+        </ActionButtonSection>
+
+        <ActionButtonSection>
           <SectionText>Cancel</SectionText>
           <OrderCancelDialog
             display={displayCancelDialog}
@@ -231,6 +270,7 @@ export default function PurchaseRequisitionDetailsPage({
           <ActionButtonRow
             colorScheme="red"
             buttonText="Cancel"
+            isDisabled={!order.isCancelAllowed}
             onClick={() => setDisplayCancelDialog(true)}
           >
             Cancel the purchase requisition. This action cannot be undone!

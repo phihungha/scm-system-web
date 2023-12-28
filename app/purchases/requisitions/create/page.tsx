@@ -65,7 +65,7 @@ export default function PurchaseRequisitionCreatePage() {
           </SubtitleText>
         </Stack>
 
-        <Grid templateRows="repeat(4, 1fr)" templateColumns="300px 1fr" gap={5}>
+        <Grid templateRows="repeat(1, 1fr)" templateColumns="100px 1fr" gap={5}>
           <FormLabelText>Vendor:</FormLabelText>
           {vendors ? (
             <AutoCompleteSelect

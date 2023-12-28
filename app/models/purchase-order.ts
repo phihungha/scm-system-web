@@ -38,7 +38,7 @@ export interface PurchaseOrderCreateParams {
   items: PurchaseOrderItemParams[];
   additionalDiscount?: number;
   fromLocation?: string;
-  purchaseRequisitionId?: number;
+  purchaseRequisitionId: number;
 }
 
 export interface PurchaseOrderItemParams {

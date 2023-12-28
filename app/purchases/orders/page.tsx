@@ -54,10 +54,10 @@ function PurchaseOrderTableItem({ item }: { item: PurchaseOrder }) {
       <Td>
         <PaymentStatusBadge status={item.paymentStatus}></PaymentStatusBadge>
       </Td>
-      <Td>{CurrencyFormat.format(item.totalAmount)}</Td>
-      <Td>{CurrencyFormat.format(item.remainingAmount)}</Td>
+      <Td>{CurrencyFormat.format(item.discountAmount)}</Td>
+      <Td>{CurrencyFormat.format(item.discountSubtotal)}</Td>
       <Td>
-        <Link href={`/sales/orders/${item.id}`}>
+        <Link href={`/purchases/orders/${item.id}`}>
           <Button variant="solid" colorScheme="blue">
             View
           </Button>
@@ -79,8 +79,8 @@ function PurchaseOrderTable({ items: items }: { items?: PurchaseOrder[] }) {
             <Th>Facility</Th>
             <Th>Status</Th>
             <Th>Payment status</Th>
-            <Th>Total</Th>
-            <Th>Remaining</Th>
+            <Th>Discount Amount</Th>
+            <Th>Total Discount</Th>
             <Th></Th>
           </Tr>
         </Thead>

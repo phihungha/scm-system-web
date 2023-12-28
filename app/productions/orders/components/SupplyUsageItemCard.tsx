@@ -23,7 +23,9 @@ export default function ProductionSupplyUsageItemsPanel({
   return (
     <Stack spacing={5}>
       <SectionText>Supply Usage Items</SectionText>
-      {items?.map((item) => <ProductionSupplyUsageItemCard props={item} />)}
+      {items?.map((item) => (
+        <ProductionSupplyUsageItemCard key={item.supplyId} props={item} />
+      ))}
     </Stack>
   );
 }

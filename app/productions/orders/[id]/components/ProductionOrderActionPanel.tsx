@@ -1,17 +1,12 @@
 import {
   approveProductionOrder,
   cancelProductionOrder,
-  completeProductionOrder,
-  finishProductionOrder,
   rejectProductionOrder,
-  returnProductionOrder,
-  startProductionOrder,
 } from '@/app/api/production-order';
 import { ActionButtonRow, ActionButtonSection } from '@/app/components/buttons';
 import {
   OrderCancelDialog,
   OrderRejectDialog,
-  OrderReturnDialog,
 } from '@/app/components/order-dialogs';
 import { SectionText } from '@/app/components/texts';
 import { ProductionOrder } from '@/app/models/production-order';
@@ -31,21 +26,10 @@ export default function ProductionOrderActionPanel({
 
   const [displayRejectDialog, setDisplayRejectDialog] = useState(false);
   const [displayCancelDialog, setDisplayCancelDialog] = useState(false);
-  const [displayReturnDialog, setDisplayReturnDialog] = useState(false);
 
   const toast = useToast();
   const queryClient = useQueryClient();
   const queryKey = ['productionOrder', orderId];
-
-  const {
-    mutate: finishOrderDelivery,
-    isLoading: isFinishOrderDeliveryLoading,
-  } = useMutation(() => finishProductionOrder(orderId), {
-    onSuccess: (resp) => {
-      queryClient.setQueryData(queryKey, resp);
-      showSuccessToast(toast);
-    },
-  });
 
   const { mutate: approveOrder, isLoading: isApproveOrderLoading } =
     useMutation(() => approveProductionOrder(orderId), {
@@ -54,35 +38,6 @@ export default function ProductionOrderActionPanel({
         showSuccessToast(toast);
       },
     });
-
-  const { mutate: startOrder, isLoading: isStartOrderLoading } = useMutation(
-    () => startProductionOrder(orderId),
-    {
-      onSuccess: (resp) => {
-        queryClient.setQueryData(queryKey, resp);
-        showSuccessToast(toast);
-      },
-    },
-  );
-
-  const { mutate: completeOrder, isLoading: isCompleteOrderLoading } =
-    useMutation(() => completeProductionOrder(orderId), {
-      onSuccess: (resp) => {
-        queryClient.setQueryData(queryKey, resp);
-        showSuccessToast(toast);
-      },
-    });
-
-  const { mutate: returnOrder, isLoading: isReturnOrderLoading } = useMutation(
-    returnProductionOrder,
-    {
-      onSuccess: (resp) => {
-        queryClient.setQueryData(queryKey, resp);
-        showSuccessToast(toast);
-        setDisplayReturnDialog(false);
-      },
-    },
-  );
 
   const { mutate: rejectOrder, isLoading: isRejectOrderLoading } = useMutation(
     rejectProductionOrder,
@@ -111,6 +66,7 @@ export default function ProductionOrderActionPanel({
       <ActionButtonSection>
         <SectionText>Approval</SectionText>
         <ActionButtonRow
+          isDisabled={!order.isApprovalAllowed}
           colorScheme="blue"
           buttonText="Approved"
           isLoading={isApproveOrderLoading}
@@ -134,54 +90,6 @@ export default function ProductionOrderActionPanel({
       </ActionButtonSection>
 
       <ActionButtonSection>
-        <SectionText>Excution</SectionText>
-
-        <ActionButtonRow
-          colorScheme="blue"
-          buttonText="Start Execution"
-          isLoading={isStartOrderLoading}
-          onClick={() => startOrder()}
-        >
-          Mark the execution of this order as started.
-        </ActionButtonRow>
-
-        <ActionButtonRow
-          colorScheme="teal"
-          buttonText="Finish execution"
-          isLoading={isFinishOrderDeliveryLoading}
-          onClick={() => finishOrderDelivery()}
-        >
-          Mark the execution of this order as finished.
-        </ActionButtonRow>
-      </ActionButtonSection>
-
-      <ActionButtonSection>
-        <SectionText>Acceptance</SectionText>
-        <ActionButtonRow
-          colorScheme="green"
-          buttonText="Complete"
-          isLoading={isCompleteOrderLoading}
-          onClick={() => completeOrder()}
-        >
-          Confirm that the order is completed.
-        </ActionButtonRow>
-
-        <OrderReturnDialog
-          display={displayReturnDialog}
-          onClose={() => setDisplayReturnDialog(false)}
-          isLoading={isReturnOrderLoading}
-          onSubmit={(problem) => returnOrder({ id: orderId, problem })}
-        />
-        <ActionButtonRow
-          colorScheme="purple"
-          buttonText="Return"
-          onClick={() => setDisplayReturnDialog(true)}
-        >
-          Mark order as returned due to problems.
-        </ActionButtonRow>
-      </ActionButtonSection>
-
-      <ActionButtonSection>
         <SectionText>Cancel</SectionText>
         <OrderCancelDialog
           display={displayCancelDialog}
@@ -190,6 +98,7 @@ export default function ProductionOrderActionPanel({
           onSubmit={(problem) => cancelOrder({ id: orderId, problem })}
         />
         <ActionButtonRow
+          isDisabled={!order.isCancelAllowed}
           colorScheme="red"
           buttonText="Cancel"
           onClick={() => setDisplayCancelDialog(true)}
