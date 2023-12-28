@@ -25,10 +25,9 @@ export default function FacilitiesCreatePage() {
   return (
     <Stack p={5} spacing={5}>
       <Stack spacing={5}>
-        <TitleText>Create Production-facilities</TitleText>
+        <TitleText>Create Production Facility</TitleText>
         <SubtitleText>
-          Create a new Production-facilities. Please enter the information
-          below.
+          Create a new Production Facility. Please enter the information below.
         </SubtitleText>
       </Stack>
 

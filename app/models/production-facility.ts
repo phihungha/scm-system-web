@@ -11,7 +11,6 @@ export interface ProductionFacility extends CreateUpdateTime, SoftDeletable {
   location: string;
   email: string;
   phoneNumber: string;
-  contactPerson: string;
 }
 
 export interface ProductionFacilityCreateParams extends SoftDeletableParams {

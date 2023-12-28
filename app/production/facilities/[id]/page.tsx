@@ -26,7 +26,7 @@ export default function FacilitiesDetailsPage({
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const queryKey = ['productfacilities', itemId];
+  const queryKey = ['ProductionFacilities', itemId];
 
   const { data: item } = useQuery({
     queryKey,
@@ -51,9 +51,9 @@ export default function FacilitiesDetailsPage({
     <Box p={5}>
       <Stack spacing={10}>
         <Stack spacing={5}>
-          <TitleText>Supply #{item.id}</TitleText>
+          <TitleText>Production Facility #{item.id}</TitleText>
           <SubtitleText>
-            Manage and view the details of this supply.
+            Manage and view the details of this production facility.
           </SubtitleText>
           <SubtitleText fontStyle="italic">
             Created on {dateToFullFormat(item.createTime)}.{' '}

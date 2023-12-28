@@ -25,11 +25,9 @@ function SupplyTableItem({ item }: { item: ProductionFacility }) {
     <Tr>
       <Td>{item.id}</Td>
       <Td>{item.name}</Td>
-      <Td>{item.description}</Td>
       <Td>{item.location}</Td>
       <Td>{item.email}</Td>
       <Td>{item.phoneNumber}</Td>
-      <Td>{item.contactPerson}</Td>
       <Td>
         <Link href={`/production/facilities/${item.id}`}>
           <Button variant="solid" colorScheme="blue">
@@ -41,13 +39,6 @@ function SupplyTableItem({ item }: { item: ProductionFacility }) {
   );
 }
 
-// id: number;
-// name: string;
-// description: string;
-// location: string;
-// email: string;
-// phoneNumber: string;
-// contactPerson: string;
 function FacilitiesFormTable({ items }: { items?: ProductionFacility[] }) {
   return (
     <TableContainer>
@@ -56,11 +47,9 @@ function FacilitiesFormTable({ items }: { items?: ProductionFacility[] }) {
           <Tr>
             <Th>ID</Th>
             <Th>Name</Th>
-            <Th>DESCRIPTION</Th>
-            <Th>location</Th>
-            <Th>email</Th>
-            <Th>phoneNumber</Th>
-            <Th>contactPerson</Th>
+            <Th>Location</Th>
+            <Th>Email</Th>
+            <Th>PhoneNumber</Th>
           </Tr>
         </Thead>
         <Tbody>
