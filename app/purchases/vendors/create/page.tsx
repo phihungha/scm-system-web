@@ -6,7 +6,7 @@ import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Stack, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
-import SupplyForm from '../../vendors/components/venderForm';
+import VendorForm from '../components/VendorForm';
 
 export default function VendorCreatePage() {
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function VendorCreatePage() {
         </SubtitleText>
       </Stack>
 
-      <SupplyForm isLoading={isLoading} onSubmit={createItem} />
+      <VendorForm isLoading={isLoading} onSubmit={createItem} />
     </Stack>
   );
 }

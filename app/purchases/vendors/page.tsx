@@ -19,19 +19,14 @@ import { getVendors } from '../../api/vendor';
 import SimpleItemSearchPanel from '../../components/SimpleItemSearchPanel';
 import { SimpleItemQueryParams } from '../../models/general';
 import { Vendor } from '../../models/vendor';
-import { dateToDateFormat } from '../../utils/time-formats';
 
 function VendorTableItem({ item }: { item: Vendor }) {
   return (
     <Tr>
       <Td>{item.id}</Td>
       <Td>{item.name}</Td>
-      <Td>{item.description}</Td>
-      <Td>{item.defaultLocation}</Td>
       <Td>{item.email}</Td>
       <Td>{item.phoneNumber}</Td>
-      <Td>{dateToDateFormat(item.createTime)}</Td>
-      <Td>{item.updateTime ? dateToDateFormat(item.updateTime) : ''}</Td>
       <Td>{item.contactPerson}</Td>
       <Td>
         <Link href={`/purchases/vendors/${item.id}`}>
@@ -44,13 +39,6 @@ function VendorTableItem({ item }: { item: Vendor }) {
   );
 }
 
-// id: number;
-// name: string;
-// description: string;
-// location: string;
-// email: string;
-// phoneNumber: string;
-// contactPerson: string;
 function VendorTable({ items }: { items?: Vendor[] }) {
   return (
     <TableContainer>
@@ -59,13 +47,9 @@ function VendorTable({ items }: { items?: Vendor[] }) {
           <Tr>
             <Th>ID</Th>
             <Th>Name</Th>
-            <Th>DESCRIPTION</Th>
-            <Th>location</Th>
-            <Th>email</Th>
-            <Th>phoneNumber</Th>
-            <Td>createTime</Td>
-            <Td>updateTime</Td>
-            <Th>contactPerson</Th>
+            <Th>Email</Th>
+            <Th>Phone number</Th>
+            <Th>Contact person</Th>
           </Tr>
         </Thead>
         <Tbody>

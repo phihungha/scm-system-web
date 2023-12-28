@@ -41,7 +41,7 @@ export default function SupplyForm(props: FacilitiesFormProps) {
     name: string().label('Name').required(),
     description: string().label('Description').required(),
     location: string().label('Location').required(),
-    email: string().label('Email').required(),
+    email: string().label('Email').required().email(),
     phoneNumber: number().label('PhoneNumber'),
     isActive: boolean().label('Is active'),
   });
@@ -52,7 +52,7 @@ export default function SupplyForm(props: FacilitiesFormProps) {
       validationSchema={formValidationSchema}
       onSubmit={(input) => props.onSubmit(input)}
     >
-      {({ handleSubmit, errors, touched, values, setFieldValue }) => (
+      {({ handleSubmit, errors, touched }) => (
         <form method="POST" onSubmit={handleSubmit}>
           <Stack spacing={5}>
             <FormControl isInvalid={!!errors.name && touched.name}>
