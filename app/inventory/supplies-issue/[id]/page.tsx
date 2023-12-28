@@ -68,15 +68,6 @@ export default function SuppliesIssueDetailsPage(props: DetailsPageProps) {
           <FormLabelText>Production Facility:</FormLabelText>
           <FormValueText>{order.productionFacility?.name}</FormValueText>
 
-          <FormLabelText>From location:</FormLabelText>
-          <FormValueText>{order.fromLocation}</FormValueText>
-
-          <FormLabelText>Customer:</FormLabelText>
-          <FormValueText>{order.customer.name}</FormValueText>
-
-          <FormLabelText>To location:</FormLabelText>
-          <FormValueText>{order.toLocation}</FormValueText>
-
           <FormLabelText>Status:</FormLabelText>
           <FormValueText>
             <InventoryIssueStatusBadge status={order.status} />

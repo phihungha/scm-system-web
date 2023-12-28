@@ -42,7 +42,7 @@ export default function SuppliesReceiveDetailsPage(props: DetailsPageProps) {
   });
 
   const { mutate: completeOrder, isLoading: isReceiveOrderLoading } =
-    useMutation(() => completePurchaseOrder(orderId, false), {
+    useMutation(() => completePurchaseOrder({id: orderId, hasInvoice: false }), {
       onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
         showSuccessToast(toast, {

@@ -11,7 +11,7 @@ import { dateToFullFormat } from '@/app/utils/time-formats';
 import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Box, Stack, useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import SupplyForm from '../../components/FacilitiesForm';
+import SupplyForm from '../../components/facilitiesForm';
 
 export default function FacilitiesDetailsPage({ params }: DetailsPageProps) {
   const itemId = params.id;
