@@ -16,6 +16,11 @@ import {
   InputGroup,
   InputRightAddon,
   Link,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Stack,
   Text,
   Textarea,
@@ -72,10 +77,11 @@ export default function SupplyForm(props: SupplyFormProps) {
       {({ handleSubmit, errors, touched, values, setFieldValue }) => (
         <form method="POST" onSubmit={handleSubmit}>
           <Stack spacing={5}>
-            <FormControl isInvalid={!!errors.name && touched.name}>
-              <FormLabel htmlFor="name">Vendor:</FormLabel>
+            <FormControl isInvalid={!!errors.vendorId && touched.vendorId}>
+              <FormLabel htmlFor="vendor">Vendor:</FormLabel>
               {vendors ? (
                 <AutoCompleteSelect
+                  name="vendor"
                   items={vendors}
                   value={values.vendorId}
                   placeholder="Select a vendor..."
@@ -110,6 +116,30 @@ export default function SupplyForm(props: SupplyFormProps) {
               <FormLabel htmlFor="unit">Unit</FormLabel>
               <Field as={Input} id="unit" name="unit" variant="filled" />
               <FormErrorMessage>{errors.unit}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl
+              isInvalid={!!errors.expirationMonth && touched.expirationMonth}
+            >
+              <FormLabel htmlFor="expirationMonth">Expiration month</FormLabel>
+              <NumberInput
+                id="expirationMonth"
+                name="expirationMonth"
+                allowMouseWheel
+                min={1}
+                value={values.expirationMonth}
+                onChange={(_, value) =>
+                  // Don't update if number box is empty.
+                  value && setFieldValue('expirationMonth', value)
+                }
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+              <FormErrorMessage>{errors.expirationMonth}</FormErrorMessage>
             </FormControl>
 
             <FormControl
