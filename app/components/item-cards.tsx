@@ -13,6 +13,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { BsXLg } from 'react-icons/bs';
+import { fallbackImageUrl } from '../values';
 
 export interface ItemDisplayCardProps {
   name: string;
@@ -74,6 +75,7 @@ export function ItemEditCard(props: ItemEditCardProps) {
         objectFit="cover"
         w={{ base: '100%', sm: '200px' }}
         src={props.imageUrl}
+        fallbackSrc={fallbackImageUrl}
         alt={props.name}
       />
 
@@ -89,6 +91,8 @@ export function ItemEditCard(props: ItemEditCardProps) {
               <NumberInput
                 id={`item-quantity-${props.id}`}
                 name={`item-quantity-${props.id}`}
+                allowMouseWheel
+                step={10}
                 isRequired={true}
                 min={1}
                 value={props.quantity}

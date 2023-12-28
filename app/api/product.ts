@@ -1,4 +1,4 @@
-import { SimpleItemQueryParams } from '../models/general';
+import { SimpleItemQueryParams, UploadInfo } from '../models/general';
 import {
   Product,
   ProductCreateParams,
@@ -23,5 +23,10 @@ export async function createProduct(params: ProductCreateParams) {
 
 export async function updateProduct({ id, ...params }: ProductUpdateParams) {
   const response = await apiClient.patch<Product>(`Products/${id}`, params);
+  return response.data;
+}
+
+export async function getProductImageUploadInfo() {
+  const response = await apiClient.get<UploadInfo>(`Products/ImageUploadUrl`);
   return response.data;
 }
