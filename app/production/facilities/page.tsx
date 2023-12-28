@@ -20,7 +20,7 @@ import SimpleItemSearchPanel from '../../components/SimpleItemSearchPanel';
 import { SimpleItemQueryParams } from '../../models/general';
 import { ProductionFacility } from '../../models/production-facility';
 
-function SupplyTableItem({ item }: { item: ProductionFacility }) {
+function FacilityTableItem({ item }: { item: ProductionFacility }) {
   return (
     <Tr>
       <Td>{item.id}</Td>
@@ -39,7 +39,7 @@ function SupplyTableItem({ item }: { item: ProductionFacility }) {
   );
 }
 
-function FacilitiesFormTable({ items }: { items?: ProductionFacility[] }) {
+function FacilityTable({ items }: { items?: ProductionFacility[] }) {
   return (
     <TableContainer>
       <Table>
@@ -53,7 +53,9 @@ function FacilitiesFormTable({ items }: { items?: ProductionFacility[] }) {
           </Tr>
         </Thead>
         <Tbody>
-          {items?.map((item) => <SupplyTableItem key={item.id} item={item} />)}
+          {items?.map((item) => (
+            <FacilityTableItem key={item.id} item={item} />
+          ))}
         </Tbody>
       </Table>
     </TableContainer>
@@ -87,7 +89,7 @@ export default function ProductionFacilitiesPage() {
         </Link>
       </Flex>
 
-      <FacilitiesFormTable items={items} />
+      <FacilityTable items={items} />
     </Stack>
   );
 }

@@ -6,21 +6,14 @@ import {
 } from '@/app/api/production-facility';
 import { LoadingPage } from '@/app/components/spinners';
 import { SubtitleText, TitleText } from '@/app/components/texts';
+import { DetailsPageProps } from '@/app/types/page-props';
 import { dateToFullFormat } from '@/app/utils/time-formats';
 import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Box, Stack, useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import SupplyForm from '../../components/facilitiesForm';
+import SupplyForm from '../../components/FacilitiesForm';
 
-interface FacilitiesDetailsPageProps {
-  params: {
-    id: number;
-  };
-}
-
-export default function FacilitiesDetailsPage({
-  params,
-}: FacilitiesDetailsPageProps) {
+export default function FacilitiesDetailsPage({ params }: DetailsPageProps) {
   const itemId = params.id;
 
   const queryClient = useQueryClient();

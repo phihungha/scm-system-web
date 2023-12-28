@@ -6,7 +6,7 @@ import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Stack, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
-import FacilitiesForm from '../../components/facilitiesForm';
+import FacilitiesForm from '../../components/FacilitiesForm';
 
 export default function FacilitiesCreatePage() {
   const router = useRouter();
