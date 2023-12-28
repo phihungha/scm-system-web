@@ -15,21 +15,21 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useQuery } from 'react-query';
-import { getCustomers } from '../../api/customer';
+import { getProductionFacilities } from '../../api/production-facility';
 import SimpleItemSearchPanel from '../../components/SimpleItemSearchPanel';
-import { Customer } from '../../models/customer';
 import { SimpleItemQueryParams } from '../../models/general';
+import { ProductionFacility } from '../../models/production-facility';
 
-function CustomerTableItem({ item }: { item: Customer }) {
+function FacilityTableItem({ item }: { item: ProductionFacility }) {
   return (
     <Tr>
       <Td>{item.id}</Td>
       <Td>{item.name}</Td>
+      <Td>{item.location}</Td>
       <Td>{item.email}</Td>
       <Td>{item.phoneNumber}</Td>
-      <Td>{item.contactPerson}</Td>
       <Td>
-        <Link href={`/sales/customers/${item.id}`}>
+        <Link href={`/production/facilities/${item.id}`}>
           <Button variant="solid" colorScheme="blue">
             View
           </Button>
@@ -39,7 +39,7 @@ function CustomerTableItem({ item }: { item: Customer }) {
   );
 }
 
-function CustomerTable({ items }: { items?: Customer[] }) {
+function FacilityTable({ items }: { items?: ProductionFacility[] }) {
   return (
     <TableContainer>
       <Table>
@@ -47,14 +47,14 @@ function CustomerTable({ items }: { items?: Customer[] }) {
           <Tr>
             <Th>ID</Th>
             <Th>Name</Th>
+            <Th>Location</Th>
             <Th>Email</Th>
-            <Th>Phone number</Th>
-            <Th>Contact person</Th>
+            <Th>PhoneNumber</Th>
           </Tr>
         </Thead>
         <Tbody>
           {items?.map((item) => (
-            <CustomerTableItem key={item.id} item={item} />
+            <FacilityTableItem key={item.id} item={item} />
           ))}
         </Tbody>
       </Table>
@@ -62,7 +62,7 @@ function CustomerTable({ items }: { items?: Customer[] }) {
   );
 }
 
-export default function CustomerPage() {
+export default function ProductionFacilitiesPage() {
   const [queryParams, setQueryParams] = useState<SimpleItemQueryParams>({
     searchTerm: '',
     searchCriteria: 'Id',
@@ -70,8 +70,8 @@ export default function CustomerPage() {
   });
 
   const { data: items } = useQuery({
-    queryKey: ['customers', queryParams],
-    queryFn: () => getCustomers(queryParams),
+    queryKey: ['productionFacilities', queryParams],
+    queryFn: () => getProductionFacilities(queryParams),
   });
 
   return (
@@ -82,14 +82,14 @@ export default function CustomerPage() {
       />
 
       <Flex justifyContent="right">
-        <Link href="/sales/customers/create">
+        <Link href="/production/facilities/create">
           <Button variant="solid" colorScheme="blue" leftIcon={<FiPlus />}>
             Create
           </Button>
         </Link>
       </Flex>
 
-      <CustomerTable items={items} />
+      <FacilityTable items={items} />
     </Stack>
   );
 }

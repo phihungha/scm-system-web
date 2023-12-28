@@ -28,6 +28,7 @@ export async function createProductionFacility(
     'ProductionFacilities',
     params,
   );
+  console.log(params);
   return response.data;
 }
 
