@@ -6,7 +6,7 @@ import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Stack, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
-import CustomerForm from '../../customers/components/customerForm';
+import CustomerForm from '../components/CustomerForm';
 
 export default function CustomerCreatePage() {
   const router = useRouter();

@@ -20,13 +20,11 @@ import SimpleItemSearchPanel from '../../components/SimpleItemSearchPanel';
 import { Customer } from '../../models/customer';
 import { SimpleItemQueryParams } from '../../models/general';
 
-function SupplyTableItem({ item }: { item: Customer }) {
+function CustomerTableItem({ item }: { item: Customer }) {
   return (
     <Tr>
       <Td>{item.id}</Td>
       <Td>{item.name}</Td>
-      <Td>{item.description}</Td>
-      <Td>{item.defaultLocation}</Td>
       <Td>{item.email}</Td>
       <Td>{item.phoneNumber}</Td>
       <Td>{item.contactPerson}</Td>
@@ -41,13 +39,6 @@ function SupplyTableItem({ item }: { item: Customer }) {
   );
 }
 
-// id: number;
-// name: string;
-// description: string;
-// location: string;
-// email: string;
-// phoneNumber: string;
-// contactPerson: string;
 function CustomerTable({ items }: { items?: Customer[] }) {
   return (
     <TableContainer>
@@ -56,15 +47,15 @@ function CustomerTable({ items }: { items?: Customer[] }) {
           <Tr>
             <Th>ID</Th>
             <Th>Name</Th>
-            <Th>DESCRIPTION</Th>
-            <Th>location</Th>
-            <Th>email</Th>
-            <Th>phoneNumber</Th>
-            <Th>contactPerson</Th>
+            <Th>Email</Th>
+            <Th>Phone number</Th>
+            <Th>Contact person</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {items?.map((item) => <SupplyTableItem key={item.id} item={item} />)}
+          {items?.map((item) => (
+            <CustomerTableItem key={item.id} item={item} />
+          ))}
         </Tbody>
       </Table>
     </TableContainer>

@@ -3,27 +3,20 @@
 import { getCustomer, updateCustomer } from '@/app/api/customer';
 import { LoadingPage } from '@/app/components/spinners';
 import { SubtitleText, TitleText } from '@/app/components/texts';
+import { DetailsPageProps } from '@/app/types/page-props';
 import { dateToFullFormat } from '@/app/utils/time-formats';
 import { showSuccessToast } from '@/app/utils/toast-messages';
 import { Box, Stack, useToast } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import CustomerForm from '../../customers/components/customerForm';
+import CustomerForm from '../components/CustomerForm';
 
-interface CustomerDetailsPageProps {
-  params: {
-    id: number;
-  };
-}
-
-export default function CustomerDetailsPage({
-  params,
-}: CustomerDetailsPageProps) {
+export default function CustomerDetailsPage({ params }: DetailsPageProps) {
   const itemId = params.id;
 
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const queryKey = ['productfacilities', itemId];
+  const queryKey = ['customers', itemId];
 
   const { data: item } = useQuery({
     queryKey,
@@ -45,9 +38,9 @@ export default function CustomerDetailsPage({
     <Box p={5}>
       <Stack spacing={10}>
         <Stack spacing={5}>
-          <TitleText>Supply #{item.id}</TitleText>
+          <TitleText>Customer #{item.id}</TitleText>
           <SubtitleText>
-            Manage and view the details of this supply.
+            Manage and view the details of this customer.
           </SubtitleText>
           <SubtitleText fontStyle="italic">
             Created on {dateToFullFormat(item.createTime)}.{' '}
