@@ -8,6 +8,7 @@ import {
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
 import CurrencyFormat from '../utils/currency-formats';
+import { fallbackImageUrl } from '../values';
 
 export interface AutoCompleteSelectItem {
   id: number;
@@ -66,6 +67,7 @@ export function AutoCompleteItemPreview(props: AutoCompleteItemPreviewProps) {
       <Image
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
+        fallbackSrc={fallbackImageUrl}
         src={props.imageUrl}
         alt={props.name}
       />
