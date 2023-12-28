@@ -31,10 +31,10 @@ export async function updatePassword({
   id,
   ...params
 }: UserPasswordUpdateParams) {
-  const response = await apiClient.put<User>(`Users/${id}`, params);
-  return response.data;
+  await apiClient.put<User>(`Users/${id}`, params);
 }
 
 export async function getUserImageUploadInfo() {
-  await apiClient.put<UploadInfo>(`Users/ImageUploadUrl`);
+  const response = await apiClient.get<UploadInfo>(`Users/ImageUploadUrl`);
+  return response.data;
 }

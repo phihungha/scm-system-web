@@ -49,6 +49,7 @@ export default function SupplyForm(props: SupplyFormProps) {
 
   // Các giá trị ban đầu của form.
   const initialFormValues = {
+    imageName: item?.imageName,
     vendorId: item?.vendorId,
     expirationMonth: item?.expirationMonth ?? 12,
     name: item?.name ?? '',
@@ -83,7 +84,6 @@ export default function SupplyForm(props: SupplyFormProps) {
             <ImageSelector
               size={250}
               url={item?.imageUrl}
-              name={item?.imageName}
               file={props.imageFile}
               onSelect={props.onImageFileSelected}
             />

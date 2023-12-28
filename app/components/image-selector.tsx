@@ -5,7 +5,6 @@ import { useRef } from 'react';
 import { fallbackImageUrl } from '../values';
 
 export interface ImageSelectorProps {
-  name?: string;
   url?: string;
   size?: number;
   file?: File | null;

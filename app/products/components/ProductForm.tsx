@@ -90,7 +90,6 @@ export default function ProductForm(props: ProductFormProps) {
             <ImageSelector
               size={250}
               url={item?.imageUrl}
-              name={item?.imageName}
               file={props.imageFile}
               onSelect={props.onImageFileSelected}
             />

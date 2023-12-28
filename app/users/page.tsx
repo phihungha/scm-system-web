@@ -44,7 +44,6 @@ function UserTableItem({ item }: { item: User }) {
       <Td>{item.email ?? 'None'}</Td>
       <Td>{item.phoneNumber ?? 'None'}</Td>
       <Td>{item.productionFacility?.name ?? 'None'}</Td>
-      <Td>{item.roles.length > 0 ? item.roles[0] : 'None'}</Td>
       <Td>
         <Link href={`/users/${item.id}`}>
           <Button variant="solid" colorScheme="blue">
@@ -68,7 +67,6 @@ function UserTable({ items }: { items?: User[] }) {
             <Th>Email</Th>
             <Th>Phone number</Th>
             <Th>Production facility</Th>
-            <Th>Main role</Th>
             <Th></Th>
           </Tr>
         </Thead>
