@@ -70,6 +70,7 @@ export default function ImageSelector(props: ImageSelectorProps) {
 
       <Image
         boxSize={props.size}
+        alt={props.url}
         objectFit="contain"
         fallbackSrc={fallbackImageUrl}
         src={imageUrl}

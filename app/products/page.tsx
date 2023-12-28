@@ -32,6 +32,7 @@ function ProductTableItem({ item }: { item: Product }) {
         <Image
           boxSize="150"
           objectFit="contain"
+          alt={item.name}
           src={item.imageUrl}
           fallbackSrc={fallbackImageUrl}
         />

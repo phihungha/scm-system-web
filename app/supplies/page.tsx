@@ -33,6 +33,7 @@ function SupplyTableItem({ item }: { item: Supply }) {
           boxSize="150"
           objectFit="contain"
           src={item.imageUrl}
+          alt={item.name}
           fallbackSrc={fallbackImageUrl}
         />
       </Td>

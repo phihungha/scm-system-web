@@ -37,6 +37,7 @@ function UserTableItem({ item }: { item: User }) {
           boxSize="150"
           objectFit="contain"
           src={item.imageUrl}
+          alt={item.name}
           fallbackSrc={fallbackImageUrl}
         />
       </Td>
