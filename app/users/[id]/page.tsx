@@ -2,15 +2,17 @@
 
 import { uploadFile } from '@/app/api/file-upload';
 import { getProductionFacilities } from '@/app/api/production-facility';
-import { createUser, getUserImageUploadInfo } from '@/app/api/user';
+import { getUser, getUserImageUploadInfo, updateUser } from '@/app/api/user';
 import { AutoCompleteSelect } from '@/app/components/auto-complete';
 import { ActionButton } from '@/app/components/buttons';
 import ImageSelector from '@/app/components/image-selector';
-import { NormalSpinner } from '@/app/components/spinners';
+import { LoadingPage, NormalSpinner } from '@/app/components/spinners';
 import { SubtitleText, TitleText } from '@/app/components/texts';
-import { UserCreateParams } from '@/app/models/user';
+import { UserUpdateParams } from '@/app/models/user';
+import { DetailsPageProps } from '@/app/types/page-props';
 import { showFailToast, showSuccessToast } from '@/app/utils/toast-messages';
 import {
+  Checkbox,
   CheckboxGroup,
   Flex,
   FormControl,
@@ -26,22 +28,30 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { object, string } from 'yup';
 import RolePanel from '../components/RolePanel';
 
-export default function UserCreatePage() {
-  const router = useRouter();
+export default function UserUpdatePage({ params }: DetailsPageProps<string>) {
+  const itemId = params.id;
+
+  const queryClient = useQueryClient();
   const toast = useToast();
 
-  const { mutate: createItem, isLoading: isCreateLoading } = useMutation(
-    createUser,
+  const queryKey = ['users', itemId];
+
+  const { data: item } = useQuery({
+    queryKey,
+    queryFn: () => getUser(itemId),
+  });
+
+  const { mutate: updateItem, isLoading: isUpdateLoading } = useMutation(
+    updateUser,
     {
       onSuccess: (resp) => {
-        showSuccessToast(toast, { title: 'Item successfully created' });
-        router.push(resp.id.toString());
+        queryClient.setQueryData(queryKey, resp);
+        showSuccessToast(toast, { title: 'Update succeed!' });
       },
     },
   );
@@ -49,7 +59,7 @@ export default function UserCreatePage() {
   const [imageFile, setImageFile] = useState<File | null | undefined>();
   const [isImageUploading, setIsImageUploading] = useState(false);
 
-  const onSubmit = async (input: UserCreateParams) => {
+  const onSubmit = async (input: UserUpdateParams) => {
     let imageName = undefined;
 
     if (imageFile) {
@@ -65,33 +75,40 @@ export default function UserCreatePage() {
 
       setImageFile(undefined);
       imageName = uploadInfo.name;
+    } else if (imageFile === null) {
+      imageName = undefined;
+      setImageFile(undefined);
     }
 
-    createItem({ ...input, imageName });
+    updateItem({ ...input, id: itemId, imageName });
   };
 
-  const isLoading = isCreateLoading || isImageUploading;
+  const isLoading = isUpdateLoading || isImageUploading;
 
   const { data: facilities } = useQuery({
     queryKey: ['productionFacilities'],
     queryFn: () => getProductionFacilities(),
   });
 
-  const initialFormValues: UserCreateParams = {
-    address: '',
-    imageName: undefined,
-    dateOfBirth: '2000-01-01',
-    description: '',
-    email: 'john.doe@gmail.com',
-    gender: 'Male',
-    idCardNumber: '',
-    name: '',
-    phoneNumber: '',
-    roles: [],
-    productionFacilityId: undefined,
-    userName: '',
-    password: '',
-    isActive: true,
+  if (item === undefined) {
+    return <LoadingPage />;
+  }
+
+  const initialFormValues: UserUpdateParams = {
+    id: item.id,
+    address: item.address,
+    imageName: item.imageName,
+    dateOfBirth: item.dateOfBirth,
+    description: item.description,
+    email: item.email,
+    gender: item.gender,
+    idCardNumber: item.idCardNumber,
+    name: item.name,
+    phoneNumber: item.phoneNumber,
+    roles: item.roles,
+    productionFacilityId: item.productionFacilityId,
+    userName: item.userName,
+    isActive: item.isActive,
   };
 
   const formValidationSchema = object({
@@ -103,16 +120,13 @@ export default function UserCreatePage() {
     name: string().label('Name').required(),
     phoneNumber: string().label('Phone number').required().length(10),
     userName: string().label('Username').required().min(5),
-    password: string().label('Password').required().min(8),
   });
 
   return (
     <Stack p={5} spacing={5}>
       <Stack spacing={5}>
-        <TitleText>Create user</TitleText>
-        <SubtitleText>
-          Create a new user. Please enter the information below.
-        </SubtitleText>
+        <TitleText>Update user</TitleText>
+        <SubtitleText>Manage and view the details of this user.</SubtitleText>
 
         <Formik
           initialValues={initialFormValues}
@@ -124,6 +138,7 @@ export default function UserCreatePage() {
               <Flex gap={45}>
                 <ImageSelector
                   size={250}
+                  url={item.imageUrl}
                   file={imageFile}
                   onSelect={setImageFile}
                 />
@@ -140,20 +155,6 @@ export default function UserCreatePage() {
                       variant="filled"
                     />
                     <FormErrorMessage>{errors.userName}</FormErrorMessage>
-                  </FormControl>
-
-                  <FormControl
-                    isInvalid={!!errors.password && touched.password}
-                  >
-                    <FormLabel htmlFor="password">Password</FormLabel>
-                    <Field
-                      as={Input}
-                      type="password"
-                      id="password"
-                      name="password"
-                      variant="filled"
-                    />
-                    <FormErrorMessage>{errors.password}</FormErrorMessage>
                   </FormControl>
 
                   <FormControl isInvalid={!!errors.name && touched.name}>
@@ -259,7 +260,13 @@ export default function UserCreatePage() {
 
                   <FormControl>
                     <HStack spacing={2}>
-                      <Field type="checkbox" id="isActive" name="isActive" />
+                      <Checkbox
+                        size="lg"
+                        isChecked={values.isActive}
+                        onChange={(i) =>
+                          setFieldValue('isActive', i.target.checked)
+                        }
+                      />
                       <Text>Active</Text>
                     </HStack>
                   </FormControl>
@@ -288,7 +295,7 @@ export default function UserCreatePage() {
                       colorScheme="blue"
                       isLoading={isLoading}
                     >
-                      Create
+                      Update
                     </ActionButton>
                   </Flex>
                 </Stack>

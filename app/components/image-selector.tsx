@@ -30,7 +30,6 @@ export default function ImageSelector(props: ImageSelectorProps) {
 
   const onFileSelect = (files: FileList | null) => {
     if (files) {
-      console.log(files[0]);
       props.onSelect(files[0]);
     }
   };

@@ -59,7 +59,7 @@ export interface UserUpdateParams extends SoftDeletableParams {
   id: string;
   address?: string;
   imageName?: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   description?: string;
   email: string;
   gender: Gender;

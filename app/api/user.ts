@@ -35,6 +35,8 @@ export async function updatePassword({
 }
 
 export async function getUserImageUploadInfo() {
-  const response = await apiClient.get<UploadInfo>(`Users/ImageUploadUrl`);
+  const response = await apiClient.get<UploadInfo>(
+    `Users/ProfileImageUploadUrl`,
+  );
   return response.data;
 }
