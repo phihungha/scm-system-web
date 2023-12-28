@@ -115,12 +115,16 @@ export default function ProductForm(props: ProductFormProps) {
               <FormErrorMessage>{errors.netWeight}</FormErrorMessage>
             </FormControl>
 
-            <FormControl>
+            <FormControl isInvalid={values.supplyCostItems.length < 1}>
               <FormLabel htmlFor="supplyCosts">Supply cost items:</FormLabel>
               <SupplyCostItemsPanel
                 items={values.supplyCostItems}
                 onItemsChange={(i) => setFieldValue('supplyCostItems', i)}
               />
+              <FormErrorMessage>
+                {values.supplyCostItems.length < 1 &&
+                  'A product must consume supplies to produce'}
+              </FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={!!errors.miscCost && touched.miscCost}>
@@ -173,6 +177,7 @@ export default function ProductForm(props: ProductFormProps) {
               <FormLabel htmlFor="description">Description</FormLabel>
               <Field
                 as={Textarea}
+                height="250"
                 id="description"
                 name="description"
                 variant="filled"

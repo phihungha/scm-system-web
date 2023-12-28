@@ -91,6 +91,8 @@ export function ItemEditCard(props: ItemEditCardProps) {
               <NumberInput
                 id={`item-quantity-${props.id}`}
                 name={`item-quantity-${props.id}`}
+                allowMouseWheel
+                step={10}
                 isRequired={true}
                 min={1}
                 value={props.quantity}
