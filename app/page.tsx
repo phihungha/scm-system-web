@@ -171,7 +171,6 @@ function SalesOrderTableItem({ item }: { item: SalesOrder }) {
   return (
     <Tr>
       <Td>{item.id}</Td>
-      <Td>{item.customer.name}</Td>
       <Td>{item.productionFacility?.name ?? '<None>'}</Td>
       <Td>{item.createUser.name}</Td>
       <Td>
@@ -193,7 +192,6 @@ function SalesOrderTable({ items: items }: { items?: SalesOrder[] }) {
         <Thead>
           <Tr>
             <Th>ID</Th>
-            <Th>Customer name</Th>
             <Th>Create User</Th>
             <Th>Facility</Th>
             <Th>Status</Th>
