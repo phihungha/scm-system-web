@@ -15,7 +15,7 @@ export interface WarehouseItem extends CreateUpdateTime {
 export interface WarehouseProductItem extends WarehouseItem {
   productId: number;
   product: Product;
-  events? : WarehouseProductItemEvent[];
+  events?: WarehouseProductItemEvent[];
 }
 
 export interface WarehouseSupplyItem extends WarehouseItem {
