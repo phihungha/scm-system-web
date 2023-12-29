@@ -1,6 +1,5 @@
-
 'use client';
-import { getProductionReport, getSalesReport } from '@/app/api/reports';
+import { getSalesReport } from '@/app/api/reports';
 import { ActionButton } from '@/app/components/buttons';
 import { LoadingPage } from '@/app/components/spinners';
 import { FormLabelText } from '@/app/components/texts';
@@ -24,18 +23,22 @@ export default function SalesReportPage() {
   const [startYear, setStartYear] = useState(2022);
   const [endMonth, setEndMonth] = useState(12);
   const [endYear, setEndYear] = useState(2023);
-  const [averageDeliveryTimeByMonth, setAverageDeliveryTimeByMonth] =
-    useState<ReportChartPoint[]>([]);
+  const [averageDeliveryTimeByMonth, setAverageDeliveryTimeByMonth] = useState<
+    ReportChartPoint[]
+  >([]);
   const [revenueByMonth, setRevenueByMonth] = useState<ReportChartPoint[]>([]);
   const [orderCountByFinalStatus, setOrderCountByFinalStatus] = useState<
     ReportChartPoint[]
   >([]);
-  const [highestValueOrders, setHighestValueOrders] =
-  useState<ReportChartPoint[]>([]);
-  const [mostFrequentCustomers, setMostFrequentCustomers] =
-    useState<ReportChartPoint[]>([]);
-    const [mostPopularProducts, setmostPopularProducts] =
-    useState<ReportChartPoint[]>([]);
+  const [highestValueOrders, setHighestValueOrders] = useState<
+    ReportChartPoint[]
+  >([]);
+  const [mostFrequentCustomers, setMostFrequentCustomers] = useState<
+    ReportChartPoint[]
+  >([]);
+  const [mostPopularProducts, setmostPopularProducts] = useState<
+    ReportChartPoint[]
+  >([]);
   const queryClient = useQueryClient();
   const queryKey = ['salesReport'];
 
@@ -135,9 +138,7 @@ export default function SalesReportPage() {
       <StatGroup p={20} gap={10}>
         <Stat>
           <StatLabel>Average Delivery Time</StatLabel>
-          <StatNumber>
-            {productionReports.averageDeliveryTime} days
-          </StatNumber>
+          <StatNumber>{productionReports.averageDeliveryTime} days</StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Average Revenue</StatLabel>
@@ -148,7 +149,7 @@ export default function SalesReportPage() {
         <Stat>
           <StatLabel>Total Revenue</StatLabel>
           <StatNumber>
-            {CurrencyFormat.format(productionReports.  totalRevenue)}
+            {CurrencyFormat.format(productionReports.totalRevenue)}
           </StatNumber>
         </Stat>
       </StatGroup>

@@ -1,5 +1,5 @@
 'use client';
-import { getProductionReport, getPurchaseReport } from '@/app/api/reports';
+import { getPurchaseReport } from '@/app/api/reports';
 import { ActionButton } from '@/app/components/buttons';
 import { LoadingPage } from '@/app/components/spinners';
 import { FormLabelText } from '@/app/components/texts';
@@ -23,8 +23,9 @@ export default function PurchasesReportPage() {
   const [startYear, setStartYear] = useState(2022);
   const [endMonth, setEndMonth] = useState(12);
   const [endYear, setEndYear] = useState(2023);
-  const [averageDeliveryTimeByMonth, setAverageDeliveryTimeByMonth] =
-    useState<ReportChartPoint[]>([]);
+  const [averageDeliveryTimeByMonth, setAverageDeliveryTimeByMonth] = useState<
+    ReportChartPoint[]
+  >([]);
   const [valueByMonth, setValueByMonth] = useState<ReportChartPoint[]>([]);
   const [orderCountByFinalStatus, setOrderCountByFinalStatus] = useState<
     ReportChartPoint[]
@@ -136,9 +137,7 @@ export default function PurchasesReportPage() {
 
         <Stat>
           <StatLabel>Average Delivery Time</StatLabel>
-          <StatNumber>
-            {productionReports.averageDeliveryTime} days
-          </StatNumber>
+          <StatNumber>{productionReports.averageDeliveryTime} days</StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Total Cost</StatLabel>
@@ -158,7 +157,11 @@ export default function PurchasesReportPage() {
 
       <Chart
         chartType="LineChart"
-        data={convertChartData('Month', 'Average Delivery Time', averageDeliveryTimeByMonth)}
+        data={convertChartData(
+          'Month',
+          'Average Delivery Time',
+          averageDeliveryTimeByMonth,
+        )}
         width="100%"
         height="400px"
         legendToggle
