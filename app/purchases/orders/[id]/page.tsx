@@ -1,5 +1,4 @@
 'use client';
-import { PaymentPanel } from '@/app/components/payment';
 import {
   cancelPurchaseOrder,
   completePurchasePayment,
@@ -26,6 +25,7 @@ import {
   TransOrderEventAddDialog,
   TransOrderEventCard,
 } from '@/app/components/order-events';
+import { PaymentPanel } from '@/app/components/payment';
 import { LoadingPage } from '@/app/components/spinners';
 import {
   OrderStatusBadge,
@@ -100,13 +100,13 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
   });
 
   const { mutate: completePayment, isLoading: isPaymentCompleteLoading } =
-  useMutation(completePurchasePayment, {
-    onSuccess: (resp) => {
-      queryClient.setQueryData(queryKey, resp);
-      showSuccessToast(toast);
-      setDisplayCompletePaymentDialog(false);
-    },
-  });
+    useMutation(completePurchasePayment, {
+      onSuccess: (resp) => {
+        queryClient.setQueryData(queryKey, resp);
+        showSuccessToast(toast);
+        setDisplayCompletePaymentDialog(false);
+      },
+    });
 
   const createNewItem = (id: number): PurchaseOrderItem => {
     const item = items?.find((i) => i.itemId === id);
@@ -184,8 +184,6 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
       },
     },
   );
-
-  
 
   if (order === undefined) {
     return <LoadingPage />;

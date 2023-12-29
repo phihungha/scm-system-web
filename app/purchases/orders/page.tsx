@@ -33,7 +33,7 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { FiPlus, FiSearch } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import { useQuery } from 'react-query';
 import {
   PurchaseOrder,

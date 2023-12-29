@@ -1,7 +1,7 @@
 'use client';
-import { getWarehouseProductItem, getWarehouseSupplyItem } from '@/app/api/inventory';
+import { getWarehouseSupplyItem } from '@/app/api/inventory';
 import { FormLabelText } from '@/app/components/texts';
-import { WarehouseProductItemEvent, WarehouseSupplyItemEvent } from '@/app/models/inventory';
+import { WarehouseSupplyItemEvent } from '@/app/models/inventory';
 import { dateToFullFormat } from '@/app/utils/time-formats';
 
 import { LoadingPage } from '@/app/components/spinners';
@@ -26,7 +26,7 @@ export default function SupplyStockDetailPage({
   params: { id: string[] };
 }) {
   const [warehouseSupplyItemEvents, setWarehouseSupplyItemEvents] = useState<
-  WarehouseSupplyItemEvent[]
+    WarehouseSupplyItemEvent[]
   >([]);
   const facilityId = Number(params.id[0]);
   const productId = Number(params.id[1]);
@@ -57,11 +57,7 @@ export default function SupplyStockDetailPage({
         <WarehouseProductEventTable items={warehouseSupplyItemEvents} />
         <Chart
           chartType="LineChart"
-          data={convertChartData(
-            'Time',
-            'Quantity',
-            warehouseSupplyItemEvents,
-          )}
+          data={convertChartData('Time', 'Quantity', warehouseSupplyItemEvents)}
           width="100%"
           height="400px"
           legendToggle
