@@ -137,7 +137,9 @@ export default function PurchasesReportPage() {
 
         <Stat>
           <StatLabel>Average Delivery Time</StatLabel>
-          <StatNumber>{productionReports.averageDeliveryTime} days</StatNumber>
+          <StatNumber>
+            {productionReports.averageDeliveryTime.toFixed(2)} days
+          </StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Total Cost</StatLabel>

@@ -140,7 +140,7 @@ export default function ProductionReportPage() {
         <Stat>
           <StatLabel>Average Production Time</StatLabel>
           <StatNumber>
-            {productionReports.averageProductionTime} days
+            {productionReports.averageProductionTime.toFixed(2)} days
           </StatNumber>
         </Stat>
         <Stat>

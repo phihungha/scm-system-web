@@ -138,7 +138,9 @@ export default function SalesReportPage() {
       <StatGroup p={20} gap={10}>
         <Stat>
           <StatLabel>Average Delivery Time</StatLabel>
-          <StatNumber>{productionReports.averageDeliveryTime} days</StatNumber>
+          <StatNumber>
+            {productionReports.averageDeliveryTime.toFixed(2)} days
+          </StatNumber>
         </Stat>
         <Stat>
           <StatLabel>Average Revenue</StatLabel>
