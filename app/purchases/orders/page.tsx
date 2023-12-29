@@ -240,14 +240,6 @@ export default function PurchasesOrdersPage() {
         setQueryParams={setQueryParams}
       />
 
-      <Flex justifyContent="right">
-        <Link href="/purchases/orders/create">
-          <Button variant="solid" colorScheme="blue" leftIcon={<FiPlus />}>
-            Create
-          </Button>
-        </Link>
-      </Flex>
-
       <PurchaseOrderTable items={items} />
     </Stack>
   );

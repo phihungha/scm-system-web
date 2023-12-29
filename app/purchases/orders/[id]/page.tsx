@@ -1,6 +1,8 @@
 'use client';
+import { PaymentPanel } from '@/app/components/payment';
 import {
   cancelPurchaseOrder,
+  completePurchasePayment,
   createPurchaseOrderEvent,
   finishPurchaseOrder,
   getPurchaseOrder,
@@ -75,6 +77,9 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
   const orderId = params.id;
   const queryClient = useQueryClient();
   const toast = useToast();
+
+  const [displayCompletePaymentDialog, setDisplayCompletePaymentDialog] =
+    useState(false);
   const [items, setItems] = useState<PurchaseOrderItem[]>([]);
   const [fromLocation, setFromLocation] = useState('');
   const [additionalDiscount, setAdditionalDiscount] = useState(0);
@@ -91,6 +96,15 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
       if (resp.items) {
         setItems(resp.items);
       }
+    },
+  });
+
+  const { mutate: completePayment, isLoading: isPaymentCompleteLoading } =
+  useMutation(completePurchasePayment, {
+    onSuccess: (resp) => {
+      queryClient.setQueryData(queryKey, resp);
+      showSuccessToast(toast);
+      setDisplayCompletePaymentDialog(false);
     },
   });
 
@@ -170,8 +184,26 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
       },
     },
   );
+
+  
+
   if (order === undefined) {
     return <LoadingPage />;
+  }
+  let description = '';
+  switch (order.paymentStatus) {
+    case 'Pending':
+      description = 'Payment information is pending.';
+      break;
+    case 'Due':
+      description = 'You have due payment for this order!';
+      break;
+    case 'Completed':
+      description = 'Payment for this order has been completed.';
+      break;
+    case 'Canceled':
+      description = 'Payment for this order has been canceled.';
+      break;
   }
   const subTotal = items.reduce((sum, item) => sum + item.totalPrice, 0);
   const discountSubtotal = items.reduce((sum, item) => sum + item.discount, 0);
@@ -331,6 +363,17 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
             />
           </Stack>
         </Stack>
+        <PaymentPanel
+          status={order.paymentStatus}
+          remainingAmount={order.remainingAmount}
+          isLoading={isPaymentCompleteLoading}
+          isDisabled={!order.isPaymentCompleteAllowed}
+          display={displayCompletePaymentDialog}
+          onOpen={() => setDisplayCompletePaymentDialog(true)}
+          onClose={() => setDisplayCompletePaymentDialog(false)}
+          onPay={(payAmount) => completePayment({ id: orderId, payAmount })}
+        />
+
         <PurchaseOrderEventTimelinePanel
           events={events}
           order={order}
