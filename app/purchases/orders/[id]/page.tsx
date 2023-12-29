@@ -1,6 +1,7 @@
 'use client';
 import {
   cancelPurchaseOrder,
+  completePurchasePayment,
   createPurchaseOrderEvent,
   finishPurchaseOrder,
   getPurchaseOrder,
@@ -24,6 +25,7 @@ import {
   TransOrderEventAddDialog,
   TransOrderEventCard,
 } from '@/app/components/order-events';
+import { PaymentPanel } from '@/app/components/payment';
 import { LoadingPage } from '@/app/components/spinners';
 import {
   OrderStatusBadge,
@@ -75,6 +77,9 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
   const orderId = params.id;
   const queryClient = useQueryClient();
   const toast = useToast();
+
+  const [displayCompletePaymentDialog, setDisplayCompletePaymentDialog] =
+    useState(false);
   const [items, setItems] = useState<PurchaseOrderItem[]>([]);
   const [fromLocation, setFromLocation] = useState('');
   const [additionalDiscount, setAdditionalDiscount] = useState(0);
@@ -93,6 +98,15 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
       }
     },
   });
+
+  const { mutate: completePayment, isLoading: isPaymentCompleteLoading } =
+    useMutation(completePurchasePayment, {
+      onSuccess: (resp) => {
+        queryClient.setQueryData(queryKey, resp);
+        showSuccessToast(toast);
+        setDisplayCompletePaymentDialog(false);
+      },
+    });
 
   const createNewItem = (id: number): PurchaseOrderItem => {
     const item = items?.find((i) => i.itemId === id);
@@ -170,8 +184,24 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
       },
     },
   );
+
   if (order === undefined) {
     return <LoadingPage />;
+  }
+  let description = '';
+  switch (order.paymentStatus) {
+    case 'Pending':
+      description = 'Payment information is pending.';
+      break;
+    case 'Due':
+      description = 'You have due payment for this order!';
+      break;
+    case 'Completed':
+      description = 'Payment for this order has been completed.';
+      break;
+    case 'Canceled':
+      description = 'Payment for this order has been canceled.';
+      break;
   }
   const subTotal = items.reduce((sum, item) => sum + item.totalPrice, 0);
   const discountSubtotal = items.reduce((sum, item) => sum + item.discount, 0);
@@ -331,6 +361,19 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
             />
           </Stack>
         </Stack>
+        <PaymentPanel
+          status={order.paymentStatus}
+          remainingAmount={order.remainingAmount}
+          isLoading={isPaymentCompleteLoading}
+          isDisabled={!order.isPaymentCompleteAllowed}
+          display={displayCompletePaymentDialog}
+          onOpen={() => setDisplayCompletePaymentDialog(true)}
+          onClose={() => setDisplayCompletePaymentDialog(false)}
+          onPay={(payAmount) =>
+            completePayment({ id: orderId, payAmount, hasReceipt: false })
+          }
+        />
+
         <PurchaseOrderEventTimelinePanel
           events={events}
           order={order}

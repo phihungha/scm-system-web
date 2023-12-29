@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Avatar,
   Box,
   BoxProps,
   CloseButton,
@@ -9,7 +10,6 @@ import {
   Tab,
   TabList,
   Tabs,
-  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -92,9 +92,11 @@ export default function Sidebar({ onClose, ...rest }: SidebarProps) {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
+        <Avatar
+          size="lg"
+          name="Logo"
+          src="https://static.vecteezy.com/system/resources/previews/014/600/218/non_2x/scm-letter-logo-design-in-illustration-logo-calligraphy-designs-for-logo-poster-invitation-etc-vector.jpg"
+        />
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
 

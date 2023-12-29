@@ -70,7 +70,7 @@ function StockTableItem({ item, onChange }: StockTableItemProps) {
 
       <Td>
         <Link
-          href={`/product-stock/${item.productionFacilityId}/${item.productId}`}
+          href={`/inventory/product-stock/${item.productionFacilityId}/${item.productId}`}
         >
           <Button variant="solid" colorScheme="blue">
             View
