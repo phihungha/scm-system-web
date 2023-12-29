@@ -369,7 +369,7 @@ export default function PurchaseOrderDetailsPage({ params }: DetailsPageProps) {
           display={displayCompletePaymentDialog}
           onOpen={() => setDisplayCompletePaymentDialog(true)}
           onClose={() => setDisplayCompletePaymentDialog(false)}
-          onPay={(payAmount) => completePayment({ id: orderId, payAmount })}
+          onPay={(payAmount) => completePayment({ id: orderId, payAmount, hasReceipt: false })}
         />
 
         <PurchaseOrderEventTimelinePanel

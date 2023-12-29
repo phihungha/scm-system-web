@@ -26,7 +26,7 @@ export default function PurchasesReportPage() {
   const [averageDeliveryTimeByMonth, setAverageDeliveryTimeByMonth] = useState<
     ReportChartPoint[]
   >([]);
-  const [valueByMonth, setValueByMonth] = useState<ReportChartPoint[]>([]);
+  const [costByMonth, setCostByMonth] = useState<ReportChartPoint[]>([]);
   const [orderCountByFinalStatus, setOrderCountByFinalStatus] = useState<
     ReportChartPoint[]
   >([]);
@@ -46,7 +46,7 @@ export default function PurchasesReportPage() {
     onSuccess: (resp) => {
       if (resp) {
         setAverageDeliveryTimeByMonth(resp.averageDeliveryTimeByMonth);
-        setValueByMonth(resp.valueByMonth);
+        setCostByMonth(resp.costByMonth);
         setOrderCountByFinalStatus(resp.orderCountByFinalStatus);
       }
     },
@@ -148,12 +148,12 @@ export default function PurchasesReportPage() {
       </StatGroup>
       <Chart
         chartType="LineChart"
-        data={convertChartData('Month', 'Production value', valueByMonth)}
+        data={convertChartData('Month', 'Cost', costByMonth)}
         width="100%"
         height="400px"
         legendToggle
       />
-      <FormLabelText pb={20}>Purchase value by month</FormLabelText>
+      <FormLabelText pb={20}>Cost by month</FormLabelText>
 
       <Chart
         chartType="LineChart"

@@ -15,11 +15,13 @@ export interface WarehouseItem extends CreateUpdateTime {
 export interface WarehouseProductItem extends WarehouseItem {
   productId: number;
   product: Product;
+  events? : WarehouseProductItemEvent[];
 }
 
 export interface WarehouseSupplyItem extends WarehouseItem {
   supplyId: number;
   supply: Supply;
+  events?: WarehouseSupplyItemEvent[];
 }
 
 export interface WarehouseItemEvent {
