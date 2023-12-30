@@ -3,6 +3,7 @@
 import {
   Button,
   Flex,
+  Image,
   Stack,
   Table,
   TableContainer,
@@ -21,11 +22,21 @@ import SimpleItemSearchPanel from '../components/SimpleItemSearchPanel';
 import { SimpleItemQueryParams } from '../models/general';
 import { Supply } from '../models/supply';
 import CurrencyFormat from '../utils/currency-formats';
+import { fallbackImageUrl } from '../values';
 
 function SupplyTableItem({ item }: { item: Supply }) {
   return (
     <Tr>
       <Td>{item.id}</Td>
+      <Td>
+        <Image
+          boxSize="150"
+          objectFit="contain"
+          src={item.imageUrl}
+          alt={item.name}
+          fallbackSrc={fallbackImageUrl}
+        />
+      </Td>
       <Td>{item.name}</Td>
       <Td>{item.vendor.name}</Td>
       <Td>{item.expirationMonth}</Td>
@@ -48,6 +59,7 @@ function SupplyTable({ items }: { items?: Supply[] }) {
         <Thead>
           <Tr>
             <Th>ID</Th>
+            <Th>Image</Th>
             <Th>Name</Th>
             <Th>Vendor</Th>
             <Th>Expiration month</Th>

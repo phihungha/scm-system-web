@@ -1,22 +1,22 @@
 'use client';
 
 import { uploadFile } from '@/app/api/file-upload';
-import { createSupply, getSupplyImageUploadInfo } from '@/app/api/supply';
+import { createProduct, getProductImageUploadInfo } from '@/app/api/product';
 import { SubtitleText, TitleText } from '@/app/components/texts';
-import { SupplyCreateParams } from '@/app/models/supply';
+import { ProductCreateParams } from '@/app/models/product';
 import { showFailToast, showSuccessToast } from '@/app/utils/toast-messages';
 import { Stack, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-import SupplyForm from '../components/SupplyForm';
+import ProductForm from '../components/ProductForm';
 
-export default function SupplyCreatePage() {
+export default function ProductCreatePage() {
   const router = useRouter();
   const toast = useToast();
 
   const { mutate: createItem, isLoading: isCreateLoading } = useMutation(
-    createSupply,
+    createProduct,
     {
       onSuccess: (resp) => {
         showSuccessToast(toast, { title: 'Item successfully created' });
@@ -28,11 +28,11 @@ export default function SupplyCreatePage() {
   const [imageFile, setImageFile] = useState<File | null | undefined>();
   const [isImageUploading, setIsImageUploading] = useState(false);
 
-  const onSubmit = async (input: SupplyCreateParams) => {
+  const onSubmit = async (input: ProductCreateParams) => {
     let imageName = undefined;
 
     if (imageFile) {
-      const uploadInfo = await getSupplyImageUploadInfo();
+      const uploadInfo = await getProductImageUploadInfo();
 
       setIsImageUploading(true);
       const resp = await uploadFile(uploadInfo.uploadUrl, imageFile);
@@ -54,13 +54,13 @@ export default function SupplyCreatePage() {
   return (
     <Stack p={5} spacing={5}>
       <Stack spacing={5}>
-        <TitleText>Create supply</TitleText>
+        <TitleText>Create product</TitleText>
         <SubtitleText>
-          Create a new supply. Please enter the information below.
+          Create a new product. Please enter the information below.
         </SubtitleText>
       </Stack>
 
-      <SupplyForm
+      <ProductForm
         isLoading={isLoading}
         imageFile={imageFile}
         onImageFileSelected={setImageFile}

@@ -2,36 +2,36 @@
 
 import { uploadFile } from '@/app/api/file-upload';
 import {
-  getSupply,
-  getSupplyImageUploadInfo,
-  updateSupply,
-} from '@/app/api/supply';
+  getProduct,
+  getProductImageUploadInfo,
+  updateProduct,
+} from '@/app/api/product';
 import { LoadingPage } from '@/app/components/spinners';
 import { SubtitleText, TitleText } from '@/app/components/texts';
-import { SupplyCreateParams } from '@/app/models/supply';
+import { ProductCreateParams } from '@/app/models/product';
 import { DetailsPageProps } from '@/app/types/page-props';
 import { dateToFullFormat } from '@/app/utils/time-formats';
 import { showFailToast, showSuccessToast } from '@/app/utils/toast-messages';
 import { Box, Stack, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import SupplyForm from '../components/SupplyForm';
+import ProductForm from '../components/ProductForm';
 
-export default function SupplyDetailsPage({ params }: DetailsPageProps) {
+export default function ProductDetailsPage({ params }: DetailsPageProps) {
   const itemId = params.id;
 
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const queryKey = ['supplies', itemId];
+  const queryKey = ['products', itemId];
 
   const { data: item } = useQuery({
     queryKey,
-    queryFn: () => getSupply(itemId),
+    queryFn: () => getProduct(itemId),
   });
 
   const { mutate: updateItem, isLoading: isUpdateLoading } = useMutation(
-    updateSupply,
+    updateProduct,
     {
       onSuccess: (resp) => {
         queryClient.setQueryData(queryKey, resp);
@@ -43,11 +43,11 @@ export default function SupplyDetailsPage({ params }: DetailsPageProps) {
   const [imageFile, setImageFile] = useState<File | null | undefined>();
   const [isImageUploading, setIsImageUploading] = useState(false);
 
-  const onSubmit = async (input: SupplyCreateParams) => {
+  const onSubmit = async (input: ProductCreateParams) => {
     let imageName = input.imageName;
 
     if (imageFile) {
-      const uploadInfo = await getSupplyImageUploadInfo();
+      const uploadInfo = await getProductImageUploadInfo();
 
       setIsImageUploading(true);
       const resp = await uploadFile(uploadInfo.uploadUrl, imageFile);
@@ -77,9 +77,9 @@ export default function SupplyDetailsPage({ params }: DetailsPageProps) {
     <Box p={5}>
       <Stack spacing={10}>
         <Stack spacing={5}>
-          <TitleText>Supply #{item.id}</TitleText>
+          <TitleText>Product #{item.id}</TitleText>
           <SubtitleText>
-            Manage and view the details of this supply.
+            Manage and view the details of this product.
           </SubtitleText>
           <SubtitleText fontStyle="italic">
             Created on {dateToFullFormat(item.createTime)}.{' '}
@@ -88,7 +88,7 @@ export default function SupplyDetailsPage({ params }: DetailsPageProps) {
           </SubtitleText>
         </Stack>
 
-        <SupplyForm
+        <ProductForm
           item={item}
           isLoading={isLoading}
           imageFile={imageFile}

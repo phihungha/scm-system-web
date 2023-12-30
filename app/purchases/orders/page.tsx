@@ -33,7 +33,7 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { FiPlus, FiSearch } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import { useQuery } from 'react-query';
 import {
   PurchaseOrder,
@@ -239,14 +239,6 @@ export default function PurchasesOrdersPage() {
         queryParams={queryParams}
         setQueryParams={setQueryParams}
       />
-
-      <Flex justifyContent="right">
-        <Link href="/purchases/orders/create">
-          <Button variant="solid" colorScheme="blue" leftIcon={<FiPlus />}>
-            Create
-          </Button>
-        </Link>
-      </Flex>
 
       <PurchaseOrderTable items={items} />
     </Stack>

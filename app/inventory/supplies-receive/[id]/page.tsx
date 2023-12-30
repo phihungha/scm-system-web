@@ -130,7 +130,7 @@ export default function SuppliesReceiveDetailsPage(props: DetailsPageProps) {
         </ActionButtonSection>
 
         <Flex justify="end" mt={5} gap={5}>
-          <Link href={`/inventory/supplies-issue`}>
+          <Link href={`/inventory/supplies-receive`}>
             <ActionButton size="lg">Close</ActionButton>
           </Link>
         </Flex>

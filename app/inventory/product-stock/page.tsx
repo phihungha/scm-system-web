@@ -50,7 +50,7 @@ function StockTableItem({ item, onChange }: StockTableItemProps) {
           allowMouseWheel
           step={50}
           isRequired={true}
-          min={1}
+          min={0}
           value={item.quantity}
           onChange={(_, value) =>
             // Don't update if number box is empty.
@@ -70,7 +70,7 @@ function StockTableItem({ item, onChange }: StockTableItemProps) {
 
       <Td>
         <Link
-          href={`/product-stock/${item.productionFacilityId}/${item.productId}`}
+          href={`/inventory/product-stock/${item.productionFacilityId}/${item.productId}`}
         >
           <Button variant="solid" colorScheme="blue">
             View
