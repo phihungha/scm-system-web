@@ -1,7 +1,7 @@
 'use client';
-import { getWarehouseSupplyItem } from '@/app/api/inventory';
+import { getWarehouseProductItem } from '@/app/api/inventory';
 import { FormLabelText } from '@/app/components/texts';
-import { WarehouseSupplyItemEvent } from '@/app/models/inventory';
+import { WarehouseProductItemEvent } from '@/app/models/inventory';
 import { dateToFullFormat } from '@/app/utils/time-formats';
 
 import { LoadingPage } from '@/app/components/spinners';
@@ -20,22 +20,23 @@ import {
 import { useState } from 'react';
 import { Chart } from 'react-google-charts';
 import { useQuery } from 'react-query';
-export default function SupplyStockDetailPage({
+
+export default function ProductStockDetailPage({
   params,
 }: {
-  params: { id: string[] };
+  params: { id: number; facilityId: number };
 }) {
-  const [warehouseSupplyItemEvents, setWarehouseSupplyItemEvents] = useState<
-    WarehouseSupplyItemEvent[]
+  const [warehouseProductItemEvents, setWarehouseProductItemEvents] = useState<
+    WarehouseProductItemEvent[]
   >([]);
-  const facilityId = Number(params.id[0]);
-  const productId = Number(params.id[1]);
+  const facilityId = params.facilityId;
+  const productId = params.id;
   const { data: items } = useQuery({
     queryKey: ['WarehouseProductItem' + `/${facilityId}/${productId}`],
-    queryFn: () => getWarehouseSupplyItem(facilityId, productId),
+    queryFn: () => getWarehouseProductItem(facilityId, productId),
     onSuccess: (resp) => {
       if (resp.events) {
-        setWarehouseSupplyItemEvents(resp.events);
+        setWarehouseProductItemEvents(resp.events);
       }
     },
   });
@@ -43,7 +44,7 @@ export default function SupplyStockDetailPage({
   function convertChartData(
     x_title: string,
     y_title: string,
-    data: WarehouseSupplyItemEvent[],
+    data: WarehouseProductItemEvent[],
   ) {
     const mapped = data.map((d) => [d.time.toLocaleString(), d.quantity]);
     return [[`${x_title}`, `${y_title}`], ...mapped];
@@ -54,10 +55,14 @@ export default function SupplyStockDetailPage({
   return (
     <>
       <Stack gap={20}>
-        <WarehouseProductEventTable items={warehouseSupplyItemEvents} />
+        <WarehouseProductEventTable items={warehouseProductItemEvents} />
         <Chart
           chartType="LineChart"
-          data={convertChartData('Time', 'Quantity', warehouseSupplyItemEvents)}
+          data={convertChartData(
+            'Time',
+            'Quantity',
+            warehouseProductItemEvents,
+          )}
           width="100%"
           height="400px"
           legendToggle
@@ -71,7 +76,7 @@ export default function SupplyStockDetailPage({
 function WarehouseProductEventTable({
   items: items,
 }: {
-  items?: WarehouseSupplyItemEvent[];
+  items?: WarehouseProductItemEvent[];
 }) {
   return (
     <TableContainer>
@@ -81,7 +86,7 @@ function WarehouseProductEventTable({
             <Th>Time</Th>
             <Th>Change</Th>
             <Th>Quantity</Th>
-            <Th></Th>
+            <Th>Order</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -100,31 +105,35 @@ function WarehouseProductEventTable({
 function WarehouseProductEventTableItem({
   item,
 }: {
-  item: WarehouseSupplyItemEvent;
+  item: WarehouseProductItemEvent;
 }) {
   return (
     <Tr>
       <Td>{dateToFullFormat(new Date(item.time))}</Td>
-      <Td>{item.change}</Td>
-      <Td>{item.quantity}</Td>
+      <Td color={item.change < 0 ? 'red' : 'green'}>
+        {item.change.toFixed(2)}
+      </Td>
+      <Td>{item.quantity.toFixed(2)}</Td>
       <Td>
         {(() => {
-          if (item.purchaseOrderId !== null) {
+          if (item.salesOrderId !== null) {
             return (
-              <Link href={`/purchases/orders/${item.purchaseOrderId}`}>
+              <Link href={`/sales/orders/${item.salesOrderId}`}>
                 <Button variant="solid" colorScheme="blue">
-                  View
+                  Sales order #{item.salesOrderId}
+                </Button>
+              </Link>
+            );
+          } else if (item.productionOrderId !== null) {
+            return (
+              <Link href={`/production/orders/${item.productionOrderId}`}>
+                <Button variant="solid" colorScheme="blue">
+                  Production order #{item.productionOrderId}
                 </Button>
               </Link>
             );
           } else {
-            return (
-              <Link href={`/production/orders/${item.productionOrderId}`}>
-                <Button variant="solid" colorScheme="blue">
-                  View
-                </Button>
-              </Link>
-            );
+            return 'Manual update';
           }
         })()}
       </Td>
